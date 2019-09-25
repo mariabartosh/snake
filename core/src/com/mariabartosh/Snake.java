@@ -73,7 +73,7 @@ public class Snake extends GameObject
     {
         if (Math.abs(this.direction - direction) > 2)
         {
-            this.direction = this.direction - 0.5f * Math.signum(direction);
+            this.direction -= 0.5f * Math.signum(direction - this.direction);
         }
         else
         {
@@ -106,7 +106,6 @@ public class Snake extends GameObject
         {
             Vector2 vector = new Vector2(x - segments.get(0).getX(), y - segments.get(0).getY());
             direction = (vector.angleRad());
-            direction = (vector.angleRad());
 
             /**
              if (Math.abs(direction - vector.angleRad()) < Math.toRadians(2))
@@ -138,4 +137,25 @@ public class Snake extends GameObject
             shapeRenderer.circle(segment.getX(), segment.getY(), radius);
         }
     }
+
+    protected boolean checkCollision(ArrayList<Snake> snakes)
+    {
+        for (Snake snake : snakes)
+        {
+            if (snake != this)
+            {
+                for (int i = 1; i < snake.segments.size(); i++)
+                {
+                    Vector2 vector = new Vector2(this.segments.get(0).getX() - snake.segments.get(i).getX(), this.segments.get(0).getY() - snake.segments.get(i).getY());
+                    if (vector.len() <= radius + snake.getRadius())
+                    {
+                        snake.radius *= 1.3;
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
 }

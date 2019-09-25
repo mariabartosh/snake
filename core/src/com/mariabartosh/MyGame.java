@@ -15,21 +15,21 @@ public class MyGame extends ApplicationAdapter
     Snake snake;
     ArrayList<Ball> balls;
     ArrayList<GameObject> gameObjects;
-    ArrayList<SnakeBot> snakeBots;
+    ArrayList<Snake> snakes;
 
     @Override
     public void create()
     {
         gameObjects = new ArrayList<>();
+        snakes = new ArrayList<>();
         shapeRenderer = new ShapeRenderer();
         snake = new Snake(50, 10);
-        snakeBots = new ArrayList<>();
-        snakeBots.add(new SnakeBot(50, 10));
+        snakes.add(snake);
 
         for (int i = 0; i < 2; i++)
         {
             SnakeBot snakeBot =new SnakeBot(50, 10);
-            snakeBots.add(snakeBot);
+            snakes.add(snakeBot);
             gameObjects.add(snakeBot);
         }
 
@@ -47,13 +47,21 @@ public class MyGame extends ApplicationAdapter
     @Override
     public void render()
     {
-		snake.update(Gdx.graphics.getDeltaTime());
-        snake.absorbing(balls);
-
-        for (SnakeBot snakeBot : snakeBots)
+        ArrayList<Snake> removeSnakes = new ArrayList<>();
+        for (Snake snake : snakes)
         {
-            snakeBot.update(Gdx.graphics.getDeltaTime());
-            snakeBot.absorbing(balls);
+            snake.update(Gdx.graphics.getDeltaTime());
+            snake.absorbing(balls);
+            if (snake.checkCollision(snakes))
+            {
+                removeSnakes.add(snake);
+            }
+        }
+
+        for (Snake snake : removeSnakes)
+        {
+            snakes.remove(snake);
+            gameObjects.remove(snake);
         }
 
         Gdx.gl.glClearColor(.25f, .25f, .25f, 1);

@@ -1,13 +1,5 @@
 package com.mariabartosh;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.math.Vector2;
-
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
-
 public class SnakeBot extends Snake
 {
     Thread thread;
@@ -40,6 +32,8 @@ public class SnakeBot extends Snake
             }
         }
     }
+
+
 
     @Override
     protected void moveInDirection(float deltaTime)
