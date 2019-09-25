@@ -2,38 +2,23 @@ package com.mariabartosh;
 
 public class SnakeBot extends Snake
 {
-    Thread thread;
-    Runnable runnable;
+    private long lastDirectionChange;
 
     SnakeBot(int segmentCount, float radius)
     {
         super(segmentCount, radius);
-
-        runnable = new MyRunnable();
-        thread = new Thread(runnable);
-        thread.start();
     }
 
-    public class MyRunnable implements Runnable
+    @Override
+    public void update(float deltaTime)
     {
-        public void run()
+        super.update(deltaTime);
+        if (System.currentTimeMillis() - lastDirectionChange > 1000)
         {
-            while (true)
-            {
-                direction = (float) (Math.random() * 6.28);
-                try
-                {
-                    Thread.sleep(700);
-                }
-                catch (Exception ex)
-                {
-                    ex.printStackTrace();
-                }
-            }
+            direction = (float) (Math.random() * Math.PI * 2);
+            lastDirectionChange = System.currentTimeMillis();
         }
     }
-
-
 
     @Override
     protected void moveInDirection(float deltaTime)

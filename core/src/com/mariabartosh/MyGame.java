@@ -47,10 +47,16 @@ public class MyGame extends ApplicationAdapter
     @Override
     public void render()
     {
+        float deltaTime = Gdx.graphics.getDeltaTime();
+        for (GameObject gameObject : gameObjects)
+        {
+            gameObject.update(deltaTime);
+        }
+
         ArrayList<Snake> removeSnakes = new ArrayList<>();
+
         for (Snake snake : snakes)
         {
-            snake.update(Gdx.graphics.getDeltaTime());
             snake.absorbing(balls);
             if (snake.checkCollision(snakes))
             {
