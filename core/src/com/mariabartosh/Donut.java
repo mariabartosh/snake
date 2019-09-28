@@ -9,14 +9,14 @@ public class Donut extends GameObject
 {
     private float x;
     private float y;
-    private float radius = 8;
+    private float radius = 10;
     Texture texture;
 
     Donut(float x, float y)
     {
         this.x = x;
         this.y = y;
-        String image = "donut" + ((int)(Math.random() * 2 + 1) + ".png");
+        String image = "donut" + ((int)(Math.random() * 11) + ".png");
         texture = new Texture(Gdx.files.internal(image));
     }
 
