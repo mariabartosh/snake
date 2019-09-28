@@ -3,6 +3,8 @@ package com.mariabartosh;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
@@ -18,10 +20,12 @@ public class MyGame extends ApplicationAdapter
     ArrayList<Snake> snakes;
     SpriteBatch batch;
     BitmapFont font;
+    Texture texture;
 
     @Override
     public void create()
     {
+        texture = new Texture(Gdx.files.internal("black.jpg"));
         batch = new SpriteBatch();
         font = new BitmapFont();
 
@@ -79,10 +83,14 @@ public class MyGame extends ApplicationAdapter
         Gdx.gl.glClearColor(.25f, .25f, .25f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
+        batch.begin();
+        batch.draw(texture, 0, 0);
+        batch.end();
+
         shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
         for (GameObject gameObject : gameObjects)
         {
-            gameObject.draw(shapeRenderer);
+            gameObject.draw(shapeRenderer, batch);
         }
         shapeRenderer.end();
 

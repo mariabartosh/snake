@@ -1,18 +1,23 @@
 package com.mariabartosh;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
 public class Donut extends GameObject
 {
     private float x;
     private float y;
-    private float radius = 5;
+    private float radius = 8;
+    Texture texture;
 
     Donut(float x, float y)
     {
         this.x = x;
         this.y = y;
+        String image = "donut" + ((int)(Math.random() * 2 + 1) + ".png");
+        texture = new Texture(Gdx.files.internal(image));
     }
 
     public float getX()
@@ -45,9 +50,10 @@ public class Donut extends GameObject
 
     }
 
-    public void draw(ShapeRenderer shapeRenderer)
+    public void draw(ShapeRenderer shapeRenderer, SpriteBatch batch)
     {
-        shapeRenderer.setColor(1, 1, 1, 1);
-        shapeRenderer.circle(x, y, radius);
+        batch.begin();
+        batch.draw(texture, x, y, radius * 2, radius * 2);
+        batch.end();
     }
 }

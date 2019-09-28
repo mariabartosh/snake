@@ -1,6 +1,7 @@
 package com.mariabartosh;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 
@@ -134,13 +135,16 @@ public class Snake extends GameObject
         segments.get(0).setY((float)(segments.get(0).getY() + s * sin));
     }
 
-    public void draw(ShapeRenderer shapeRenderer)
+    public void draw(ShapeRenderer shapeRenderer, SpriteBatch batch)
     {
-        for (Segment segment : segments)
+        for (int i = segments.size() - 1; i >= 0; i--)
         {
-            shapeRenderer.setColor(segment.getColor());
-            shapeRenderer.circle(segment.getX(), segment.getY(), radius);
+            shapeRenderer.setColor(segments.get(i).getColor());
+            shapeRenderer.circle(segments.get(i).getX(), segments.get(i).getY(), radius);
         }
+        shapeRenderer.setColor(1,1,1,1);
+        shapeRenderer.circle(segments.get(0).getX() - radius / 2, segments.get(0).getY() + radius / 2, radius / 4);
+        shapeRenderer.circle(segments.get(0).getX() + radius / 2, segments.get(0).getY() + radius / 2, radius / 4);
     }
 
     protected boolean checkCollision(ArrayList<Snake> snakes)
