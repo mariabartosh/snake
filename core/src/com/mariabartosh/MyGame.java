@@ -2,8 +2,8 @@ package com.mariabartosh;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -14,17 +14,22 @@ import java.util.ArrayList;
 public class MyGame extends ApplicationAdapter
 {
     ShapeRenderer shapeRenderer;
-    Snake snake;
+    Snake player;
     ArrayList<Donut> donuts;
     ArrayList<GameObject> gameObjects;
     ArrayList<Snake> snakes;
     SpriteBatch batch;
     BitmapFont font;
     Texture texture;
+    Sound soundCollision;
+    Sound soundEat;
 
     @Override
     public void create()
     {
+        soundCollision = Gdx.audio.newSound(Gdx.files.internal("collision.mp3"));
+        soundEat = Gdx.audio.newSound(Gdx.files.internal("eat.mp3"));
+
         texture = new Texture(Gdx.files.internal("black.jpg"));
         batch = new SpriteBatch();
         font = new BitmapFont();
@@ -32,8 +37,9 @@ public class MyGame extends ApplicationAdapter
         gameObjects = new ArrayList<>();
         snakes = new ArrayList<>();
         shapeRenderer = new ShapeRenderer();
-        snake = new Snake(50, 10);
-        snakes.add(snake);
+        player = new Snake(50, 10);
+        snakes.add(player);
+        gameObjects.add(player);
 
         for (int i = 0; i < 5; i++)
         {
@@ -50,7 +56,6 @@ public class MyGame extends ApplicationAdapter
             donuts.add(donut);
             gameObjects.add(donut);
         }
-        gameObjects.add(snake);
     }
 
     @Override
@@ -66,9 +71,13 @@ public class MyGame extends ApplicationAdapter
 
         for (Snake snake : snakes)
         {
-            snake.absorbing(donuts);
+            if (snake.absorbing(donuts) && snake == player)
+            {
+                soundEat.play();
+            }
             if (snake.checkCollision(snakes))
             {
+                soundCollision.play();
                 removeSnakes.add(snake);
             }
         }
@@ -95,7 +104,7 @@ public class MyGame extends ApplicationAdapter
         shapeRenderer.end();
 
         batch.begin();
-        font.draw(batch, "score: " + (snake.getCountDonuts() * 50 + snake.getCountKills() * 500), Gdx.graphics.getWidth()/20, Gdx.graphics.getHeight()/20);
+        font.draw(batch, "score: " + (player.getCountDonuts() * 50 + player.getCountKills() * 500), Gdx.graphics.getWidth()/20, Gdx.graphics.getHeight()/20);
         batch.end();
     }
 
@@ -103,5 +112,7 @@ public class MyGame extends ApplicationAdapter
     public void dispose()
     {
         shapeRenderer.dispose();
+        soundEat.dispose();
+        soundCollision.dispose();
     }
 }

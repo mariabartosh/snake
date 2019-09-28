@@ -1,6 +1,7 @@
 package com.mariabartosh;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
@@ -87,7 +88,7 @@ public class Snake extends GameObject
         }
     }
 
-    public void absorbing(ArrayList<Donut> donuts)
+    public boolean absorbing(ArrayList<Donut> donuts)
     {
         for (Donut donut : donuts)
         {
@@ -97,8 +98,10 @@ public class Snake extends GameObject
                 setCountBall();
                 donut.setX((float) (Math.random() * Gdx.graphics.getWidth()));
                 donut.setY((float) (Math.random() * Gdx.graphics.getHeight()));
+                return true;
             }
         }
+        return false;
     }
 
     protected void moveInDirection(float deltaTime)

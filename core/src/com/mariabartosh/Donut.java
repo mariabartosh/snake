@@ -53,7 +53,7 @@ public class Donut extends GameObject
     public void draw(ShapeRenderer shapeRenderer, SpriteBatch batch)
     {
         batch.begin();
-        batch.draw(texture, x, y, radius * 2, radius * 2);
+        batch.draw(texture, x - radius, y - radius, radius * 2, radius * 2);
         batch.end();
     }
 }
