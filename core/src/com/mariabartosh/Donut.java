@@ -3,13 +3,13 @@ package com.mariabartosh;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
-public class Ball extends GameObject
+public class Donut extends GameObject
 {
     private float x;
     private float y;
     private float radius = 5;
 
-    Ball(float x, float y)
+    Donut(float x, float y)
     {
         this.x = x;
         this.y = y;

@@ -5,7 +5,6 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 
 import java.util.ArrayList;
-import java.util.Vector;
 
 public class Snake extends GameObject
 {
@@ -16,12 +15,13 @@ public class Snake extends GameObject
     private float mouseX;
     private float mouseY;
     protected float segmentDistance;
-    protected int countBall;
+    protected int countDonuts;
+    protected int countKills;
 
     Snake(int segmentCount, float radius)
     {
         this.radius = radius;
-        segmentDistance = radius / 4;
+        segmentDistance = radius / 3;
 
         float HeadX = (float) Math.random() * Gdx.graphics.getWidth();
         float HeadY = (float) Math.random() * Gdx.graphics.getHeight();
@@ -62,11 +62,16 @@ public class Snake extends GameObject
 
     public void setCountBall()
     {
-        countBall++;
-        if (countBall % 3 == 0)
+        countDonuts++;
+        if (countDonuts % 2 == 0)
         {
             segments.add(new Segment(segments.get(segments.size() - 1).getX(), segments.get(segments.size() - 1).getY()));
         }
+    }
+
+    public int getCountDonuts()
+    {
+        return countDonuts;
     }
 
     protected void setDirection(float direction)
@@ -81,16 +86,16 @@ public class Snake extends GameObject
         }
     }
 
-    public void absorbing(ArrayList<Ball> balls)
+    public void absorbing(ArrayList<Donut> donuts)
     {
-        for (Ball ball : balls)
+        for (Donut donut : donuts)
         {
-            Vector2 vector = new Vector2(ball.getX() - segments.get(0).getX(), ball.getY() - segments.get(0).getY());
-            if (vector.len() <= radius + ball.getRadius())
+            Vector2 vector = new Vector2(donut.getX() - segments.get(0).getX(), donut.getY() - segments.get(0).getY());
+            if (vector.len() <= radius + donut.getRadius())
             {
                 setCountBall();
-                ball.setX((float) (Math.random() * Gdx.graphics.getWidth()));
-                ball.setY((float) (Math.random() * Gdx.graphics.getHeight()));
+                donut.setX((float) (Math.random() * Gdx.graphics.getWidth()));
+                donut.setY((float) (Math.random() * Gdx.graphics.getHeight()));
             }
         }
     }
@@ -150,6 +155,7 @@ public class Snake extends GameObject
                     if (vector.len() <= radius + snake.getRadius())
                     {
                         snake.radius *= 1.3;
+                        snake.countKills++;
                         return true;
                     }
                 }
@@ -158,4 +164,18 @@ public class Snake extends GameObject
         return false;
     }
 
+    protected void breakdown(ArrayList<Donut> donuts, ArrayList<GameObject> gameObjects)
+    {
+        for (int i = 0; i < segments.size(); i += 5)
+        {
+            Donut donut = new Donut(segments.get(i).getX() + (float)(Math.random() * 8), segments.get(i).getY() - (float)(Math.random() * 8));
+            donuts.add(donut);
+            gameObjects.add(donut);
+        }
+    }
+
+    public int getCountKills()
+    {
+        return countKills;
+    }
 }

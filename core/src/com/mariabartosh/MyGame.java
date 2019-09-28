@@ -3,7 +3,7 @@ package com.mariabartosh;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
@@ -13,33 +13,38 @@ public class MyGame extends ApplicationAdapter
 {
     ShapeRenderer shapeRenderer;
     Snake snake;
-    ArrayList<Ball> balls;
+    ArrayList<Donut> donuts;
     ArrayList<GameObject> gameObjects;
     ArrayList<Snake> snakes;
+    SpriteBatch batch;
+    BitmapFont font;
 
     @Override
     public void create()
     {
+        batch = new SpriteBatch();
+        font = new BitmapFont();
+
         gameObjects = new ArrayList<>();
         snakes = new ArrayList<>();
         shapeRenderer = new ShapeRenderer();
         snake = new Snake(50, 10);
         snakes.add(snake);
 
-        for (int i = 0; i < 2; i++)
+        for (int i = 0; i < 5; i++)
         {
             SnakeBot snakeBot =new SnakeBot(50, 10);
             snakes.add(snakeBot);
             gameObjects.add(snakeBot);
         }
 
-        balls = new ArrayList<>();
+        donuts = new ArrayList<>();
 
         for (int i = 0; i < 30; i++)
         {
-            Ball ball = new Ball((float) (Math.random() * Gdx.graphics.getWidth()), (float) (Math.random() * Gdx.graphics.getHeight()));
-            balls.add(ball);
-            gameObjects.add(ball);
+            Donut donut = new Donut((float) (Math.random() * Gdx.graphics.getWidth()), (float) (Math.random() * Gdx.graphics.getHeight()));
+            donuts.add(donut);
+            gameObjects.add(donut);
         }
         gameObjects.add(snake);
     }
@@ -57,7 +62,7 @@ public class MyGame extends ApplicationAdapter
 
         for (Snake snake : snakes)
         {
-            snake.absorbing(balls);
+            snake.absorbing(donuts);
             if (snake.checkCollision(snakes))
             {
                 removeSnakes.add(snake);
@@ -66,6 +71,7 @@ public class MyGame extends ApplicationAdapter
 
         for (Snake snake : removeSnakes)
         {
+            snake.breakdown(donuts, gameObjects);
             snakes.remove(snake);
             gameObjects.remove(snake);
         }
@@ -79,6 +85,10 @@ public class MyGame extends ApplicationAdapter
             gameObject.draw(shapeRenderer);
         }
         shapeRenderer.end();
+
+        batch.begin();
+        font.draw(batch, "score: " + (snake.getCountDonuts() * 50 + snake.getCountKills() * 500), Gdx.graphics.getWidth()/20, Gdx.graphics.getHeight()/20);
+        batch.end();
     }
 
     @Override
