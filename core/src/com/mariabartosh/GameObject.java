@@ -7,6 +7,6 @@ import java.util.ArrayList;
 
 public abstract class GameObject
 {
-    public abstract void draw(ShapeRenderer shapeRenderer, SpriteBatch batch);
+    public abstract void draw(SpriteBatch batch);
     public abstract void update(float deltaTime);
 }

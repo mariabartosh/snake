@@ -30,7 +30,7 @@ public class MyGame extends ApplicationAdapter
         soundCollision = Gdx.audio.newSound(Gdx.files.internal("collision.mp3"));
         soundEat = Gdx.audio.newSound(Gdx.files.internal("eat.mp3"));
 
-        texture = new Texture(Gdx.files.internal("black.jpg"));
+        texture = new Texture(Gdx.files.internal("background.png"));
         batch = new SpriteBatch();
         font = new BitmapFont();
 
@@ -93,17 +93,13 @@ public class MyGame extends ApplicationAdapter
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         batch.begin();
-        batch.draw(texture, 0, 0);
-        batch.end();
+        batch.draw(texture, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 
-        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
         for (GameObject gameObject : gameObjects)
         {
-            gameObject.draw(shapeRenderer, batch);
+            gameObject.draw(batch);
         }
-        shapeRenderer.end();
 
-        batch.begin();
         font.draw(batch, "score: " + (player.getCountDonuts() * 50 + player.getCountKills() * 500), Gdx.graphics.getWidth()/20, Gdx.graphics.getHeight()/20);
         batch.end();
     }

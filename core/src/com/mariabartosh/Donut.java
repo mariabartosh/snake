@@ -9,7 +9,7 @@ public class Donut extends GameObject
 {
     private float x;
     private float y;
-    private float radius = 10;
+    private float radius = 15;
     Texture texture;
 
     Donut(float x, float y)
@@ -50,10 +50,8 @@ public class Donut extends GameObject
 
     }
 
-    public void draw(ShapeRenderer shapeRenderer, SpriteBatch batch)
+    public void draw(SpriteBatch batch)
     {
-        batch.begin();
         batch.draw(texture, x - radius, y - radius, radius * 2, radius * 2);
-        batch.end();
     }
 }

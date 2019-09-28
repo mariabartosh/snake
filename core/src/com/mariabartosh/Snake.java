@@ -2,6 +2,7 @@ package com.mariabartosh;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
@@ -19,6 +20,8 @@ public class Snake extends GameObject
     protected float segmentDistance;
     protected int countDonuts;
     protected int countKills;
+    Texture segmentTexture;
+    Texture eyes;
 
     Snake(int segmentCount, float radius)
     {
@@ -35,6 +38,10 @@ public class Snake extends GameObject
 
         mouseX = segments.get(0).getX();
         mouseY = segments.get(0).getY();
+
+        String image = "z" + ((int)(Math.random() * 11) + ".png");
+        segmentTexture = new Texture(Gdx.files.internal(image));
+        eyes = new Texture(Gdx.files.internal("eyes.png"));
     }
 
     public float getRadius()
@@ -138,16 +145,14 @@ public class Snake extends GameObject
         segments.get(0).setY((float)(segments.get(0).getY() + s * sin));
     }
 
-    public void draw(ShapeRenderer shapeRenderer, SpriteBatch batch)
+    public void draw(SpriteBatch batch)
     {
         for (int i = segments.size() - 1; i >= 0; i--)
         {
-            shapeRenderer.setColor(segments.get(i).getColor());
-            shapeRenderer.circle(segments.get(i).getX(), segments.get(i).getY(), radius);
+            batch.draw(segmentTexture, segments.get(i).getX() - radius, segments.get(i).getY() - radius, radius * 2, radius * 2);
         }
-        shapeRenderer.setColor(1,1,1,1);
-        shapeRenderer.circle(segments.get(0).getX() - radius / 2, segments.get(0).getY() + radius / 2, radius / 4);
-        shapeRenderer.circle(segments.get(0).getX() + radius / 2, segments.get(0).getY() + radius / 2, radius / 4);
+        batch.draw(eyes, segments.get(0).getX() - radius / 2 - radius / 4, segments.get(0).getY() + radius / 2 - radius / 4, radius / 2, radius / 2);
+        batch.draw(eyes, segments.get(0).getX() + radius / 2 - radius / 4, segments.get(0).getY() + radius / 2 - radius / 4, radius / 2, radius / 2);
     }
 
     protected boolean checkCollision(ArrayList<Snake> snakes)
@@ -173,7 +178,7 @@ public class Snake extends GameObject
 
     protected void breakdown(ArrayList<Donut> donuts, ArrayList<GameObject> gameObjects)
     {
-        for (int i = 0; i < segments.size(); i += 5)
+        for (int i = 0; i < segments.size(); i += 6)
         {
             Donut donut = new Donut(segments.get(i).getX() + (float)(Math.random() * 8), segments.get(i).getY() - (float)(Math.random() * 8));
             donuts.add(donut);
