@@ -1,6 +1,5 @@
 package com.mariabartosh;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
 
 public class SnakeBot extends Snake
@@ -8,9 +7,9 @@ public class SnakeBot extends Snake
     private long lastDirectionChange;
     private boolean clockWise;
 
-    SnakeBot(int segmentCount, float radius)
+    SnakeBot(World world, int segmentCount, float radius)
     {
-        super(segmentCount, radius);
+        super(world, segmentCount, radius);
     }
 
     @Override

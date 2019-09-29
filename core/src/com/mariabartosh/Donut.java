@@ -3,7 +3,6 @@ package com.mariabartosh;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
 public class Donut extends GameObject
 {
@@ -11,9 +10,11 @@ public class Donut extends GameObject
     private float y;
     private float radius = 15;
     Texture texture;
+    World world;
 
-    Donut(float x, float y)
+    Donut(World world, float x, float y)
     {
+        this.world = world;
         this.x = x;
         this.y = y;
         String image = "donut" + ((int)(Math.random() * 11) + ".png");
@@ -52,6 +53,6 @@ public class Donut extends GameObject
 
     public void draw(SpriteBatch batch)
     {
-        batch.draw(texture, x - radius, y - radius, radius * 2, radius * 2);
+        batch.draw(texture, x - radius - world.getCameraX(), y - radius - world.getCameraY(), radius * 2, radius * 2);
     }
 }

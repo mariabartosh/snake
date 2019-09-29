@@ -12,25 +12,27 @@ public class Snake extends GameObject
     protected static final float MAX_ANGLE_DELTA = 3;
     ArrayList<Segment> segments = new ArrayList<>();
     protected float radius;
-    protected float speed = 50;
+    protected float speed = 80;
     protected float segmentDistance;
     protected int countDonuts;
     protected int countKills;
     Texture segmentTexture;
     Texture eyes;
     protected Vector2 vector;
+    World world;
 
-    Snake(int segmentCount, float radius)
+    Snake(World world, int segmentCount, float radius)
     {
+        this.world = world;
         this.radius = radius;
         segmentDistance = radius / 3;
 
-        float HeadX = (float) Math.random() * Gdx.graphics.getWidth();
-        float HeadY = (float) Math.random() * Gdx.graphics.getHeight();
+        float headX = (float) Math.random() * world.getWidth();
+        float headY = (float) Math.random() * world.getHeight();
 
         for (int i = 0; i < segmentCount; i++)
         {
-            segments.add(new Segment(HeadX, HeadY - segmentDistance * i));
+            segments.add(new Segment(headX, headY - segmentDistance * i));
         }
 
         String image = "z" + ((int)(Math.random() * 11) + ".png");
@@ -86,8 +88,8 @@ public class Snake extends GameObject
             if (vector.len() <= radius + donut.getRadius())
             {
                 setCountBall();
-                donut.setX((float) (Math.random() * Gdx.graphics.getWidth()));
-                donut.setY((float) (Math.random() * Gdx.graphics.getHeight()));
+                donut.setX((float) (Math.random() * world.getWidth()));
+                donut.setY((float) (Math.random() * world.getHeight()));
                 return true;
             }
         }
@@ -96,8 +98,8 @@ public class Snake extends GameObject
 
     protected void move(float deltaTime)
     {
-        float x = Gdx.input.getX();
-        float y = Gdx.graphics.getHeight() - Gdx.input.getY();
+        float x = Gdx.input.getX() + world.getCameraX();
+        float y = Gdx.graphics.getHeight() - Gdx.input.getY() + world.getCameraY();
 
         Vector2 newVector = new Vector2(x - segments.get(0).getX(), y - segments.get(0).getY());
         moveInDirection(deltaTime, newVector);
@@ -129,10 +131,22 @@ public class Snake extends GameObject
     {
         for (int i = segments.size() - 1; i >= 0; i--)
         {
-            batch.draw(segmentTexture, segments.get(i).getX() - radius, segments.get(i).getY() - radius, radius * 2, radius * 2);
+            batch.draw(segmentTexture,
+                    segments.get(i).getX() - radius - world.getCameraX(),
+                    segments.get(i).getY() - radius - world.getCameraY(),
+                    radius * 2,
+                    radius * 2);
         }
-        batch.draw(eyes, segments.get(0).getX() - radius / 2 - radius / 4, segments.get(0).getY() + radius / 5 - radius / 4, radius / 1.1f, radius / 1.1f);
-        batch.draw(eyes, segments.get(0).getX() + radius / 2 - radius / 4, segments.get(0).getY() + radius / 5 - radius / 4, radius / 1.1f, radius / 1.1f);
+        batch.draw(eyes,
+                segments.get(0).getX() - radius / 2 - radius / 4 - world.getCameraX(),
+                segments.get(0).getY() + radius / 5 - radius / 4 - world.getCameraY(),
+                radius / 1.1f,
+                radius / 1.1f);
+        batch.draw(eyes,
+                segments.get(0).getX() + radius / 2 - radius / 4 - world.getCameraX(),
+                segments.get(0).getY() + radius / 5 - radius / 4 - world.getCameraY(),
+                radius / 1.1f,
+                radius / 1.1f);
     }
 
     protected boolean checkCollision(ArrayList<Snake> snakes)
@@ -160,7 +174,7 @@ public class Snake extends GameObject
     {
         for (int i = 0; i < segments.size(); i += 6)
         {
-            Donut donut = new Donut(segments.get(i).getX() + (float)(Math.random() * 8), segments.get(i).getY() - (float)(Math.random() * 8));
+            Donut donut = new Donut(world,segments.get(i).getX() + (float)(Math.random() * 8), segments.get(i).getY() - (float)(Math.random() * 8));
             donuts.add(donut);
             gameObjects.add(donut);
         }
