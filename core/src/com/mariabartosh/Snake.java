@@ -1,27 +1,24 @@
 package com.mariabartosh;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 
 import java.util.ArrayList;
 
 public class Snake extends GameObject
 {
+    protected static final float MAX_ANGLE_DELTA = 3;
     ArrayList<Segment> segments = new ArrayList<>();
     protected float radius;
     protected float speed = 50;
-    protected float direction;
-    private float mouseX;
-    private float mouseY;
     protected float segmentDistance;
     protected int countDonuts;
     protected int countKills;
     Texture segmentTexture;
     Texture eyes;
+    protected Vector2 vector;
 
     Snake(int segmentCount, float radius)
     {
@@ -36,12 +33,10 @@ public class Snake extends GameObject
             segments.add(new Segment(HeadX, HeadY - segmentDistance * i));
         }
 
-        mouseX = segments.get(0).getX();
-        mouseY = segments.get(0).getY();
-
         String image = "z" + ((int)(Math.random() * 11) + ".png");
         segmentTexture = new Texture(Gdx.files.internal(image));
         eyes = new Texture(Gdx.files.internal("eyes.png"));
+        vector = new Vector2(0,1);
     }
 
     public float getRadius()
@@ -51,7 +46,7 @@ public class Snake extends GameObject
 
     public void update(float deltaTime)
     {
-        moveInDirection(deltaTime);
+        move(deltaTime);
 
         for (int i = 1; i < segments.size(); i++)
         {
@@ -83,18 +78,6 @@ public class Snake extends GameObject
         return countDonuts;
     }
 
-    protected void setDirection(float direction)
-    {
-        if (Math.abs(this.direction - direction) > 2)
-        {
-            this.direction -= 0.5f * Math.signum(direction - this.direction);
-        }
-        else
-        {
-            this.direction = direction;
-        }
-    }
-
     public boolean absorbing(ArrayList<Donut> donuts)
     {
         for (Donut donut : donuts)
@@ -111,36 +94,33 @@ public class Snake extends GameObject
         return false;
     }
 
-    protected void moveInDirection(float deltaTime)
+    protected void move(float deltaTime)
     {
-        float s = speed * deltaTime;
-
         float x = Gdx.input.getX();
         float y = Gdx.graphics.getHeight() - Gdx.input.getY();
 
-        if (x != mouseX || y != mouseY)
+        Vector2 newVector = new Vector2(x - segments.get(0).getX(), y - segments.get(0).getY());
+        moveInDirection(deltaTime, newVector);
+    }
+
+    protected void moveInDirection(float deltaTime, Vector2 newVector)
+    {
+        float delta = vector.angle(newVector);
+
+
+        if (Math.abs(delta) > MAX_ANGLE_DELTA)
         {
-            Vector2 vector = new Vector2(x - segments.get(0).getX(), y - segments.get(0).getY());
-            direction = (vector.angleRad());
-
-            /**
-             if (Math.abs(direction - vector.angleRad()) < Math.toRadians(2))
-             {
-             direction = vector.angleRad();
-             }
-             else
-             {
-             direction -= Math.toRadians(2) * Math.signum(direction - vector.angleRad());
-             }
-             */
-
-            mouseX = x;
-            mouseY = y;
+            vector.rotate(MAX_ANGLE_DELTA * Math.signum(delta));
+        }
+        else
+        {
+            vector.rotate(delta);
         }
 
+        float direction = vector.angleRad();
         double cos = Math.cos(direction);
         double sin = Math.sin(direction);
-
+        float s = speed * deltaTime;
         segments.get(0).setX((float)(segments.get(0).getX() + s * cos));
         segments.get(0).setY((float)(segments.get(0).getY() + s * sin));
     }
@@ -151,8 +131,8 @@ public class Snake extends GameObject
         {
             batch.draw(segmentTexture, segments.get(i).getX() - radius, segments.get(i).getY() - radius, radius * 2, radius * 2);
         }
-        batch.draw(eyes, segments.get(0).getX() - radius / 2 - radius / 4, segments.get(0).getY() + radius / 2 - radius / 4, radius / 2, radius / 2);
-        batch.draw(eyes, segments.get(0).getX() + radius / 2 - radius / 4, segments.get(0).getY() + radius / 2 - radius / 4, radius / 2, radius / 2);
+        batch.draw(eyes, segments.get(0).getX() - radius / 2 - radius / 4, segments.get(0).getY() + radius / 5 - radius / 4, radius / 1.1f, radius / 1.1f);
+        batch.draw(eyes, segments.get(0).getX() + radius / 2 - radius / 4, segments.get(0).getY() + radius / 5 - radius / 4, radius / 1.1f, radius / 1.1f);
     }
 
     protected boolean checkCollision(ArrayList<Snake> snakes)

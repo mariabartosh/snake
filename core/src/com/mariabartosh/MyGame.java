@@ -43,7 +43,7 @@ public class MyGame extends ApplicationAdapter
 
         for (int i = 0; i < 5; i++)
         {
-            SnakeBot snakeBot =new SnakeBot(50, 10);
+            SnakeBot snakeBot = new SnakeBot(50, 10);
             snakes.add(snakeBot);
             gameObjects.add(snakeBot);
         }
