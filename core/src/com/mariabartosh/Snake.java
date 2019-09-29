@@ -12,7 +12,7 @@ public class Snake extends GameObject
     protected static final float MAX_ANGLE_DELTA = 3;
     ArrayList<Segment> segments = new ArrayList<>();
     protected float radius;
-    protected float speed = 80;
+    protected float speed = 150;
     protected float segmentDistance;
     protected int countDonuts;
     protected int countKills;
@@ -69,7 +69,7 @@ public class Snake extends GameObject
     public void setCountBall()
     {
         countDonuts++;
-        if (countDonuts % 2 == 0)
+        if (countDonuts % 1 == 0)
         {
             segments.add(new Segment(segments.get(segments.size() - 1).getX(), segments.get(segments.size() - 1).getY()));
         }

@@ -8,7 +8,7 @@ public class Donut extends GameObject
 {
     private float x;
     private float y;
-    private float radius = 15;
+    private float radius = 30;
     Texture texture;
     World world;
 

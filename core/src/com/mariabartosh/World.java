@@ -35,14 +35,14 @@ public class World
         texture.setWrap(Texture.TextureWrap.Repeat, Texture.TextureWrap.Repeat);
         gameObjects = new ArrayList<>();
         snakes = new ArrayList<>();
-        player = new Snake(this,50, 10);
+        player = new Snake(this,50, 20);
         snakes.add(player);
         gameObjects.add(player);
         updateCameraPosition();
 
-        for (int i = 0; i < 5; i++)
+        for (int i = 0; i < 10; i++)
         {
-            SnakeBot snakeBot = new SnakeBot(this,50, 10);
+            SnakeBot snakeBot = new SnakeBot(this,50, 20);
             snakes.add(snakeBot);
             gameObjects.add(snakeBot);
         }
