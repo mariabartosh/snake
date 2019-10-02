@@ -55,4 +55,10 @@ public class Donut extends GameObject
     {
         batch.draw(texture, x - radius - world.getCameraX(), y - radius - world.getCameraY(), radius * 2, radius * 2);
     }
+
+    public void relocation()
+    {
+        setX((float) (Math.random() * world.getWidth()));
+        setY((float) (Math.random() * world.getHeight()));
+    }
 }

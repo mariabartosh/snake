@@ -88,8 +88,7 @@ public class Snake extends GameObject
             if (vector.len() <= radius + donut.getRadius())
             {
                 setCountBall();
-                donut.setX((float) (Math.random() * world.getWidth()));
-                donut.setY((float) (Math.random() * world.getHeight()));
+                donut.relocation();
                 return true;
             }
         }
@@ -171,7 +170,7 @@ public class Snake extends GameObject
     {
         for (int i = 0; i < segments.size(); i += 6)
         {
-            Donut donut = new Donut(world,segments.get(i).getX() + (float)(Math.random() * 8), segments.get(i).getY() - (float)(Math.random() * 8));
+            DonutBonus donut = new DonutBonus(world,segments.get(i).getX() + (float)(Math.random() * 8), segments.get(i).getY() - (float)(Math.random() * 8));
             donuts.add(donut);
             gameObjects.add(donut);
         }
