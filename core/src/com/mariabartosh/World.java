@@ -129,8 +129,8 @@ public class World
 
     private void updateCameraPosition()
     {
-        cameraX = player.segments.get(0).getX() - Gdx.graphics.getWidth() / 2;
-        cameraY = player.segments.get(0).getY() - Gdx.graphics.getHeight() / 2;
+        cameraX = player.getHeadX() - Gdx.graphics.getWidth() / 2;
+        cameraY = player.getHeadY() - Gdx.graphics.getHeight() / 2;
     }
 
     private void addSnakeBots()
