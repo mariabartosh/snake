@@ -34,6 +34,16 @@ public class World
         texture = new Texture(Gdx.files.internal("background.png"));
         texture.setWrap(Texture.TextureWrap.Repeat, Texture.TextureWrap.Repeat);
         gameObjects = new ArrayList<>();
+
+        donuts = new ArrayList<>();
+
+        for (int i = 0; i < 300; i++)
+        {
+            Donut donut = new Donut(this, (float) (Math.random() * width), (float) (Math.random() * height));
+            donuts.add(donut);
+            gameObjects.add(donut);
+        }
+
         snakes = new ArrayList<>();
         player = new Snake(this,50, 20);
         snakes.add(player);
@@ -45,15 +55,6 @@ public class World
             SnakeBot snakeBot = new SnakeBot(this,50, 20);
             snakes.add(snakeBot);
             gameObjects.add(snakeBot);
-        }
-
-        donuts = new ArrayList<>();
-
-        for (int i = 0; i < 300; i++)
-        {
-            Donut donut = new Donut(this, (float) (Math.random() * width), (float) (Math.random() * height));
-            donuts.add(donut);
-            gameObjects.add(donut);
         }
     }
 

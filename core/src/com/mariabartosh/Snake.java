@@ -137,16 +137,13 @@ public class Snake extends GameObject
                     radius * 2,
                     radius * 2);
         }
-        batch.draw(eyes,
-                segments.get(0).getX() - radius / 2 - radius / 4 - world.getCameraX(),
-                segments.get(0).getY() + radius / 5 - radius / 4 - world.getCameraY(),
-                radius / 1.1f,
-                radius / 1.1f);
-        batch.draw(eyes,
-                segments.get(0).getX() + radius / 2 - radius / 4 - world.getCameraX(),
-                segments.get(0).getY() + radius / 5 - radius / 4 - world.getCameraY(),
-                radius / 1.1f,
-                radius / 1.1f);
+        float eyesRadius = radius / 2.5f;
+        float leftEyeX = segments.get(0).getX() + radius / 1.5f * (float) (Math.cos(vector.angleRad() + Math.PI/ 4)) - eyesRadius - world.getCameraX();
+        float rightEyeX = segments.get(0).getX() + radius / 1.5f * (float) (Math.cos(vector.angleRad() - Math.PI/ 4)) - eyesRadius - world.getCameraX();
+        float leftEyeY = segments.get(0).getY() + radius / 1.5f * (float) (Math.sin(vector.angleRad() + Math.PI/ 4)) - eyesRadius - world.getCameraY();
+        float rightEyeY = segments.get(0).getY() + radius / 1.5f * (float) (Math.sin(vector.angleRad() - Math.PI/ 4)) - eyesRadius - world.getCameraY();
+        batch.draw(eyes, leftEyeX, leftEyeY, 2 * eyesRadius, 2 * eyesRadius);
+        batch.draw(eyes, rightEyeX, rightEyeY, 2 * eyesRadius, 2 * eyesRadius);
     }
 
     protected boolean checkCollision(ArrayList<Snake> snakes)
