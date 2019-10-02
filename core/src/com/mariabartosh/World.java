@@ -9,6 +9,7 @@ import java.util.ArrayList;
 
 public class World
 {
+    protected static final float MAX_SNAKE_COUNT = 10;
     private float width;
     private float height;
     private float cameraX;
@@ -50,12 +51,7 @@ public class World
         gameObjects.add(player);
         updateCameraPosition();
 
-        for (int i = 0; i < 10; i++)
-        {
-            SnakeBot snakeBot = new SnakeBot(this,50, 20);
-            snakes.add(snakeBot);
-            gameObjects.add(snakeBot);
-        }
+        addSnakeBots();
     }
 
     public void update(float deltaTime)
@@ -87,6 +83,7 @@ public class World
             snakes.remove(snake);
             gameObjects.remove(snake);
         }
+        addSnakeBots();
     }
 
     public void draw(SpriteBatch batch)
@@ -134,5 +131,15 @@ public class World
     {
         cameraX = player.segments.get(0).getX() - Gdx.graphics.getWidth() / 2;
         cameraY = player.segments.get(0).getY() - Gdx.graphics.getHeight() / 2;
+    }
+
+    private void addSnakeBots()
+    {
+        while (snakes.size() <= MAX_SNAKE_COUNT)
+        {
+            SnakeBot snakeBot = new SnakeBot(this,50, 20);
+            snakes.add(snakeBot);
+            gameObjects.add(snakeBot);
+        }
     }
 }
