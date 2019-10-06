@@ -9,17 +9,16 @@ import java.util.ArrayList;
 
 public class Snake extends GameObject
 {
-    protected static final float MAX_ANGLE_DELTA = 3;
-    ArrayList<Segment> segments = new ArrayList<>();
-    protected float radius;
-    protected float speed = 150;
-    protected float segmentDistance;
-    protected int countDonuts;
-    protected int countKills;
-    Texture segmentTexture;
-    Texture eyes;
-    protected Vector2 vector;
-    World world;
+    static final float MAX_ANGLE_DELTA = 3;
+    private ArrayList<Segment> segments = new ArrayList<>();
+    private float radius;
+    private float segmentDistance;
+    private int countDonuts;
+    private int countKills;
+    private Texture segmentTexture;
+    private Texture eyes;
+    Vector2 vector;
+    private World world;
 
     Snake(World world, int segmentCount, float radius)
     {
@@ -35,13 +34,13 @@ public class Snake extends GameObject
             segments.add(new Segment(headX, headY - segmentDistance * i));
         }
 
-        String image = "z" + ((int)(Math.random() * 11) + ".png");
+        String image = "z" + ((int) (Math.random() * 11) + ".png");
         segmentTexture = new Texture(Gdx.files.internal(image));
         eyes = new Texture(Gdx.files.internal("eyes.png"));
-        vector = new Vector2(0,1);
+        vector = new Vector2(0, 1);
     }
 
-    public float getRadius()
+    private float getRadius()
     {
         return radius;
     }
@@ -61,26 +60,23 @@ public class Snake extends GameObject
             double sin = Math.sin(angle);
             float l = vector.len();
             l -= segmentDistance;
-            current.setX((float)(current.getX() + l * cos));
-            current.setY((float)(current.getY() + l * sin));
+            current.setX((float) (current.getX() + l * cos));
+            current.setY((float) (current.getY() + l * sin));
         }
     }
 
-    public void setCountBall()
+    private void setCountBall()
     {
         countDonuts++;
-        if (countDonuts % 1 == 0)
-        {
-            segments.add(new Segment(segments.get(segments.size() - 1).getX(), segments.get(segments.size() - 1).getY()));
-        }
+        segments.add(new Segment(segments.get(segments.size() - 1).getX(), segments.get(segments.size() - 1).getY()));
     }
 
-    public int getCountDonuts()
+    int getCountDonuts()
     {
         return countDonuts;
     }
 
-    public boolean absorbing(ArrayList<Donut> donuts)
+    boolean absorbing(ArrayList<Donut> donuts)
     {
         for (Donut donut : donuts)
         {
@@ -104,7 +100,7 @@ public class Snake extends GameObject
         moveInDirection(deltaTime, newVector);
     }
 
-    protected void moveInDirection(float deltaTime, Vector2 newVector)
+    void moveInDirection(float deltaTime, Vector2 newVector)
     {
         float delta = vector.angle(newVector);
 
@@ -121,9 +117,10 @@ public class Snake extends GameObject
         float direction = vector.angleRad();
         double cos = Math.cos(direction);
         double sin = Math.sin(direction);
+        float speed = 150;
         float s = speed * deltaTime;
-        segments.get(0).setX((float)(getHeadX() + s * cos));
-        segments.get(0).setY((float)(getHeadY() + s * sin));
+        segments.get(0).setX((float) (getHeadX() + s * cos));
+        segments.get(0).setY((float) (getHeadY() + s * sin));
     }
 
     public void draw(SpriteBatch batch)
@@ -137,15 +134,15 @@ public class Snake extends GameObject
                     radius * 2);
         }
         float eyesRadius = radius / 2.5f;
-        float leftEyeX = getHeadX() + radius / 1.5f * (float) (Math.cos(vector.angleRad() + Math.PI/ 4)) - eyesRadius - world.getCameraX();
-        float rightEyeX = getHeadX() + radius / 1.5f * (float) (Math.cos(vector.angleRad() - Math.PI/ 4)) - eyesRadius - world.getCameraX();
-        float leftEyeY = getHeadY() + radius / 1.5f * (float) (Math.sin(vector.angleRad() + Math.PI/ 4)) - eyesRadius - world.getCameraY();
-        float rightEyeY = getHeadY() + radius / 1.5f * (float) (Math.sin(vector.angleRad() - Math.PI/ 4)) - eyesRadius - world.getCameraY();
+        float leftEyeX = getHeadX() + radius / 1.5f * (float) (Math.cos(vector.angleRad() + Math.PI / 4)) - eyesRadius - world.getCameraX();
+        float rightEyeX = getHeadX() + radius / 1.5f * (float) (Math.cos(vector.angleRad() - Math.PI / 4)) - eyesRadius - world.getCameraX();
+        float leftEyeY = getHeadY() + radius / 1.5f * (float) (Math.sin(vector.angleRad() + Math.PI / 4)) - eyesRadius - world.getCameraY();
+        float rightEyeY = getHeadY() + radius / 1.5f * (float) (Math.sin(vector.angleRad() - Math.PI / 4)) - eyesRadius - world.getCameraY();
         batch.draw(eyes, leftEyeX, leftEyeY, 2 * eyesRadius, 2 * eyesRadius);
         batch.draw(eyes, rightEyeX, rightEyeY, 2 * eyesRadius, 2 * eyesRadius);
     }
 
-    protected boolean checkCollision(ArrayList<Snake> snakes)
+    boolean checkCollision(ArrayList<Snake> snakes)
     {
         for (Snake snake : snakes)
         {
@@ -166,27 +163,27 @@ public class Snake extends GameObject
         return false;
     }
 
-    protected void breakdown(ArrayList<Donut> donuts, ArrayList<GameObject> gameObjects)
+    void breakdown(ArrayList<Donut> donuts, ArrayList<GameObject> gameObjects)
     {
         for (int i = 0; i < segments.size(); i += 6)
         {
-            DonutBonus donut = new DonutBonus(world,segments.get(i).getX() + (float)(Math.random() * 8), segments.get(i).getY() - (float)(Math.random() * 8));
+            DonutBonus donut = new DonutBonus(world, segments.get(i).getX() + (float) (Math.random() * 8), segments.get(i).getY() - (float) (Math.random() * 8));
             donuts.add(donut);
             gameObjects.add(donut);
         }
     }
 
-    public int getCountKills()
+    int getCountKills()
     {
         return countKills;
     }
 
-    public float getHeadX()
+    float getHeadX()
     {
         return segments.get(0).getX();
     }
 
-    public float getHeadY()
+    float getHeadY()
     {
         return segments.get(0).getY();
     }

@@ -9,7 +9,7 @@ public class Donut extends GameObject
     private float x;
     private float y;
     private float radius = 30;
-    Texture texture;
+    private Texture texture;
     World world;
 
     Donut(World world, float x, float y)
@@ -21,27 +21,27 @@ public class Donut extends GameObject
         texture = new Texture(Gdx.files.internal(image));
     }
 
-    public float getX()
+    float getX()
     {
         return x;
     }
 
-    public float getY()
+    float getY()
     {
         return y;
     }
 
-    public float getRadius()
+    float getRadius()
     {
         return radius;
     }
 
-    public void setX(float x)
+    private void setX(float x)
     {
         this.x = x;
     }
 
-    public void setY(float y)
+    private void setY(float y)
     {
         this.y = y;
     }

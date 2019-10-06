@@ -7,20 +7,22 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 import java.util.ArrayList;
 
-public class World
+class World
 {
-    protected static final float MAX_SNAKE_COUNT = 10;
+    private static final float MAX_SNAKE_COUNT = 10;
     private float width;
     private float height;
-    private float cameraX;
-    private float cameraY;
+    float cameraX;
+    float cameraY;
     private Snake player;
     ArrayList<Donut> donuts;
     ArrayList<GameObject> gameObjects;
-    ArrayList<Snake> snakes;
-    Texture texture;
-    Sound soundCollision;
-    Sound soundEat;
+    private ArrayList<Snake> snakes;
+    private Texture texture;
+    private Sound soundCollision;
+    private Sound soundEat;
+    private Sound gameOver;
+    boolean isGameOver;
 
     World(float w, float h)
     {
@@ -28,10 +30,12 @@ public class World
         height = h;
     }
 
-    public void create()
+    void create()
     {
+        isGameOver = false;
         soundCollision = Gdx.audio.newSound(Gdx.files.internal("collision.mp3"));
         soundEat = Gdx.audio.newSound(Gdx.files.internal("eat.mp3"));
+        gameOver = Gdx.audio.newSound(Gdx.files.internal("gameover.mp3"));
         texture = new Texture(Gdx.files.internal("background.png"));
         texture.setWrap(Texture.TextureWrap.Repeat, Texture.TextureWrap.Repeat);
         gameObjects = new ArrayList<>();
@@ -46,7 +50,7 @@ public class World
         }
 
         snakes = new ArrayList<>();
-        player = new Snake(this,50, 20);
+        player = new Snake(this, 50, 20);
         snakes.add(player);
         gameObjects.add(player);
         updateCameraPosition();
@@ -54,7 +58,7 @@ public class World
         addSnakeBots();
     }
 
-    public void update(float deltaTime)
+    void update(float deltaTime)
     {
         updateCameraPosition();
         for (GameObject gameObject : gameObjects)
@@ -75,6 +79,11 @@ public class World
                 soundCollision.play();
                 removeSnakes.add(snake);
             }
+            /*if (snake.getHeadX() <= 0 || snake.getHeadX() >= width || snake.getHeadY() <= 0 || snake.getHeadY() >= height)
+            {
+                soundCollision.play();
+                removeSnakes.add(snake);
+            }*/
         }
 
         for (Snake snake : removeSnakes)
@@ -82,11 +91,16 @@ public class World
             snake.breakdown(donuts, gameObjects);
             snakes.remove(snake);
             gameObjects.remove(snake);
+            if (snake == player)
+            {
+                gameOver.play();
+                isGameOver = true;
+            }
         }
         addSnakeBots();
     }
 
-    public void draw(SpriteBatch batch)
+    void draw(SpriteBatch batch)
     {
         batch.draw(texture, 0, 0, (int) cameraX, (int) -cameraY, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 
@@ -96,48 +110,48 @@ public class World
         }
     }
 
-    public Snake getPlayer()
+    Snake getPlayer()
     {
         return player;
     }
 
-    public void dispose()
+    void dispose()
     {
         soundEat.dispose();
         soundCollision.dispose();
     }
 
-    public float getWidth()
+    float getWidth()
     {
         return width;
     }
 
-    public float getHeight()
+    float getHeight()
     {
         return height;
     }
 
-    public float getCameraX()
+    float getCameraX()
     {
         return cameraX;
     }
 
-    public float getCameraY()
+    float getCameraY()
     {
         return cameraY;
     }
 
     private void updateCameraPosition()
     {
-        cameraX = player.getHeadX() - Gdx.graphics.getWidth() / 2;
-        cameraY = player.getHeadY() - Gdx.graphics.getHeight() / 2;
+        cameraX = player.getHeadX() - (float) Gdx.graphics.getWidth() / 2;
+        cameraY = player.getHeadY() - (float) Gdx.graphics.getHeight() / 2;
     }
 
     private void addSnakeBots()
     {
         while (snakes.size() <= MAX_SNAKE_COUNT)
         {
-            SnakeBot snakeBot = new SnakeBot(this,50, 20);
+            SnakeBot snakeBot = new SnakeBot(this, 50, 20);
             snakes.add(snakeBot);
             gameObjects.add(snakeBot);
         }
