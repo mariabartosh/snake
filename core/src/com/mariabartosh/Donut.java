@@ -2,6 +2,7 @@ package com.mariabartosh;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 public class Donut extends GameObject
@@ -51,7 +52,7 @@ public class Donut extends GameObject
 
     }
 
-    public void draw(SpriteBatch batch)
+    public void draw(SpriteBatch batch, BitmapFont font)
     {
         batch.draw(texture, x - radius - world.getCameraX(), y - radius - world.getCameraY(), radius * 2, radius * 2);
     }

@@ -7,9 +7,9 @@ public class SnakeBot extends Snake
     private long lastDirectionChange;
     private boolean clockWise;
 
-    SnakeBot(World world, int segmentCount, float radius)
+    SnakeBot(World world, int segmentCount, float radius, String[] names)
     {
-        super(world, segmentCount, radius);
+        super(world, segmentCount, radius, names);
     }
 
     @Override

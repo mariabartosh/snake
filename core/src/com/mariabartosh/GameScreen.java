@@ -30,7 +30,7 @@ class GameScreen extends ScreenAdapter
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         game.batch.begin();
-        game.world.draw(game.batch);
+        game.world.draw(game.batch, game.font);
 
         game.font.draw(game.batch,
                 "score: " + (game.world.getPlayer().getCountDonuts() * 50 + game.world.getPlayer().getCountKills() * 500),

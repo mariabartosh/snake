@@ -2,12 +2,13 @@ package com.mariabartosh;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 
 import java.util.ArrayList;
 
-public class Snake extends GameObject
+public class Snake extends GameObject implements Comparable<Snake>
 {
     static final float MAX_ANGLE_DELTA = 3;
     private ArrayList<Segment> segments = new ArrayList<>();
@@ -19,9 +20,12 @@ public class Snake extends GameObject
     private Texture eyes;
     Vector2 vector;
     private World world;
+    private String name;
+    private float score;
 
-    Snake(World world, int segmentCount, float radius)
+    Snake(World world, int segmentCount, float radius, String[] names)
     {
+        name = names[(int)(Math.random() * (names.length - 1))];
         this.world = world;
         this.radius = radius;
         segmentDistance = radius / 3;
@@ -68,6 +72,7 @@ public class Snake extends GameObject
     private void setCountBall()
     {
         countDonuts++;
+        score += 50;
         segments.add(new Segment(segments.get(segments.size() - 1).getX(), segments.get(segments.size() - 1).getY()));
     }
 
@@ -123,7 +128,7 @@ public class Snake extends GameObject
         segments.get(0).setY((float) (getHeadY() + s * sin));
     }
 
-    public void draw(SpriteBatch batch)
+    public void draw(SpriteBatch batch, BitmapFont font)
     {
         for (int i = segments.size() - 1; i >= 0; i--)
         {
@@ -140,6 +145,8 @@ public class Snake extends GameObject
         float rightEyeY = getHeadY() + radius / 1.5f * (float) (Math.sin(vector.angleRad() - Math.PI / 4)) - eyesRadius - world.getCameraY();
         batch.draw(eyes, leftEyeX, leftEyeY, 2 * eyesRadius, 2 * eyesRadius);
         batch.draw(eyes, rightEyeX, rightEyeY, 2 * eyesRadius, 2 * eyesRadius);
+
+        font.draw(batch, name, getHeadX() + radius * 2 - world.getCameraX(), getHeadY() + radius * 2 - world.getCameraY());
     }
 
     boolean checkCollision(ArrayList<Snake> snakes)
@@ -155,6 +162,7 @@ public class Snake extends GameObject
                     {
                         snake.radius *= 1.3;
                         snake.countKills++;
+                        snake.score += 500;
                         return true;
                     }
                 }
@@ -186,5 +194,21 @@ public class Snake extends GameObject
     float getHeadY()
     {
         return segments.get(0).getY();
+    }
+
+    public String getName()
+    {
+        return name;
+    }
+
+    public float getScore()
+    {
+        return score;
+    }
+
+    @Override
+    public int compareTo(Snake snake)
+    {
+        return (int) (snake.getScore() - score);
     }
 }
