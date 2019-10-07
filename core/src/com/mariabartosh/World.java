@@ -86,11 +86,11 @@ class World
                 soundCollision.play();
                 removeSnakes.add(snake);
             }
-            /*if (snake.getHeadX() <= 0 || snake.getHeadX() >= width || snake.getHeadY() <= 0 || snake.getHeadY() >= height)
+            if (snake.getHeadX()  - snake.getRadius() <= 0 || snake.getHeadX() + snake.getRadius() >= width || snake.getHeadY() - snake.getRadius() <= 0 || snake.getHeadY() + snake.getRadius() >= height)
             {
                 soundCollision.play();
                 removeSnakes.add(snake);
-            }*/
+            }
         }
 
         for (Snake snake : removeSnakes)

@@ -19,7 +19,7 @@ public class Snake extends GameObject implements Comparable<Snake>
     private Texture segmentTexture;
     private Texture eyes;
     Vector2 vector;
-    private World world;
+    World world;
     private String name;
     private float score;
 
@@ -44,7 +44,7 @@ public class Snake extends GameObject implements Comparable<Snake>
         vector = new Vector2(0, 1);
     }
 
-    private float getRadius()
+    float getRadius()
     {
         return radius;
     }
@@ -196,12 +196,12 @@ public class Snake extends GameObject implements Comparable<Snake>
         return segments.get(0).getY();
     }
 
-    public String getName()
+    String getName()
     {
         return name;
     }
 
-    public float getScore()
+    float getScore()
     {
         return score;
     }
