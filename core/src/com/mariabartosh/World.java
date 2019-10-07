@@ -20,6 +20,7 @@ class World
     ArrayList<GameObject> gameObjects;
     private ArrayList<Snake> snakes;
     private Texture texture;
+    private Texture border;
     private Sound soundCollision;
     private Sound soundEat;
     private Sound gameOver;
@@ -40,6 +41,7 @@ class World
         gameOver = Gdx.audio.newSound(Gdx.files.internal("gameover.mp3"));
         texture = new Texture(Gdx.files.internal("background.png"));
         texture.setWrap(Texture.TextureWrap.Repeat, Texture.TextureWrap.Repeat);
+        border = new Texture(Gdx.files.internal("black.jpg"));
         gameObjects = new ArrayList<>();
 
         donuts = new ArrayList<>();
@@ -113,6 +115,13 @@ class World
         {
             gameObject.draw(batch, font);
         }
+
+        float cameraWidth = Gdx.graphics.getWidth();
+        float cameraHeight = Gdx.graphics.getHeight();
+        batch.draw(border, -cameraWidth - cameraX, -cameraHeight - cameraY, cameraWidth,height + 2 * cameraHeight);
+        batch.draw(border, width - cameraX, -cameraHeight - cameraY, cameraWidth,height + 2 * cameraHeight);
+        batch.draw(border, - cameraX, -cameraHeight - cameraY, width, cameraHeight);
+        batch.draw(border, - cameraX, height - cameraY, width, cameraHeight);
 
         Collections.sort(snakes);
         for (Snake snake : snakes)
