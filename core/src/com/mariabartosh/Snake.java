@@ -1,9 +1,9 @@
 package com.mariabartosh;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
 
 import java.util.ArrayList;
@@ -16,8 +16,8 @@ public class Snake extends GameObject implements Comparable<Snake>
     private float segmentDistance;
     private int countDonuts;
     private int countKills;
-    private Texture segmentTexture;
-    private Texture eyes;
+    private TextureAtlas.AtlasRegion segmentTexture;
+    private TextureAtlas.AtlasRegion eyes;
     Vector2 vector;
     World world;
     private String name;
@@ -38,9 +38,9 @@ public class Snake extends GameObject implements Comparable<Snake>
             segments.add(new Segment(headX, headY - segmentDistance * i));
         }
 
-        String image = "z" + ((int) (Math.random() * 11) + ".png");
-        segmentTexture = new Texture(Gdx.files.internal(image));
-        eyes = new Texture(Gdx.files.internal("eyes.png"));
+        segmentTexture = world.segmentTexture.get((int) (Math.random() * 11));
+        eyes = world.eyesTexture;
+
         vector = new Vector2(0, 1);
     }
 

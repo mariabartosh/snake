@@ -1,16 +1,15 @@
 package com.mariabartosh;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 
 public class Donut extends GameObject
 {
     private float x;
     private float y;
     private float radius = 30;
-    private Texture texture;
+    private TextureAtlas.AtlasRegion texture;
     World world;
 
     Donut(World world, float x, float y)
@@ -18,8 +17,7 @@ public class Donut extends GameObject
         this.world = world;
         this.x = x;
         this.y = y;
-        String image = "donut" + ((int)(Math.random() * 11) + ".png");
-        texture = new Texture(Gdx.files.internal(image));
+        texture = world.donateTexture.get((int) (Math.random() * 11));
     }
 
     float getX()

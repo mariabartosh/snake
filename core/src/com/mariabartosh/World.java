@@ -5,6 +5,8 @@ import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.utils.Array;
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -26,6 +28,9 @@ class World
     private Sound gameOver;
     boolean isGameOver;
     private String[] names;
+    Array<TextureAtlas.AtlasRegion> donateTexture;
+    Array<TextureAtlas.AtlasRegion> segmentTexture;
+    TextureAtlas.AtlasRegion eyesTexture;
 
     World(float w, float h)
     {
@@ -35,6 +40,11 @@ class World
 
     void create()
     {
+        TextureAtlas myTextures = new TextureAtlas("texture.atlas");
+        donateTexture = myTextures.findRegions("donut");
+        segmentTexture = myTextures.findRegions("z");
+        eyesTexture = myTextures.findRegion("eyes");
+
         isGameOver = false;
         soundCollision = Gdx.audio.newSound(Gdx.files.internal("collision.mp3"));
         soundEat = Gdx.audio.newSound(Gdx.files.internal("eat.mp3"));
