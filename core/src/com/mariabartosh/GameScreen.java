@@ -2,6 +2,7 @@ package com.mariabartosh;
 
 import com.badlogic.gdx.*;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 
 class GameScreen extends ScreenAdapter
 {
@@ -28,7 +29,7 @@ class GameScreen extends ScreenAdapter
         }
         Gdx.gl.glClearColor(.25f, .25f, .25f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-
+        game.font = new BitmapFont();
         game.batch.begin();
         game.world.draw(game.batch, game.font);
 
