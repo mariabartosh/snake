@@ -98,7 +98,6 @@ class World
             }
             if (snake.getHeadX()  - snake.getRadius() <= 0 || snake.getHeadX() + snake.getRadius() >= width || snake.getHeadY() - snake.getRadius() <= 0 || snake.getHeadY() + snake.getRadius() >= height)
             {
-                soundCollision.play();
                 removeSnakes.add(snake);
             }
         }
