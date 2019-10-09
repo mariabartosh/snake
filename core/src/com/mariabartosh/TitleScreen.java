@@ -23,13 +23,27 @@ public class TitleScreen extends ScreenAdapter
     {
         Gdx.input.setInputProcessor(game.ui);
 
-        Label l = new Label("Enter your name", game.skin);
+        final Label l = new Label("Enter your name", game.skin);
         l.setPosition((float) Gdx.graphics.getWidth() / 2 - l.getWidth() / 2, (float) Gdx.graphics.getHeight() * 5 / 7 - l.getHeight() / 2);
         game.ui.addActor(l);
 
-        final TextField setName = new TextField(game.playerName, game.skin);
-        setName.setPosition((float) Gdx.graphics.getWidth() / 2 - setName.getWidth() / 2, (float) Gdx.graphics.getHeight() * 4 / 7 - setName.getHeight() / 2);
-        game.ui.addActor(setName);
+        final Label nameInputInfo = new Label("(3 to 15 letters and numbers)", game.skin);
+        nameInputInfo.setFontScale(0.65f);
+        nameInputInfo.setPosition((float) Gdx.graphics.getWidth() / 2 - nameInputInfo.getWidth() * 0.65f / 2, (float) Gdx.graphics.getHeight() * 5 / 7 - l.getHeight());
+        game.ui.addActor(nameInputInfo);
+
+        final TextField nameInput = new TextField(game.playerName, game.skin);
+        nameInput.setPosition((float) Gdx.graphics.getWidth() / 2 - nameInput.getWidth() / 2, (float) Gdx.graphics.getHeight() * 4 / 7 - nameInput.getHeight() / 2);
+        game.ui.addActor(nameInput);
+        nameInput.setMaxLength(15);
+        nameInput.setTextFieldFilter(new TextField.TextFieldFilter()
+        {
+            @Override
+            public boolean acceptChar(TextField textField, char c)
+            {
+                return  (Character.isDigit(c) || Character.isLetter(c));
+            }
+        });
 
         TextButton start = new TextButton("Play", game.skin);
         start.setPosition((float) Gdx.graphics.getWidth() / 2 - start.getWidth() / 2, (float) Gdx.graphics.getHeight() * 3 / 7 - start.getHeight() / 2);
@@ -41,12 +55,13 @@ public class TitleScreen extends ScreenAdapter
 
         start.addListener(new ClickListener(){
             public void clicked(InputEvent event, float x, float y){
-                game.world.create();
-                if (!setName.getText().equals(""))
+                if (nameInput.getText().length() < 3)
                 {
-                    game.world.getPlayer().setName(setName.getText());
+                    return;
                 }
-                game.playerName = setName.getText();
+                game.world.create();
+                game.world.getPlayer().setName(nameInput.getText());
+                game.playerName = nameInput.getText();
                 game.setScreen(new GameScreen(game));
                 dispose();
             }

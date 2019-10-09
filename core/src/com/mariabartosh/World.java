@@ -136,8 +136,8 @@ class World
         for (Snake snake : snakes)
         {
             font.draw(batch,
-                    snake.getName() + "      " + (int) snake.getScore(),
-                    Gdx.graphics.getWidth() - 150,
+                    snake.getName() + "   " + (int) snake.getScore(),
+                    Gdx.graphics.getWidth() - 170,
                     Gdx.graphics.getHeight() - (snakes.indexOf(snake) + 1) * 20);
         }
     }
