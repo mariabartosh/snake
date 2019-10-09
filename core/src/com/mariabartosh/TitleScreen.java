@@ -33,6 +33,7 @@ public class TitleScreen extends ScreenAdapter
         game.ui.addActor(nameInputInfo);
 
         final TextField nameInput = new TextField(game.playerName, game.skin);
+        nameInput.setWidth(nameInput.getWidth() * 2);
         nameInput.setPosition((float) Gdx.graphics.getWidth() / 2 - nameInput.getWidth() / 2, (float) Gdx.graphics.getHeight() * 4 / 7 - nameInput.getHeight() / 2);
         game.ui.addActor(nameInput);
         nameInput.setMaxLength(15);
@@ -41,7 +42,7 @@ public class TitleScreen extends ScreenAdapter
             @Override
             public boolean acceptChar(TextField textField, char c)
             {
-                return  (Character.isDigit(c) || Character.isLetter(c));
+                return  Character.isDigit(c) || Character.isLetter(c);
             }
         });
 
@@ -81,7 +82,7 @@ public class TitleScreen extends ScreenAdapter
         Gdx.gl.glClearColor(0, .25f, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         game.batch.begin();
-        game.batch.draw(game.texture, 0, 0, (int) game.world.cameraX, (int) -game.world.cameraY, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        game.batch.draw(Assets.images.background, 0, 0, (int) game.world.cameraX, (int) -game.world.cameraY, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         game.batch.end();
         game.ui.act(delta);
         game.ui.draw();

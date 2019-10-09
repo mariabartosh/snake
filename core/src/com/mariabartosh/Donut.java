@@ -17,7 +17,7 @@ public class Donut extends GameObject
         this.world = world;
         this.x = x;
         this.y = y;
-        texture = world.donateTexture.get((int) (Math.random() * 11));
+        texture = Assets.images.donuts.get((int) (Math.random() * 11));
     }
 
     float getX()
@@ -50,7 +50,7 @@ public class Donut extends GameObject
 
     }
 
-    public void draw(SpriteBatch batch, BitmapFont font)
+    public void draw(SpriteBatch batch)
     {
         batch.draw(texture, x - radius - world.getCameraX(), y - radius - world.getCameraY(), radius * 2, radius * 2);
     }

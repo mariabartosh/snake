@@ -29,11 +29,10 @@ class GameScreen extends ScreenAdapter
         }
         Gdx.gl.glClearColor(.25f, .25f, .25f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        game.font = new BitmapFont();
         game.batch.begin();
-        game.world.draw(game.batch, game.font);
+        game.world.draw(game.batch);
 
-        game.font.draw(game.batch,
+        Assets.fonts.game.draw(game.batch,
                 "score: " + (game.world.getPlayer().getCountDonuts() * 50 + game.world.getPlayer().getCountKills() * 500),
                 (float) Gdx.graphics.getWidth() / 20,
                 (float) Gdx.graphics.getHeight() / 20);

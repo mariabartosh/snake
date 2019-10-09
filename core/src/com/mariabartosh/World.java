@@ -1,12 +1,8 @@
 package com.mariabartosh;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.audio.Sound;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.utils.Array;
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -21,16 +17,8 @@ class World
     ArrayList<Donut> donuts;
     ArrayList<GameObject> gameObjects;
     private ArrayList<Snake> snakes;
-    private Texture texture;
-    private Texture border;
-    private Sound soundCollision;
-    private Sound soundEat;
-    private Sound gameOver;
     boolean isGameOver;
     private String[] names;
-    Array<TextureAtlas.AtlasRegion> donateTexture;
-    Array<TextureAtlas.AtlasRegion> segmentTexture;
-    TextureAtlas.AtlasRegion eyesTexture;
 
     World(float w, float h)
     {
@@ -40,20 +28,8 @@ class World
 
     void create()
     {
-        TextureAtlas myTextures = new TextureAtlas("texture.atlas");
-        donateTexture = myTextures.findRegions("donut");
-        segmentTexture = myTextures.findRegions("z");
-        eyesTexture = myTextures.findRegion("eyes");
-
         isGameOver = false;
-        soundCollision = Gdx.audio.newSound(Gdx.files.internal("collision.mp3"));
-        soundEat = Gdx.audio.newSound(Gdx.files.internal("eat.mp3"));
-        gameOver = Gdx.audio.newSound(Gdx.files.internal("gameover.mp3"));
-        texture = new Texture(Gdx.files.internal("background.png"));
-        texture.setWrap(Texture.TextureWrap.Repeat, Texture.TextureWrap.Repeat);
-        border = new Texture(Gdx.files.internal("black.jpg"));
         gameObjects = new ArrayList<>();
-
         donuts = new ArrayList<>();
 
         for (int i = 0; i < 300; i++)
@@ -89,11 +65,11 @@ class World
         {
             if (snake.absorbing(donuts) && snake == player)
             {
-                soundEat.play();
+                Assets.sounds.eat.play();
             }
             if (snake.checkCollision(snakes))
             {
-                soundCollision.play();
+                Assets.sounds.collision.play();
                 removeSnakes.add(snake);
             }
             if (snake.getHeadX()  - snake.getRadius() <= 0 || snake.getHeadX() + snake.getRadius() >= width || snake.getHeadY() - snake.getRadius() <= 0 || snake.getHeadY() + snake.getRadius() >= height)
@@ -109,33 +85,33 @@ class World
             gameObjects.remove(snake);
             if (snake == player)
             {
-                gameOver.play();
+                Assets.sounds.gameOver.play();
                 isGameOver = true;
             }
         }
         addSnakeBots();
     }
 
-    void draw(SpriteBatch batch, BitmapFont font)
+    void draw(SpriteBatch batch)
     {
-        batch.draw(texture, 0, 0, (int) cameraX, (int) -cameraY, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        batch.draw(Assets.images.background, 0, 0, (int) cameraX, (int) -cameraY, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 
         for (GameObject gameObject : gameObjects)
         {
-            gameObject.draw(batch, font);
+            gameObject.draw(batch);
         }
 
         float cameraWidth = Gdx.graphics.getWidth();
         float cameraHeight = Gdx.graphics.getHeight();
-        batch.draw(border, -cameraWidth - cameraX, -cameraHeight - cameraY, cameraWidth,height + 2 * cameraHeight);
-        batch.draw(border, width - cameraX, -cameraHeight - cameraY, cameraWidth,height + 2 * cameraHeight);
-        batch.draw(border, - cameraX, -cameraHeight - cameraY, width, cameraHeight);
-        batch.draw(border, - cameraX, height - cameraY, width, cameraHeight);
+        batch.draw(Assets.images.border, -cameraWidth - cameraX, -cameraHeight - cameraY, cameraWidth,height + 2 * cameraHeight);
+        batch.draw(Assets.images.border, width - cameraX, -cameraHeight - cameraY, cameraWidth,height + 2 * cameraHeight);
+        batch.draw(Assets.images.border, - cameraX, -cameraHeight - cameraY, width, cameraHeight);
+        batch.draw(Assets.images.border, - cameraX, height - cameraY, width, cameraHeight);
 
         Collections.sort(snakes);
         for (Snake snake : snakes)
         {
-            font.draw(batch,
+            Assets.fonts.game.draw(batch,
                     snake.getName() + "   " + (int) snake.getScore(),
                     Gdx.graphics.getWidth() - 170,
                     Gdx.graphics.getHeight() - (snakes.indexOf(snake) + 1) * 20);
@@ -149,8 +125,6 @@ class World
 
     void dispose()
     {
-        soundEat.dispose();
-        soundCollision.dispose();
     }
 
     float getWidth()

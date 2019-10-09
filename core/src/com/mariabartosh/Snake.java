@@ -38,8 +38,8 @@ public class Snake extends GameObject implements Comparable<Snake>
             segments.add(new Segment(headX, headY - segmentDistance * i));
         }
 
-        segmentTexture = world.segmentTexture.get((int) (Math.random() * 11));
-        eyes = world.eyesTexture;
+        segmentTexture = Assets.images.segments.get((int) (Math.random() * 11));
+        eyes = Assets.images.eyes;
 
         vector = new Vector2(0, 1);
     }
@@ -128,7 +128,7 @@ public class Snake extends GameObject implements Comparable<Snake>
         segments.get(0).setY((float) (getHeadY() + s * sin));
     }
 
-    public void draw(SpriteBatch batch, BitmapFont font)
+    public void draw(SpriteBatch batch)
     {
         for (int i = segments.size() - 1; i >= 0; i--)
         {
@@ -146,7 +146,7 @@ public class Snake extends GameObject implements Comparable<Snake>
         batch.draw(eyes, leftEyeX, leftEyeY, 2 * eyesRadius, 2 * eyesRadius);
         batch.draw(eyes, rightEyeX, rightEyeY, 2 * eyesRadius, 2 * eyesRadius);
 
-        font.draw(batch, name, getHeadX() + radius * 2 - world.getCameraX(), getHeadY() + radius * 2 - world.getCameraY());
+        Assets.fonts.game.draw(batch, name, getHeadX() + radius * 2 - world.getCameraX(), getHeadY() + radius * 2 - world.getCameraY());
     }
 
     boolean checkCollision(ArrayList<Snake> snakes)
@@ -212,7 +212,7 @@ public class Snake extends GameObject implements Comparable<Snake>
         return (int) (snake.getScore() - score);
     }
 
-    public void setName(String name)
+    void setName(String name)
     {
         this.name = name;
     }

@@ -13,9 +13,7 @@ public class MyGame extends Game
 {
 
     SpriteBatch batch;
-    BitmapFont font;
     World world;
-    Texture texture;
     Skin skin;
     Stage ui;
     String playerName;
@@ -23,14 +21,12 @@ public class MyGame extends Game
     @Override
     public void create()
     {
+        Assets.create();
         playerName = "";
         batch = new SpriteBatch();
-        font = new BitmapFont();
         skin = new Skin(Gdx.files.internal("freezing-ui.json"));
         ui = new Stage(new ScreenViewport(), batch);
         world = new World(4096, 4096);
-        texture = new Texture(Gdx.files.internal("background.png"));
-        texture.setWrap(Texture.TextureWrap.Repeat, Texture.TextureWrap.Repeat);
         setScreen(new TitleScreen(this));
     }
 
@@ -38,6 +34,5 @@ public class MyGame extends Game
     public void dispose()
     {
         batch.dispose();
-        font.dispose();
     }
 }
