@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
 public class TitleScreen extends ScreenAdapter
@@ -21,11 +22,17 @@ public class TitleScreen extends ScreenAdapter
     public void show()
     {
         Gdx.input.setInputProcessor(game.ui);
+
         Label l = new Label("Enter your name", game.skin);
-        l.setPosition((float) Gdx.graphics.getWidth() / 2 - l.getWidth() / 2, (float) Gdx.graphics.getHeight() * 4 / 7 - l.getHeight() / 2);
+        l.setPosition((float) Gdx.graphics.getWidth() / 2 - l.getWidth() / 2, (float) Gdx.graphics.getHeight() * 5 / 7 - l.getHeight() / 2);
         game.ui.addActor(l);
+
+        final TextField setName = new TextField(game.playerName, game.skin);
+        setName.setPosition((float) Gdx.graphics.getWidth() / 2 - setName.getWidth() / 2, (float) Gdx.graphics.getHeight() * 4 / 7 - setName.getHeight() / 2);
+        game.ui.addActor(setName);
+
         TextButton start = new TextButton("Play", game.skin);
-        start.setPosition((float) Gdx.graphics.getWidth() / 2 - start.getWidth() / 2, (float) Gdx.graphics.getHeight() * 5 / 7 - start.getHeight() / 2);
+        start.setPosition((float) Gdx.graphics.getWidth() / 2 - start.getWidth() / 2, (float) Gdx.graphics.getHeight() * 3 / 7 - start.getHeight() / 2);
         game.ui.addActor(start);
 
         TextButton exit = new TextButton("Exit", game.skin);
@@ -35,6 +42,11 @@ public class TitleScreen extends ScreenAdapter
         start.addListener(new ClickListener(){
             public void clicked(InputEvent event, float x, float y){
                 game.world.create();
+                if (!setName.getText().equals(""))
+                {
+                    game.world.getPlayer().setName(setName.getText());
+                }
+                game.playerName = setName.getText();
                 game.setScreen(new GameScreen(game));
                 dispose();
             }

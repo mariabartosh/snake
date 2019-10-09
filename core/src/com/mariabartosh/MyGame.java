@@ -18,10 +18,12 @@ public class MyGame extends Game
     Texture texture;
     Skin skin;
     Stage ui;
+    String playerName;
 
     @Override
     public void create()
     {
+        playerName = "";
         batch = new SpriteBatch();
         font = new BitmapFont();
         skin = new Skin(Gdx.files.internal("freezing-ui.json"));

@@ -211,4 +211,9 @@ public class Snake extends GameObject implements Comparable<Snake>
     {
         return (int) (snake.getScore() - score);
     }
+
+    public void setName(String name)
+    {
+        this.name = name;
+    }
 }
