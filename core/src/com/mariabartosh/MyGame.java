@@ -2,8 +2,6 @@ package com.mariabartosh;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
@@ -17,6 +15,7 @@ public class MyGame extends Game
     Skin skin;
     Stage ui;
     String playerName;
+    Connection connection;
 
     @Override
     public void create()
@@ -28,11 +27,21 @@ public class MyGame extends Game
         ui = new Stage(new ScreenViewport(), batch);
         world = new World(4096, 4096);
         setScreen(new TitleScreen(this));
+        connection = new Connection();
+        Thread thread = new Thread(connection);
+        thread.start();
     }
 
     @Override
     public void dispose()
     {
         batch.dispose();
+        connection.dispose();
+    }
+
+    @Override
+    public void render()
+    {
+        super.render();
     }
 }
