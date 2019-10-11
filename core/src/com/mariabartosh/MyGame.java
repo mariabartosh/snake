@@ -26,7 +26,7 @@ public class MyGame extends Game
         skin = new Skin(Gdx.files.internal("freezing-ui.json"));
         ui = new Stage(new ScreenViewport(), batch);
         world = new World(4096, 4096);
-        setScreen(new TitleScreen(this));
+        setScreen(new ConnectionScreen(this));
         connection = new Connection();
         Thread thread = new Thread(connection);
         thread.start();

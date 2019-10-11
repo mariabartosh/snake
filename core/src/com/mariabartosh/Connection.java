@@ -74,6 +74,11 @@ public class Connection implements Runnable
         }
     }
 
+    public Socket getSocket()
+    {
+        return socket;
+    }
+
     void dispose()
     {
         running = false;
