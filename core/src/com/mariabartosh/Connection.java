@@ -26,7 +26,7 @@ public class Connection implements Runnable
         while (running)
         {
             connect();
-            if (socket != null && socket.isConnected())
+            if (isConnected())
             {
                 String message;
                 try
@@ -36,7 +36,13 @@ public class Connection implements Runnable
                         System.out.println(message);
                     }
                 }
-                catch (Exception ignored) {}
+                catch (Exception ignored)
+                {
+                    socket.dispose();
+                    socket = null;
+                    writer = null;
+                    reader = null;
+                }
             }
             else
             {
@@ -69,14 +75,13 @@ public class Connection implements Runnable
         }
         catch (GdxRuntimeException e)
         {
-            //TODO вывод сообщения
             System.out.println("Couldn't connect " + e.getMessage());
         }
     }
 
-    public Socket getSocket()
+    public boolean isConnected()
     {
-        return socket;
+        return socket != null && socket.isConnected();
     }
 
     void dispose()

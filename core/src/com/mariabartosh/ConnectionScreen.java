@@ -3,7 +3,10 @@ package com.mariabartosh;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
 public class ConnectionScreen extends ScreenAdapter
 {
@@ -19,11 +22,23 @@ public class ConnectionScreen extends ScreenAdapter
     @Override
     public void show()
     {
+        Gdx.input.setInputProcessor(game.ui);
         lastLabelChange = System.currentTimeMillis();
 
         label = new Label("Connection...", game.skin);
         label.setPosition((float) Gdx.graphics.getWidth() / 2 - label.getWidth() / 2, (float) Gdx.graphics.getHeight() / 2 - label.getHeight() / 2);
         game.ui.addActor(label);
+
+        TextButton exit = new TextButton("Exit", game.skin);
+        exit.setPosition((float) Gdx.graphics.getWidth() / 2 - exit.getWidth() / 2, (float) Gdx.graphics.getHeight() * 2 / 7 - exit.getHeight() / 2);
+        game.ui.addActor(exit);
+
+        exit.addListener(new ClickListener(){
+            public void clicked(InputEvent event, float x, float y){
+                Gdx.app.exit();
+                dispose();
+            }
+        });
     }
 
     @Override
@@ -50,7 +65,7 @@ public class ConnectionScreen extends ScreenAdapter
         game.batch.end();
         game.ui.act(delta);
         game.ui.draw();
-        if (game.connection.getSocket() != null && game.connection.getSocket().isConnected())
+        if (game.connection.isConnected())
         {
             game.setScreen(new TitleScreen(game));
         }
@@ -59,6 +74,7 @@ public class ConnectionScreen extends ScreenAdapter
     @Override
     public void hide()
     {
+        Gdx.input.setInputProcessor(null);
         game.ui.clear();
     }
 }

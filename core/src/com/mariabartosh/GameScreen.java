@@ -2,7 +2,6 @@ package com.mariabartosh;
 
 import com.badlogic.gdx.*;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
 
 class GameScreen extends ScreenAdapter
 {

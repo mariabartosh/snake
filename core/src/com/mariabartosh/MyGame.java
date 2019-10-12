@@ -16,6 +16,7 @@ public class MyGame extends Game
     Stage ui;
     String playerName;
     Connection connection;
+    private ConnectionScreen connectionScreen;
 
     @Override
     public void create()
@@ -26,7 +27,8 @@ public class MyGame extends Game
         skin = new Skin(Gdx.files.internal("freezing-ui.json"));
         ui = new Stage(new ScreenViewport(), batch);
         world = new World(4096, 4096);
-        setScreen(new ConnectionScreen(this));
+        connectionScreen = new ConnectionScreen(this);
+        setScreen(connectionScreen);
         connection = new Connection();
         Thread thread = new Thread(connection);
         thread.start();
@@ -43,5 +45,10 @@ public class MyGame extends Game
     public void render()
     {
         super.render();
+
+        if (!connection.isConnected() && !getScreen().equals(connectionScreen))
+        {
+            setScreen(connectionScreen);
+        }
     }
 }
