@@ -1,10 +1,15 @@
-package com.mariabartosh;
+package com.mariabartosh.net;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Net;
 import com.badlogic.gdx.net.Socket;
 import com.badlogic.gdx.net.SocketHints;
 import com.badlogic.gdx.utils.GdxRuntimeException;
+import com.badlogic.gdx.utils.Json;
+import com.badlogic.gdx.utils.JsonWriter;
+import com.mariabartosh.net.packets.Packet;
+import com.mariabartosh.net.packets.client.StartPacket;
+
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
@@ -16,7 +21,7 @@ public class Connection implements Runnable
     private PrintWriter writer;
     private boolean running = true;
 
-    Connection()
+    public Connection()
     {
     }
 
@@ -55,9 +60,10 @@ public class Connection implements Runnable
         }
     }
 
-    private void send(String message)
+    public void send(Packet packet)
     {
-        writer.println(message);
+        Json json = new Json();
+        writer.println(json.toJson(packet));
         writer.flush();
     }
 
@@ -70,8 +76,6 @@ public class Connection implements Runnable
 
             writer = new PrintWriter(socket.getOutputStream());
             reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-
-            send("Hello, Disaffe4to");
         }
         catch (GdxRuntimeException e)
         {
@@ -84,7 +88,7 @@ public class Connection implements Runnable
         return socket != null && socket.isConnected();
     }
 
-    void dispose()
+    public void dispose()
     {
         running = false;
         socket.dispose();

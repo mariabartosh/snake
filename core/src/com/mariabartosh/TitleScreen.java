@@ -8,6 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.mariabartosh.net.packets.client.StartPacket;
 
 public class TitleScreen extends ScreenAdapter
 {
@@ -60,6 +61,9 @@ public class TitleScreen extends ScreenAdapter
                 {
                     return;
                 }
+                StartPacket startPacket = new StartPacket();
+                startPacket.setName(nameInput.getText());
+                game.connection.send(startPacket);
                 game.world.create();
                 game.world.getPlayer().setName(nameInput.getText());
                 game.playerName = nameInput.getText();
