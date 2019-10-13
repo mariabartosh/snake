@@ -6,23 +6,33 @@ import com.badlogic.gdx.net.Socket;
 import com.badlogic.gdx.net.SocketHints;
 import com.badlogic.gdx.utils.GdxRuntimeException;
 import com.badlogic.gdx.utils.Json;
-import com.badlogic.gdx.utils.JsonWriter;
+import com.mariabartosh.MyGame;
 import com.mariabartosh.net.packets.Packet;
-import com.mariabartosh.net.packets.client.StartPacket;
-
+import com.mariabartosh.net.packets.PacketSerializer;
+import com.mariabartosh.net.packets.server.GameStartPacket;
+import com.mariabartosh.net.packets.server.InvalidNamePacket;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 
 public class Connection implements Runnable
 {
+    private MyGame game;
     private BufferedReader reader;
     private Socket socket;
     private PrintWriter writer;
     private boolean running = true;
+    private Json encoder;
+    private Json decoder;
 
-    public Connection()
+    public Connection(MyGame game)
     {
+        this.game  = game;
+        decoder = new Json();
+        decoder.setTypeName(null);
+        decoder.setSerializer(Packet.class, new PacketSerializer());
+
+        encoder = new Json();
     }
 
     @Override
@@ -38,7 +48,10 @@ public class Connection implements Runnable
                 {
                     while ((message = reader.readLine()) != null)
                     {
-                        System.out.println(message);
+                        System.out.println("Received " + message);
+
+                        Packet packet = decoder.fromJson(Packet.class, message);
+                        packet.process(game);
                     }
                 }
                 catch (Exception ignored)
@@ -62,9 +75,12 @@ public class Connection implements Runnable
 
     public void send(Packet packet)
     {
-        Json json = new Json();
-        writer.println(json.toJson(packet));
-        writer.flush();
+        if (isConnected())
+        {
+            System.out.println("Sending " + encoder.toJson(packet));
+            writer.println(encoder.toJson(packet));
+            writer.flush();
+        }
     }
 
     private void connect()

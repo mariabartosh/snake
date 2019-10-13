@@ -7,6 +7,8 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.mariabartosh.net.Connection;
+import com.mariabartosh.net.packets.server.GameStartPacket;
+import com.mariabartosh.net.packets.server.InvalidNamePacket;
 
 public class MyGame extends Game
 {
@@ -30,7 +32,7 @@ public class MyGame extends Game
         world = new World(4096, 4096);
         connectionScreen = new ConnectionScreen(this);
         setScreen(connectionScreen);
-        connection = new Connection();
+        connection = new Connection(this);
         Thread thread = new Thread(connection);
         thread.start();
     }
@@ -51,5 +53,15 @@ public class MyGame extends Game
         {
             setScreen(connectionScreen);
         }
+    }
+
+    public void on(GameStartPacket packet)
+    {
+
+    }
+
+    public void on(InvalidNamePacket packet)
+    {
+
     }
 }

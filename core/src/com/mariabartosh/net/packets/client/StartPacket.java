@@ -20,6 +20,7 @@ public class StartPacket extends Packet
     @Override
     public void write(Json json)
     {
+        super.write(json);
         json.writeValue("name", getName());
     }
 }
