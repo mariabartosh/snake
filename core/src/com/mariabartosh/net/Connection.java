@@ -9,8 +9,7 @@ import com.badlogic.gdx.utils.Json;
 import com.mariabartosh.MyGame;
 import com.mariabartosh.net.packets.Packet;
 import com.mariabartosh.net.packets.PacketSerializer;
-import com.mariabartosh.net.packets.server.GameStartPacket;
-import com.mariabartosh.net.packets.server.InvalidNamePacket;
+
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
@@ -54,8 +53,10 @@ public class Connection implements Runnable
                         packet.process(game);
                     }
                 }
-                catch (Exception ignored)
+                catch (Exception e)
                 {
+                    System.out.println(e.getMessage());
+                    e.printStackTrace();
                     socket.dispose();
                     socket = null;
                     writer = null;

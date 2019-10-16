@@ -61,7 +61,7 @@ public class ConnectionScreen extends ScreenAdapter
         Gdx.gl.glClearColor(0, .25f, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         game.batch.begin();
-        game.batch.draw(Assets.images.background, 0, 0, (int) game.world.cameraX, (int) -game.world.cameraY, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        game.batch.draw(Assets.images.background, 0, 0, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         game.batch.end();
         game.ui.act(delta);
         game.ui.draw();

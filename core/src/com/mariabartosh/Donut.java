@@ -12,20 +12,20 @@ public class Donut extends GameObject
     private TextureAtlas.AtlasRegion texture;
     World world;
 
-    Donut(World world, float x, float y)
+    public Donut(World world, float x, float y, int imageIndex)
     {
         this.world = world;
         this.x = x;
         this.y = y;
-        texture = Assets.images.donuts.get((int) (Math.random() * 11));
+        texture = Assets.images.donuts.get(imageIndex);
     }
 
-    float getX()
+    public float getX()
     {
         return x;
     }
 
-    float getY()
+    public float getY()
     {
         return y;
     }

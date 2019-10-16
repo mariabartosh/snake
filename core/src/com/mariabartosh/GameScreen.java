@@ -22,19 +22,19 @@ class GameScreen extends ScreenAdapter
     {
         float deltaTime = Gdx.graphics.getDeltaTime();
         game.world.update(deltaTime);
-        if (game.world.isGameOver)
+        /*if (game.world.isGameOver)
         {
             game.setScreen(new EndScreen(game));
-        }
+        }*/
         Gdx.gl.glClearColor(.25f, .25f, .25f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         game.batch.begin();
         game.world.draw(game.batch);
 
-        Assets.fonts.game.draw(game.batch,
+      /*  Assets.fonts.game.draw(game.batch,
                 "score: " + (game.world.getPlayer().getCountDonuts() * 50 + game.world.getPlayer().getCountKills() * 500),
                 (float) Gdx.graphics.getWidth() / 20,
-                (float) Gdx.graphics.getHeight() / 20);
+                (float) Gdx.graphics.getHeight() / 20);*/
         game.batch.end();
     }
 

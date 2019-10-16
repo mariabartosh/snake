@@ -21,8 +21,10 @@ public class PacketSerializer implements Json.Serializer<Packet>
             {
                 return (Packet) json.readValue(Class.forName(typeName), jsonData);
             }
-            catch (Exception ignored)
+            catch (Exception e)
             {
+                System.out.println(e.getMessage());
+                e.printStackTrace();
             }
         }
         return null;

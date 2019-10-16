@@ -4,7 +4,7 @@ public class DonutBonus extends Donut
 {
     DonutBonus(World world, float x, float y)
     {
-        super(world, x, y);
+        super(world, x, y, (int) (Math.random() * 11));
     }
 
     @Override

@@ -1,12 +1,11 @@
 package com.mariabartosh;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import java.util.ArrayList;
 import java.util.Collections;
 
-class World
+public class World
 {
     private static final float MAX_SNAKE_COUNT = 10;
     private float width;
@@ -17,10 +16,9 @@ class World
     ArrayList<Donut> donuts;
     ArrayList<GameObject> gameObjects;
     private ArrayList<Snake> snakes;
-    boolean isGameOver;
     private String[] names;
 
-    World(float w, float h)
+    public World(float w, float h)
     {
         width = w;
         height = h;
@@ -28,27 +26,19 @@ class World
 
     void create()
     {
-        isGameOver = false;
         gameObjects = new ArrayList<>();
         donuts = new ArrayList<>();
+        snakes = new ArrayList<>();
 
-        for (int i = 0; i < 300; i++)
-        {
-            Donut donut = new Donut(this, (float) (Math.random() * width), (float) (Math.random() * height));
-            donuts.add(donut);
-            gameObjects.add(donut);
-        }
-
-        names = new String[]{"Corneliu", "Nicu", "Luca-Andrei", "Iulian", "Arnfinn", "Sebastian", "Johannes", "Ragnvald", "Judith",
+     /*   names = new String[]{"Corneliu", "Nicu", "Luca-Andrei", "Iulian", "Arnfinn", "Sebastian", "Johannes", "Ragnvald", "Judith",
                 "Siv", "Else", "Margrethe", "Aneta", "Emilie", "Antonie", "Jain"};
 
-        snakes = new ArrayList<>();
+
         player = new Snake(this, 50, 20, names);
         snakes.add(player);
         gameObjects.add(player);
-        updateCameraPosition();
 
-        addSnakeBots();
+        addSnakeBots();*/
     }
 
     void update(float deltaTime)
@@ -59,7 +49,7 @@ class World
             gameObject.update(deltaTime);
         }
 
-        ArrayList<Snake> removeSnakes = new ArrayList<>();
+      /*  ArrayList<Snake> removeSnakes = new ArrayList<>();
 
         for (Snake snake : snakes)
         {
@@ -86,10 +76,9 @@ class World
             if (snake == player)
             {
                 Assets.sounds.gameOver.play();
-                isGameOver = true;
             }
         }
-        addSnakeBots();
+        addSnakeBots();*/
     }
 
     void draw(SpriteBatch batch)
@@ -108,19 +97,24 @@ class World
         batch.draw(Assets.images.border, - cameraX, -cameraHeight - cameraY, width, cameraHeight);
         batch.draw(Assets.images.border, - cameraX, height - cameraY, width, cameraHeight);
 
-        Collections.sort(snakes);
+       /* Collections.sort(snakes);
         for (Snake snake : snakes)
         {
             Assets.fonts.game.draw(batch,
                     snake.getName() + "   " + (int) snake.getScore(),
                     Gdx.graphics.getWidth() - 170,
                     Gdx.graphics.getHeight() - (snakes.indexOf(snake) + 1) * 20);
-        }
+        }*/
     }
 
-    Snake getPlayer()
+    public Snake getPlayer()
     {
         return player;
+    }
+
+    public void setPlayer(Snake player)
+    {
+        this.player = player;
     }
 
     void dispose()
@@ -153,13 +147,20 @@ class World
         cameraY = player.getHeadY() - (float) Gdx.graphics.getHeight() / 2;
     }
 
-    private void addSnakeBots()
+    void updateDonut(float x, float y, int imageIndex)
     {
-        while (snakes.size() <= MAX_SNAKE_COUNT)
-        {
-            SnakeBot snakeBot = new SnakeBot(this, 50, 20, names);
-            snakes.add(snakeBot);
-            gameObjects.add(snakeBot);
-        }
+
+    }
+
+    public void add(Donut donut)
+    {
+        donuts.add(donut);
+        gameObjects.add(donut);
+    }
+
+    public void add(Snake snake)
+    {
+        snakes.add(snake);
+        gameObjects.add(snake);
     }
 }

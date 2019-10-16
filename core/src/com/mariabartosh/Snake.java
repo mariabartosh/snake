@@ -23,24 +23,14 @@ public class Snake extends GameObject implements Comparable<Snake>
     private String name;
     private float score;
 
-    Snake(World world, int segmentCount, float radius, String[] names)
+    public Snake(World world, float radius, String name, int imageIndex)
     {
-        name = names[(int)(Math.random() * (names.length - 1))];
+        this.name = name;
         this.world = world;
         this.radius = radius;
         segmentDistance = radius / 3;
-
-        float headX = (float) Math.random() * world.getWidth();
-        float headY = (float) Math.random() * world.getHeight();
-
-        for (int i = 0; i < segmentCount; i++)
-        {
-            segments.add(new Segment(headX, headY - segmentDistance * i));
-        }
-
-        segmentTexture = Assets.images.segments.get((int) (Math.random() * 11));
+        segmentTexture = Assets.images.segments.get(imageIndex);
         eyes = Assets.images.eyes;
-
         vector = new Vector2(0, 1);
     }
 
@@ -215,5 +205,10 @@ public class Snake extends GameObject implements Comparable<Snake>
     void setName(String name)
     {
         this.name = name;
+    }
+
+    public void addSegment(float x, float y)
+    {
+        segments.add(new Segment(x, y));
     }
 }
