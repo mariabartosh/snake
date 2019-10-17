@@ -60,7 +60,8 @@ public class MyGame extends Game
 
     public void on(InvalidNamePacket packet)
     {
-
+        //TODO
+        Gdx.input.setInputProcessor(ui);
     }
 
     public void on(GameStartPacket packet)
@@ -95,9 +96,17 @@ public class MyGame extends Game
 
     public void on(DonutsUpdatePacket packet)
     {
+        if (world == null)
+        {
+            return;
+        }
         Snake snake = (Snake) world.gameObjects.get(packet.getSnakeId());
         Donut donut = (Donut) world.gameObjects.get(packet.getDonutId());
         donut.relocate(packet.getDonutX(), packet.getDonutY());
+        if (snake == world.getPlayer())
+        {
+            Assets.sounds.eat.play();
+        }
         ArrayList<Segment> segments = snake.getSegments();
         segments.add(new Segment(segments.get(segments.size() - 1).getX(), segments.get(segments.size() - 1).getY()));
         snake.setScore(packet.getSnakeScore());

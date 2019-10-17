@@ -65,6 +65,7 @@ public class TitleScreen extends ScreenAdapter
                 StartPacket startPacket = new StartPacket();
                 startPacket.setName(nameInput.getText());
                 game.connection.send(startPacket);
+                Gdx.input.setInputProcessor(null);
             }
         });
 

@@ -56,7 +56,6 @@ public class World
         Donut donut = player.eat(donuts);
         if (donut != null)
         {
-            Assets.sounds.eat.play();
             EatDonutPacket packet = new EatDonutPacket(donut.getId());
             game.connection.send(packet);
             donut.setIgnored(true);
