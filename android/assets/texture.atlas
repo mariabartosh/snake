@@ -6,175 +6,181 @@ filter: Nearest,Nearest
 repeat: none
 donut
   rotate: false
-  xy: 2, 152
-  size: 148, 148
-  orig: 148, 148
+  xy: 2, 870
+  size: 434, 432
+  orig: 434, 432
   offset: 0, 0
   index: 0
 donut
   rotate: false
-  xy: 1695, 1845
-  size: 148, 148
-  orig: 148, 148
+  xy: 459, 1327
+  size: 434, 432
+  orig: 434, 432
   offset: 0, 0
   index: 1
 donut
   rotate: false
-  xy: 2, 2
-  size: 148, 148
-  orig: 148, 148
+  xy: 2, 436
+  size: 434, 432
+  orig: 434, 432
   offset: 0, 0
   index: 2
 donut
   rotate: false
-  xy: 152, 152
-  size: 148, 148
-  orig: 148, 148
+  xy: 895, 1327
+  size: 434, 432
+  orig: 434, 432
   offset: 0, 0
   index: 3
 donut
   rotate: false
-  xy: 1695, 1695
-  size: 148, 148
-  orig: 148, 148
+  xy: 2, 2
+  size: 434, 432
+  orig: 434, 432
   offset: 0, 0
   index: 4
 donut
   rotate: false
-  xy: 1845, 1845
-  size: 148, 148
-  orig: 148, 148
+  xy: 1331, 1327
+  size: 434, 432
+  orig: 434, 432
   offset: 0, 0
   index: 5
 donut
   rotate: false
-  xy: 152, 2
-  size: 148, 148
-  orig: 148, 148
+  xy: 459, 893
+  size: 434, 432
+  orig: 434, 432
   offset: 0, 0
   index: 6
 donut
   rotate: false
-  xy: 1845, 1695
-  size: 148, 148
-  orig: 148, 148
+  xy: 895, 893
+  size: 434, 432
+  orig: 434, 432
   offset: 0, 0
   index: 7
 donut
   rotate: false
-  xy: 414, 610
-  size: 148, 148
-  orig: 148, 148
+  xy: 1331, 893
+  size: 434, 432
+  orig: 434, 432
   offset: 0, 0
   index: 8
 donut
   rotate: false
-  xy: 414, 460
-  size: 148, 148
-  orig: 148, 148
+  xy: 438, 459
+  size: 434, 432
+  orig: 434, 432
   offset: 0, 0
   index: 9
 donut
   rotate: false
-  xy: 564, 610
-  size: 148, 148
-  orig: 148, 148
+  xy: 438, 25
+  size: 434, 432
+  orig: 434, 432
   offset: 0, 0
   index: 11
 donut
   rotate: false
-  xy: 414, 310
-  size: 148, 148
-  orig: 148, 148
+  xy: 874, 459
+  size: 434, 432
+  orig: 434, 432
   offset: 0, 0
   index: 10
 eyes
   rotate: false
-  xy: 2, 1538
+  xy: 2, 1304
   size: 455, 455
   orig: 455, 455
   offset: 0, 0
   index: -1
 z
   rotate: false
-  xy: 2, 1126
+  xy: 874, 47
   size: 413, 410
   orig: 413, 410
   offset: 0, 0
   index: 2
 z
   rotate: false
-  xy: 459, 1583
+  xy: 1310, 481
   size: 410, 410
   orig: 410, 410
   offset: 0, 0
   index: 11
 z
   rotate: false
-  xy: 2, 714
+  xy: 1310, 69
   size: 410, 410
   orig: 410, 410
   offset: 0, 0
   index: 0
+
+texture2.png
+size: 2048,2048
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
 z
   rotate: false
-  xy: 871, 1583
+  xy: 2, 1237
   size: 410, 410
   orig: 410, 410
   offset: 0, 0
   index: 1
 z
   rotate: false
-  xy: 2, 302
+  xy: 2, 825
   size: 410, 410
   orig: 410, 410
   offset: 0, 0
   index: 3
 z
   rotate: false
-  xy: 1283, 1583
+  xy: 414, 1237
   size: 410, 410
   orig: 410, 410
   offset: 0, 0
   index: 4
 z
   rotate: false
-  xy: 459, 1171
+  xy: 2, 413
   size: 410, 410
   orig: 410, 410
   offset: 0, 0
   index: 5
 z
   rotate: false
-  xy: 871, 1171
+  xy: 414, 825
   size: 410, 410
   orig: 410, 410
   offset: 0, 0
   index: 8
 z
   rotate: false
-  xy: 1283, 1171
+  xy: 826, 1237
   size: 409, 410
   orig: 409, 410
   offset: 0, 0
   index: 6
 z
   rotate: false
-  xy: 417, 760
+  xy: 2, 2
   size: 410, 409
   orig: 410, 409
   offset: 0, 0
   index: 9
 z
   rotate: false
-  xy: 829, 761
+  xy: 414, 415
   size: 409, 408
   orig: 409, 408
   offset: 0, 0
   index: 10
 z
   rotate: false
-  xy: 1240, 761
+  xy: 826, 827
   size: 408, 408
   orig: 408, 408
   offset: 0, 0
