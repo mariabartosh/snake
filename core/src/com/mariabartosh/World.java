@@ -59,6 +59,7 @@ public class World
             Assets.sounds.eat.play();
             EatDonutPacket packet = new EatDonutPacket(donut.getId());
             game.connection.send(packet);
+            donut.setIgnored(true);
         }
 
          /*   if (snake.checkCollision(snakes))

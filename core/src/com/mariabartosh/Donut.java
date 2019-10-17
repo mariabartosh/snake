@@ -11,6 +11,7 @@ public class Donut extends GameObject
     private float radius = 30;
     private TextureAtlas.AtlasRegion texture;
     World world;
+    private boolean ignored;
 
     public Donut(World world, float x, float y, int imageIndex, int id)
     {
@@ -56,9 +57,20 @@ public class Donut extends GameObject
         batch.draw(texture, x - radius - world.getCameraX(), y - radius - world.getCameraY(), radius * 2, radius * 2);
     }
 
-    public void relocation(float x, float y)
+    public void relocate(float x, float y)
     {
         setX(x);
         setY(y);
+        ignored = false;
+    }
+
+    public boolean isIgnored()
+    {
+        return ignored;
+    }
+
+    public void setIgnored(boolean ignored)
+    {
+        this.ignored = ignored;
     }
 }

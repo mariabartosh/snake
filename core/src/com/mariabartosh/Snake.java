@@ -63,6 +63,10 @@ public class Snake extends GameObject implements Comparable<Snake>
     {
         for (Donut donut : donuts)
         {
+            if (donut.isIgnored())
+            {
+                continue;
+            }
             Vector2 vector = new Vector2(donut.getX() - getHeadX(), donut.getY() - getHeadY());
             if (vector.len() <= radius + donut.getRadius())
             {

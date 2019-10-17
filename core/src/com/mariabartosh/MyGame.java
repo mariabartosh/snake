@@ -97,7 +97,7 @@ public class MyGame extends Game
     {
         Snake snake = (Snake) world.gameObjects.get(packet.getSnakeId());
         Donut donut = (Donut) world.gameObjects.get(packet.getDonutId());
-        donut.relocation(packet.getDonutX(), packet.getDonutY());
+        donut.relocate(packet.getDonutX(), packet.getDonutY());
         ArrayList<Segment> segments = snake.getSegments();
         segments.add(new Segment(segments.get(segments.size() - 1).getX(), segments.get(segments.size() - 1).getY()));
         snake.setScore(packet.getSnakeScore());

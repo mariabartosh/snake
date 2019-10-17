@@ -5,7 +5,7 @@ import com.mariabartosh.net.packets.Packet;
 
 public class EatDonutPacket extends Packet
 {
-    float id;
+    private int id;
 
     public EatDonutPacket(int id)
     {
