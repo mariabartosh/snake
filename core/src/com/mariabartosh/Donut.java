@@ -12,8 +12,9 @@ public class Donut extends GameObject
     private TextureAtlas.AtlasRegion texture;
     World world;
 
-    public Donut(World world, float x, float y, int imageIndex)
+    public Donut(World world, float x, float y, int imageIndex, int id)
     {
+        super(id);
         this.world = world;
         this.x = x;
         this.y = y;
@@ -55,9 +56,9 @@ public class Donut extends GameObject
         batch.draw(texture, x - radius - world.getCameraX(), y - radius - world.getCameraY(), radius * 2, radius * 2);
     }
 
-    public void relocation()
+    public void relocation(float x, float y)
     {
-        setX((float) (Math.random() * world.getWidth()));
-        setY((float) (Math.random() * world.getHeight()));
+        setX(x);
+        setY(y);
     }
 }

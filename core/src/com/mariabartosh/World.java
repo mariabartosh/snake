@@ -2,8 +2,10 @@ package com.mariabartosh;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.mariabartosh.net.packets.client.EatDonutPacket;
+
 import java.util.ArrayList;
-import java.util.Collections;
+import java.util.HashMap;
 
 public class World
 {
@@ -14,19 +16,20 @@ public class World
     float cameraY;
     private Snake player;
     ArrayList<Donut> donuts;
-    ArrayList<GameObject> gameObjects;
+    HashMap<Integer, GameObject> gameObjects;
     private ArrayList<Snake> snakes;
-    private String[] names;
+    private MyGame game;
 
-    public World(float w, float h)
+    public World(float w, float h, MyGame game)
     {
         width = w;
         height = h;
+        this.game = game;
     }
 
     void create()
     {
-        gameObjects = new ArrayList<>();
+        gameObjects = new HashMap<>();
         donuts = new ArrayList<>();
         snakes = new ArrayList<>();
 
@@ -44,20 +47,21 @@ public class World
     void update(float deltaTime)
     {
         updateCameraPosition();
-        for (GameObject gameObject : gameObjects)
+        for (GameObject gameObject : gameObjects.values())
         {
             gameObject.update(deltaTime);
         }
 
-      /*  ArrayList<Snake> removeSnakes = new ArrayList<>();
-
-        for (Snake snake : snakes)
+      //  ArrayList<Snake> removeSnakes = new ArrayList<>();
+        Donut donut = player.eat(donuts);
+        if (donut != null)
         {
-            if (snake.absorbing(donuts) && snake == player)
-            {
-                Assets.sounds.eat.play();
-            }
-            if (snake.checkCollision(snakes))
+            Assets.sounds.eat.play();
+            EatDonutPacket packet = new EatDonutPacket(donut.getId());
+            game.connection.send(packet);
+        }
+
+         /*   if (snake.checkCollision(snakes))
             {
                 Assets.sounds.collision.play();
                 removeSnakes.add(snake);
@@ -85,7 +89,7 @@ public class World
     {
         batch.draw(Assets.images.background, 0, 0, (int) cameraX, (int) -cameraY, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 
-        for (GameObject gameObject : gameObjects)
+        for (GameObject gameObject : gameObjects.values())
         {
             gameObject.draw(batch);
         }
@@ -97,14 +101,14 @@ public class World
         batch.draw(Assets.images.border, - cameraX, -cameraHeight - cameraY, width, cameraHeight);
         batch.draw(Assets.images.border, - cameraX, height - cameraY, width, cameraHeight);
 
-       /* Collections.sort(snakes);
+       // Collections.sort(snakes);
         for (Snake snake : snakes)
         {
             Assets.fonts.game.draw(batch,
                     snake.getName() + "   " + (int) snake.getScore(),
                     Gdx.graphics.getWidth() - 170,
                     Gdx.graphics.getHeight() - (snakes.indexOf(snake) + 1) * 20);
-        }*/
+        }
     }
 
     public Snake getPlayer()
@@ -155,12 +159,12 @@ public class World
     public void add(Donut donut)
     {
         donuts.add(donut);
-        gameObjects.add(donut);
+        gameObjects.put(donut.getId(), donut);
     }
 
     public void add(Snake snake)
     {
         snakes.add(snake);
-        gameObjects.add(snake);
+        gameObjects.put(snake.getId(), snake);
     }
 }

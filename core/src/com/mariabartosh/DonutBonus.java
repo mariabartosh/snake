@@ -2,7 +2,11 @@ package com.mariabartosh;
 
 public class DonutBonus extends Donut
 {
-    DonutBonus(World world, float x, float y)
+    public DonutBonus(World world, float x, float y, int imageIndex, int id)
+    {
+        super(world, x, y, imageIndex, id);
+    }
+  /*  DonutBonus(World world, float x, float y)
     {
         super(world, x, y, (int) (Math.random() * 11));
     }
@@ -12,5 +16,5 @@ public class DonutBonus extends Donut
     {
         world.gameObjects.remove(this);
         world.donuts.remove(this);
-    }
+    }*/
 }

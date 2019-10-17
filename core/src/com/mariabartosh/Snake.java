@@ -14,17 +14,17 @@ public class Snake extends GameObject implements Comparable<Snake>
     private ArrayList<Segment> segments = new ArrayList<>();
     private float radius;
     private float segmentDistance;
-    private int countDonuts;
-    private int countKills;
     private TextureAtlas.AtlasRegion segmentTexture;
     private TextureAtlas.AtlasRegion eyes;
     Vector2 vector;
     World world;
     private String name;
-    private float score;
+    private int score;
+    private float countKills;
 
-    public Snake(World world, float radius, String name, int imageIndex)
+    public Snake(World world, float radius, String name, int imageIndex, int id)
     {
+        super(id);
         this.name = name;
         this.world = world;
         this.radius = radius;
@@ -59,31 +59,17 @@ public class Snake extends GameObject implements Comparable<Snake>
         }
     }
 
-    private void setCountBall()
-    {
-        countDonuts++;
-        score += 50;
-        segments.add(new Segment(segments.get(segments.size() - 1).getX(), segments.get(segments.size() - 1).getY()));
-    }
-
-    int getCountDonuts()
-    {
-        return countDonuts;
-    }
-
-    boolean absorbing(ArrayList<Donut> donuts)
+    Donut eat(ArrayList<Donut> donuts)
     {
         for (Donut donut : donuts)
         {
             Vector2 vector = new Vector2(donut.getX() - getHeadX(), donut.getY() - getHeadY());
             if (vector.len() <= radius + donut.getRadius())
             {
-                setCountBall();
-                donut.relocation();
-                return true;
+                return donut;
             }
         }
-        return false;
+        return null;
     }
 
     protected void move(float deltaTime)
@@ -161,7 +147,7 @@ public class Snake extends GameObject implements Comparable<Snake>
         return false;
     }
 
-    void breakdown(ArrayList<Donut> donuts, ArrayList<GameObject> gameObjects)
+    /*void breakdown(ArrayList<Donut> donuts, ArrayList<GameObject> gameObjects)
     {
         for (int i = 0; i < segments.size(); i += 6)
         {
@@ -169,12 +155,7 @@ public class Snake extends GameObject implements Comparable<Snake>
             donuts.add(donut);
             gameObjects.add(donut);
         }
-    }
-
-    int getCountKills()
-    {
-        return countKills;
-    }
+    }*/
 
     float getHeadX()
     {
@@ -210,5 +191,15 @@ public class Snake extends GameObject implements Comparable<Snake>
     public void addSegment(float x, float y)
     {
         segments.add(new Segment(x, y));
+    }
+
+    public void setScore(int score)
+    {
+        this.score = score;
+    }
+
+    public ArrayList<Segment> getSegments()
+    {
+        return segments;
     }
 }

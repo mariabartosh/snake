@@ -10,10 +10,12 @@ public class GameStartPacket extends Packet
     private float[] donutsX;
     private float[] donutsY;
     private int[] donutsImage;
+    private int[] donutsId;
     private float worldWidth;
     private float worldHeight;
     private float snakeRadius;
     private int snakeImage;
+    private int snakeId;
     private float[] segmentsX;
     private float[] segmentsY;
 
@@ -27,6 +29,7 @@ public class GameStartPacket extends Packet
         donutsX = new float[size];
         donutsY = new float[size];
         donutsImage = new int[size];
+        donutsId = new int[size];
 
         for (int i = 0; i < size; i++)
         {
@@ -34,11 +37,13 @@ public class GameStartPacket extends Packet
             donutsX[i] = donutData.getFloat("x");
             donutsY[i] = donutData.getFloat("y");
             donutsImage[i] = donutData.getInt("image");
+            donutsId[i] = donutData.getInt("id");
         }
 
         JsonValue snakeData = jsonData.get("snake");
         snakeRadius = snakeData.getFloat("radius");
         snakeImage = snakeData.getInt("image");
+        snakeId = snakeData.getInt("id");
         JsonValue segmentsData = snakeData.get("segments");
         size =segmentsData.size;
         segmentsX = new float[size];
@@ -73,6 +78,11 @@ public class GameStartPacket extends Packet
         return donutsImage;
     }
 
+    public int[] getDonutsId()
+    {
+        return donutsId;
+    }
+
     public float getWorldWidth()
     {
         return worldWidth;
@@ -101,5 +111,10 @@ public class GameStartPacket extends Packet
     public int getSnakeImage()
     {
         return snakeImage;
+    }
+
+    public int getSnakeId()
+    {
+        return snakeId;
     }
 }

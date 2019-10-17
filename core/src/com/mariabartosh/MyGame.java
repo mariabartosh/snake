@@ -8,8 +8,11 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.mariabartosh.net.Connection;
+import com.mariabartosh.net.packets.server.DonutsUpdatePacket;
 import com.mariabartosh.net.packets.server.InvalidNamePacket;
 import com.mariabartosh.net.packets.server.GameStartPacket;
+
+import java.util.ArrayList;
 
 public class MyGame extends Game
 {
@@ -65,17 +68,18 @@ public class MyGame extends Game
         Screen currentScreen = getScreen();
         if (currentScreen instanceof TitleScreen)
         {
-            world = new World(packet.getWorldWidth(), packet.getWorldHeight());
+            world = new World(packet.getWorldWidth(), packet.getWorldHeight(), this);
             world.create();
             float[] donutsX = packet.getDonutsX();
             float[] donutsY = packet.getDonutsY();
             int[] donutsImage = packet.getDonutsImage();
+            int[] donutsId = packet.getDonutsId();
             for (int i = 0; i < donutsX.length; i++)
             {
-                world.add(new Donut(world, donutsX[i], donutsY[i], donutsImage[i]));
+                world.add(new Donut(world, donutsX[i], donutsY[i], donutsImage[i], donutsId[i]));
             }
 
-            Snake snake = new Snake(world, packet.getSnakeRadius(), playerName, packet.getSnakeImage());
+            Snake snake = new Snake(world, packet.getSnakeRadius(), playerName, packet.getSnakeImage(), packet.getSnakeId());
             float[] segmentsX = packet.getSegmentsX();
             float[] segmentsY = packet.getSegmentsY();
             for (int i = 0; i < segmentsX.length; i++)
@@ -87,6 +91,15 @@ public class MyGame extends Game
             setScreen(new GameScreen(this));
             currentScreen.dispose();
         }
+    }
 
+    public void on(DonutsUpdatePacket packet)
+    {
+        Snake snake = (Snake) world.gameObjects.get(packet.getSnakeId());
+        Donut donut = (Donut) world.gameObjects.get(packet.getDonutId());
+        donut.relocation(packet.getDonutX(), packet.getDonutY());
+        ArrayList<Segment> segments = snake.getSegments();
+        segments.add(new Segment(segments.get(segments.size() - 1).getX(), segments.get(segments.size() - 1).getY()));
+        snake.setScore(packet.getSnakeScore());
     }
 }
