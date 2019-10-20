@@ -8,9 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.mariabartosh.net.Connection;
-import com.mariabartosh.net.packets.server.DonutsUpdatePacket;
-import com.mariabartosh.net.packets.server.InvalidNamePacket;
-import com.mariabartosh.net.packets.server.GameStartPacket;
+import com.mariabartosh.net.packets.server.*;
 
 import java.util.ArrayList;
 
@@ -71,24 +69,32 @@ public class MyGame extends Game
         {
             world = new World(packet.getWorldWidth(), packet.getWorldHeight(), this);
             world.create();
-            float[] donutsX = packet.getDonutsX();
-            float[] donutsY = packet.getDonutsY();
-            int[] donutsImage = packet.getDonutsImage();
-            int[] donutsId = packet.getDonutsId();
-            for (int i = 0; i < donutsX.length; i++)
+
+            for (int i = 0; i < packet.getDonuts().length; i++)
             {
-                world.add(new Donut(world, donutsX[i], donutsY[i], donutsImage[i], donutsId[i]));
+                world.add(new Donut(world,
+                        packet.getDonuts()[i].getX(),
+                        packet.getDonuts()[i].getY(),
+                        packet.getDonuts()[i].getImage(),
+                        packet.getDonuts()[i].getId()));
             }
 
-            Snake snake = new Snake(world, packet.getSnakeRadius(), playerName, packet.getSnakeImage(), packet.getSnakeId());
-            float[] segmentsX = packet.getSegmentsX();
-            float[] segmentsY = packet.getSegmentsY();
-            for (int i = 0; i < segmentsX.length; i++)
+            for (int i = 0; i < packet.getSnakes().length; i++)
             {
-                snake.addSegment(segmentsX[i], segmentsY[i]);
+                Snake snake = new Snake(world,
+                        packet.getSnakes()[i].getRadius(),
+                        packet.getSnakes()[i].getName(),
+                        packet.getSnakes()[i].getImage(),
+                        packet.getSnakes()[i].getId());
+                int size = packet.getSnakes()[i].getSegmentsX().length;
+                for (int j = 0; j < size; j++)
+                {
+                    snake.addSegment(packet.getSnakes()[i].getSegmentsX()[j], packet.getSnakes()[i].getSegmentsY()[j]);
+                }
+                world.add(snake);
             }
-            world.add(snake);
-            world.setPlayer(snake);
+
+            world.setPlayer((Snake) world.gameObjects.get(packet.getPlayerId()));
             setScreen(new GameScreen(this));
             currentScreen.dispose();
         }
@@ -110,5 +116,11 @@ public class MyGame extends Game
         ArrayList<Segment> segments = snake.getSegments();
         segments.add(new Segment(segments.get(segments.size() - 1).getX(), segments.get(segments.size() - 1).getY()));
         snake.setScore(packet.getSnakeScore());
+    }
+
+    public void on(SnakeMovementPacket packet)
+    {
+        Snake snake = (Snake) world.gameObjects.get(packet.getId());
+        snake.update(packet.getX(), packet.getY());
     }
 }

@@ -3,6 +3,7 @@ package com.mariabartosh;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.mariabartosh.net.packets.client.EatDonutPacket;
+import com.mariabartosh.net.packets.client.MovementPacket;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -19,6 +20,7 @@ public class World
     HashMap<Integer, GameObject> gameObjects;
     private ArrayList<Snake> snakes;
     private MyGame game;
+    private long lastSending;
 
     public World(float w, float h, MyGame game)
     {
@@ -32,6 +34,7 @@ public class World
         gameObjects = new HashMap<>();
         donuts = new ArrayList<>();
         snakes = new ArrayList<>();
+        lastSending = System.currentTimeMillis();
 
      /*   names = new String[]{"Corneliu", "Nicu", "Luca-Andrei", "Iulian", "Arnfinn", "Sebastian", "Johannes", "Ragnvald", "Judith",
                 "Siv", "Else", "Margrethe", "Aneta", "Emilie", "Antonie", "Jain"};
@@ -52,12 +55,22 @@ public class World
             gameObject.update(deltaTime);
         }
 
+        if (System.currentTimeMillis() - lastSending > 100)
+        {
+            MovementPacket packet = new MovementPacket(player.getId(), player.getHeadX(), player.getHeadY());
+            game.connection.send(packet);
+            lastSending = System.currentTimeMillis();
+        }
       //  ArrayList<Snake> removeSnakes = new ArrayList<>();
         Donut donut = player.eat(donuts);
         if (donut != null)
         {
-            EatDonutPacket packet = new EatDonutPacket(donut.getId());
+            MovementPacket packet = new MovementPacket(player.getId(), player.getHeadX(), player.getHeadY());
             game.connection.send(packet);
+            lastSending = System.currentTimeMillis();
+
+            EatDonutPacket eatPacket = new EatDonutPacket(donut.getId());
+            game.connection.send(eatPacket);
             donut.setIgnored(true);
         }
 

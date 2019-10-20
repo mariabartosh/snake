@@ -42,7 +42,18 @@ public class Snake extends GameObject implements Comparable<Snake>
     public void update(float deltaTime)
     {
         move(deltaTime);
+        updateSegments();
+    }
 
+    public void update(float x, float y)
+    {
+        segments.get(0).setX(x);
+        segments.get(0).setY(y);
+        updateSegments();
+    }
+
+    private void updateSegments()
+    {
         for (int i = 1; i < segments.size(); i++)
         {
             Segment current = segments.get(i);

@@ -7,17 +7,10 @@ import com.mariabartosh.net.packets.Packet;
 
 public class InvalidNamePacket extends Packet
 {
-    private boolean validName;
-
     @Override
     public void read(Json json, JsonValue jsonData)
     {
-        validName = Boolean.parseBoolean(jsonData.getString("ValidName"));
-    }
 
-    public boolean isValidName()
-    {
-        return validName;
     }
 
     @Override
