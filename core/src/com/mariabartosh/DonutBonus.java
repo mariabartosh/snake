@@ -6,15 +6,11 @@ public class DonutBonus extends Donut
     {
         super(world, x, y, imageIndex, id);
     }
-  /*  DonutBonus(World world, float x, float y)
-    {
-        super(world, x, y, (int) (Math.random() * 11));
-    }
 
     @Override
-    public void relocation()
+    public void relocate(float x, float y)
     {
-        world.gameObjects.remove(this);
+        world.gameObjects.remove(getId());
         world.donuts.remove(this);
-    }*/
+    }
 }

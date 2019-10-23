@@ -2,6 +2,7 @@ package com.mariabartosh;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.mariabartosh.net.packets.client.CollisionPacket;
 import com.mariabartosh.net.packets.client.EatDonutPacket;
 import com.mariabartosh.net.packets.client.MovementPacket;
 
@@ -50,10 +51,12 @@ public class World
     void update(float deltaTime)
     {
         updateCameraPosition();
-        for (GameObject gameObject : gameObjects.values())
+        /*for (GameObject gameObject : gameObjects.values())
         {
             gameObject.update(deltaTime);
-        }
+        }*/
+
+        player.update(deltaTime);
 
         if (System.currentTimeMillis() - lastSending > 100)
         {
@@ -74,9 +77,20 @@ public class World
             donut.setIgnored(true);
         }
 
+        Snake snake = player.checkCollision(snakes);
+        if (snake != null)
+        {
+            MovementPacket packet = new MovementPacket(player.getId(), player.getHeadX(), player.getHeadY());
+            game.connection.send(packet);
+            lastSending = System.currentTimeMillis();
+
+            CollisionPacket collisionPacket = new CollisionPacket(snake.getId());
+            game.connection.send(collisionPacket);
+            snake.setIgnored(true);
+        }
          /*   if (snake.checkCollision(snakes))
             {
-                Assets.sounds.collision.play();
+
                 removeSnakes.add(snake);
             }
             if (snake.getHeadX()  - snake.getRadius() <= 0 || snake.getHeadX() + snake.getRadius() >= width || snake.getHeadY() - snake.getRadius() <= 0 || snake.getHeadY() + snake.getRadius() >= height)
@@ -179,5 +193,11 @@ public class World
     {
         snakes.add(snake);
         gameObjects.put(snake.getId(), snake);
+    }
+
+    public void remove(Snake snake)
+    {
+        gameObjects.remove(snake.getId());
+        snakes.remove(snake);
     }
 }

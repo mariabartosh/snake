@@ -8,6 +8,8 @@ public class SnakeData
     private int id;
     private float[] segmentsX;
     private float[] segmentsY;
+    private float headX;
+    private float headY;
 
     public void setSegmentsX(float[] segmentsX)
     {
@@ -67,6 +69,26 @@ public class SnakeData
     public void setName(String name)
     {
         this.name = name;
+    }
+
+    public float getHeadX()
+    {
+        return headX;
+    }
+
+    public float getHeadY()
+    {
+        return headY;
+    }
+
+    public void setHeadX(float headX)
+    {
+        this.headX = headX;
+    }
+
+    public void setHeadY(float headY)
+    {
+        this.headY = headY;
     }
 }
 

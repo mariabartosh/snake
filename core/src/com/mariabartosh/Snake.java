@@ -20,7 +20,7 @@ public class Snake extends GameObject implements Comparable<Snake>
     World world;
     private String name;
     private int score;
-    private float countKills;
+    private boolean ignored;
 
     public Snake(World world, float radius, String name, int imageIndex, int id)
     {
@@ -140,37 +140,25 @@ public class Snake extends GameObject implements Comparable<Snake>
         Assets.fonts.game.draw(batch, name, getHeadX() + radius * 2 - world.getCameraX(), getHeadY() + radius * 2 - world.getCameraY());
     }
 
-    boolean checkCollision(ArrayList<Snake> snakes)
+    Snake checkCollision(ArrayList<Snake> snakes)
     {
         for (Snake snake : snakes)
         {
-            if (snake != this)
+            if (snake != this && !snake.ignored)
             {
-                for (int i = 1; i < snake.segments.size(); i++)
+                for (int i = 1; i < this.segments.size(); i++)
                 {
-                    Vector2 vector = new Vector2(this.getHeadX() - snake.segments.get(i).getX(), this.getHeadY() - snake.segments.get(i).getY());
+                    Vector2 vector = new Vector2(snake.getHeadX() - this.segments.get(i).getX(), snake.getHeadY() - this.segments.get(i).getY());
                     if (vector.len() <= radius + snake.getRadius())
                     {
-                        snake.countKills++;
-                        snake.radius = (float) (20 * Math.sqrt((snake.countKills + 1) / 1.2));
-                        snake.score += 500;
-                        return true;
+                        System.out.println("segment: " + i);
+                        return snake;
                     }
                 }
             }
         }
-        return false;
+        return null;
     }
-
-    /*void breakdown(ArrayList<Donut> donuts, ArrayList<GameObject> gameObjects)
-    {
-        for (int i = 0; i < segments.size(); i += 6)
-        {
-            DonutBonus donut = new DonutBonus(world, segments.get(i).getX() + (float) (Math.random() * 8), segments.get(i).getY() - (float) (Math.random() * 8));
-            donuts.add(donut);
-            gameObjects.add(donut);
-        }
-    }*/
 
     float getHeadX()
     {
@@ -216,5 +204,15 @@ public class Snake extends GameObject implements Comparable<Snake>
     public ArrayList<Segment> getSegments()
     {
         return segments;
+    }
+
+    public void setRadius(float radius)
+    {
+        this.radius = radius;
+    }
+
+    public void setIgnored(boolean ignored)
+    {
+        this.ignored = ignored;
     }
 }
