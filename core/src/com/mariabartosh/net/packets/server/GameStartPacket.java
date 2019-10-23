@@ -52,7 +52,7 @@ public class GameStartPacket extends Packet
             {
                 JsonValue segmentData = segmentsData.get(j);
                 snakes[i].getSegmentsX()[j] = segmentData.getFloat("x");
-                snakes[i].getSegmentsX()[j] = segmentData.getFloat("y");
+                snakes[i].getSegmentsY()[j] = segmentData.getFloat("y");
             }
 
             playerId = jsonData.getInt("playerID");

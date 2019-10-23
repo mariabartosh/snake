@@ -50,7 +50,7 @@ public class Connection implements Runnable
                         System.out.println("Received " + message);
 
                         Packet packet = decoder.fromJson(Packet.class, message);
-                        packet.process(game);
+                        game.queue.add(packet);
                     }
                 }
                 catch (Exception e)

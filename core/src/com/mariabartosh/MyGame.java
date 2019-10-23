@@ -8,9 +8,11 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.mariabartosh.net.Connection;
+import com.mariabartosh.net.packets.Packet;
 import com.mariabartosh.net.packets.server.*;
 
 import java.util.ArrayList;
+import java.util.concurrent.ConcurrentLinkedQueue;
 
 public class MyGame extends Game
 {
@@ -22,11 +24,13 @@ public class MyGame extends Game
     String playerName;
     Connection connection;
     private ConnectionScreen connectionScreen;
+    public ConcurrentLinkedQueue<Packet> queue;
 
     @Override
     public void create()
     {
         Assets.create();
+        queue = new ConcurrentLinkedQueue<>();
         playerName = "";
         batch = new SpriteBatch();
         skin = new Skin(Gdx.files.internal("freezing-ui.json"));
@@ -54,6 +58,15 @@ public class MyGame extends Game
         {
             setScreen(connectionScreen);
         }
+
+        while (!queue.isEmpty())
+        {
+            Packet packet = queue.poll();
+            if (packet != null)
+            {
+                packet.process(this);
+            }
+        }
     }
 
     public void on(InvalidNamePacket packet)
@@ -79,17 +92,13 @@ public class MyGame extends Game
                         packet.getDonuts()[i].getId()));
             }
 
-            for (int i = 0; i < packet.getSnakes().length; i++)
+            for (SnakeData snakeData : packet.getSnakes())
             {
-                Snake snake = new Snake(world,
-                        packet.getSnakes()[i].getRadius(),
-                        packet.getSnakes()[i].getName(),
-                        packet.getSnakes()[i].getImage(),
-                        packet.getSnakes()[i].getId());
-                int size = packet.getSnakes()[i].getSegmentsX().length;
+                Snake snake = new Snake(world, snakeData.getRadius(), snakeData.getName(), snakeData.getImage(), snakeData.getId());
+                int size = snakeData.getSegmentsX().length;
                 for (int j = 0; j < size; j++)
                 {
-                    snake.addSegment(packet.getSnakes()[i].getSegmentsX()[j], packet.getSnakes()[i].getSegmentsY()[j]);
+                    snake.addSegment(snakeData.getSegmentsX()[j], snakeData.getSegmentsY()[j]);
                 }
                 world.add(snake);
             }
@@ -180,8 +189,15 @@ public class MyGame extends Game
 
     public void on(EatFailPacket packet)
     {
-        Donut donut = (Donut) world.gameObjects.get(packet.getDonutID());
-        donut.setIgnored(false);
+        if (world ==  null)
+        {
+            return;
+        }
+        Donut donut = world.getDonut(packet.getDonutID());
+        if (donut != null)
+        {
+            donut.setIgnored(false);
+        }
     }
 
     public void on(BotsMovementPacket packet)
@@ -193,6 +209,20 @@ public class MyGame extends Game
             {
                 snake.update(packet.getSnakes()[i].getHeadX(), packet.getSnakes()[i].getHeadY());
             }
+        }
+    }
+
+    public void on(DeathFromBordersPacket packet)
+    {
+        Snake snake = (Snake) world.gameObjects.get(packet.getId());
+        if (snake == world.getPlayer())
+        {
+            Assets.sounds.gameOver.play();
+            setScreen(new EndScreen(this));
+        }
+        else
+        {
+            world.remove(snake);
         }
     }
 }

@@ -26,7 +26,7 @@ public class AddSnakePacket extends Packet
         {
             JsonValue segmentData = segmentsData.get(j);
             snake.getSegmentsX()[j] = segmentData.getFloat("x");
-            snake.getSegmentsX()[j] = segmentData.getFloat("y");
+            snake.getSegmentsY()[j] = segmentData.getFloat("y");
         }
     }
 

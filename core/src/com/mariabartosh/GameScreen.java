@@ -37,15 +37,15 @@ class GameScreen extends ScreenAdapter
     @Override
     public void dispose()
     {
-        game.batch.dispose();
         game.world.dispose();
+        game.world = null;
     }
 
     @Override
     public void hide()
     {
         Gdx.input.setInputProcessor(null);
-        game.world.dispose();
+        dispose();
     }
 }
 

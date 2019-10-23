@@ -36,16 +36,6 @@ public class World
         donuts = new ArrayList<>();
         snakes = new ArrayList<>();
         lastSending = System.currentTimeMillis();
-
-     /*   names = new String[]{"Corneliu", "Nicu", "Luca-Andrei", "Iulian", "Arnfinn", "Sebastian", "Johannes", "Ragnvald", "Judith",
-                "Siv", "Else", "Margrethe", "Aneta", "Emilie", "Antonie", "Jain"};
-
-
-        player = new Snake(this, 50, 20, names);
-        snakes.add(player);
-        gameObjects.add(player);
-
-        addSnakeBots();*/
     }
 
     void update(float deltaTime)
@@ -178,11 +168,6 @@ public class World
         cameraY = player.getHeadY() - (float) Gdx.graphics.getHeight() / 2;
     }
 
-    void updateDonut(float x, float y, int imageIndex)
-    {
-
-    }
-
     public void add(Donut donut)
     {
         donuts.add(donut);
@@ -199,5 +184,31 @@ public class World
     {
         gameObjects.remove(snake.getId());
         snakes.remove(snake);
+    }
+
+    public Snake getSnake(int id)
+    {
+        GameObject object = gameObjects.get(id);
+        if (object instanceof Snake)
+        {
+            return (Snake) object;
+        }
+        else
+        {
+            return null;
+        }
+    }
+
+    public Donut getDonut(int id)
+    {
+        GameObject object = gameObjects.get(id);
+        if (object instanceof Donut)
+        {
+            return (Donut) object;
+        }
+        else
+        {
+            return null;
+        }
     }
 }
