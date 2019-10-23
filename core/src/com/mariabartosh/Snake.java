@@ -16,8 +16,8 @@ public class Snake extends GameObject implements Comparable<Snake>
     private float segmentDistance;
     private TextureAtlas.AtlasRegion segmentTexture;
     private TextureAtlas.AtlasRegion eyes;
-    Vector2 vector;
-    World world;
+    private Vector2 vector;
+    private World world;
     private String name;
     private int score;
     private boolean ignored;
@@ -47,9 +47,8 @@ public class Snake extends GameObject implements Comparable<Snake>
 
     public void update(float x, float y)
     {
-        segments.get(0).setX(x);
-        segments.get(0).setY(y);
-        updateSegments();
+        vector.x = x - segments.get(0).getX();
+        vector.y = y - segments.get(0).getY();
     }
 
     private void updateSegments()
@@ -87,13 +86,21 @@ public class Snake extends GameObject implements Comparable<Snake>
         return null;
     }
 
-    protected void move(float deltaTime)
+    private void move(float deltaTime)
     {
-        float x = Gdx.input.getX() + world.getCameraX();
-        float y = Gdx.graphics.getHeight() - Gdx.input.getY() + world.getCameraY();
+        if (this == world.getPlayer())
+        {
+            float x = Gdx.input.getX() + world.getCameraX();
+            float y = Gdx.graphics.getHeight() - Gdx.input.getY() + world.getCameraY();
 
-        Vector2 newVector = new Vector2(x - getHeadX(), y - getHeadY());
-        moveInDirection(deltaTime, newVector);
+            Vector2 newVector = new Vector2(x - getHeadX(), y - getHeadY());
+            moveInDirection(deltaTime, newVector);
+        }
+        else
+        {
+            moveInDirection(deltaTime, vector);
+        }
+
     }
 
     void moveInDirection(float deltaTime, Vector2 newVector)

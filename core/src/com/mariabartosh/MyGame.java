@@ -129,8 +129,13 @@ public class MyGame extends Game
 
     public void on(SnakeMovementPacket packet)
     {
-        Snake snake = (Snake) world.gameObjects.get(packet.getId());
-        if (snake != world.getPlayer())
+        if (world == null)
+        {
+            return;
+        }
+
+        Snake snake = world.getSnake(packet.getId());
+        if (snake != null && snake != world.getPlayer())
         {
             snake.update(packet.getX(), packet.getY());
         }

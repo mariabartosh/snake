@@ -41,12 +41,10 @@ public class World
     void update(float deltaTime)
     {
         updateCameraPosition();
-        /*for (GameObject gameObject : gameObjects.values())
+        for (Snake snake : snakes)
         {
-            gameObject.update(deltaTime);
-        }*/
-
-        player.update(deltaTime);
+            snake.update(deltaTime);
+        }
 
         if (System.currentTimeMillis() - lastSending > 100)
         {
