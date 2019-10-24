@@ -2,6 +2,7 @@ package com.mariabartosh;
 
 import com.badlogic.gdx.*;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
@@ -13,6 +14,7 @@ import com.mariabartosh.net.packets.client.StartPacket;
 public class TitleScreen extends ScreenAdapter
 {
     private MyGame game;
+    private Label invalidName;
 
     TitleScreen(MyGame game)
     {
@@ -26,12 +28,21 @@ public class TitleScreen extends ScreenAdapter
 
         final Label l = new Label("Enter your name", game.skin);
         l.setPosition((float) Gdx.graphics.getWidth() / 2 - l.getWidth() / 2, (float) Gdx.graphics.getHeight() * 5 / 7 - l.getHeight() / 2);
+        l.setColor(Color.BLACK);
         game.ui.addActor(l);
 
         final Label nameInputInfo = new Label("(3 to 15 letters and numbers)", game.skin);
         nameInputInfo.setFontScale(0.65f);
         nameInputInfo.setPosition((float) Gdx.graphics.getWidth() / 2 - nameInputInfo.getWidth() * 0.65f / 2, (float) Gdx.graphics.getHeight() * 5 / 7 - l.getHeight());
+        nameInputInfo.setColor(Color.BLACK);
         game.ui.addActor(nameInputInfo);
+
+        invalidName = new Label("invalid name", game.skin);
+        invalidName.setFontScale(0.65f);
+        invalidName.setPosition((float) Gdx.graphics.getWidth() / 2 - invalidName.getWidth() * 0.65f / 2, (float) Gdx.graphics.getHeight() * 5 / 7 - l.getHeight() * 1.5f);
+        invalidName.setColor(Color.RED);
+        invalidName.setVisible(false);
+        game.ui.addActor(invalidName);
 
         final TextField nameInput = new TextField(game.playerName, game.skin);
         nameInput.setWidth(nameInput.getWidth() * 2);
@@ -94,5 +105,10 @@ public class TitleScreen extends ScreenAdapter
     {
         Gdx.input.setInputProcessor(null);
         game.ui.clear();
+    }
+
+    public void setInvalidName(boolean visible)
+    {
+        this.invalidName.setVisible(visible);
     }
 }

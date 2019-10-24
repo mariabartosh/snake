@@ -67,7 +67,7 @@ public class ConnectionScreen extends ScreenAdapter
         game.ui.draw();
         if (game.connection.isConnected())
         {
-            game.setScreen(new TitleScreen(game));
+            game.setScreen(game.titleScreen);
         }
     }
 

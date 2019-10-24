@@ -48,7 +48,7 @@ public class World
 
         if (System.currentTimeMillis() - lastSending > 100)
         {
-            MovementPacket packet = new MovementPacket(player.getId(), player.getHeadX(), player.getHeadY());
+            MovementPacket packet = new MovementPacket(player.getHeadX(), player.getHeadY());
             game.connection.send(packet);
             lastSending = System.currentTimeMillis();
         }
@@ -56,7 +56,7 @@ public class World
         Donut donut = player.eat(donuts);
         if (donut != null)
         {
-            MovementPacket packet = new MovementPacket(player.getId(), player.getHeadX(), player.getHeadY());
+            MovementPacket packet = new MovementPacket(player.getHeadX(), player.getHeadY());
             game.connection.send(packet);
             lastSending = System.currentTimeMillis();
 
@@ -68,7 +68,7 @@ public class World
         Snake snake = player.checkCollision(snakes);
         if (snake != null)
         {
-            MovementPacket packet = new MovementPacket(player.getId(), player.getHeadX(), player.getHeadY());
+            MovementPacket packet = new MovementPacket(player.getHeadX(), player.getHeadY());
             game.connection.send(packet);
             lastSending = System.currentTimeMillis();
 

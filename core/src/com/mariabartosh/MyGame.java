@@ -24,6 +24,7 @@ public class MyGame extends Game
     String playerName;
     Connection connection;
     private ConnectionScreen connectionScreen;
+    TitleScreen titleScreen;
     public ConcurrentLinkedQueue<Packet> queue;
 
     @Override
@@ -36,6 +37,7 @@ public class MyGame extends Game
         skin = new Skin(Gdx.files.internal("freezing-ui.json"));
         ui = new Stage(new ScreenViewport(), batch);
         connectionScreen = new ConnectionScreen(this);
+        titleScreen = new TitleScreen(this);
         setScreen(connectionScreen);
         connection = new Connection(this);
         Thread thread = new Thread(connection);
@@ -71,12 +73,20 @@ public class MyGame extends Game
 
     public void on(InvalidNamePacket packet)
     {
-        //TODO
+        Screen currentScreen = getScreen();
+        if (currentScreen instanceof TitleScreen)
+        {
+            titleScreen.setInvalidName(true);
+        }
         Gdx.input.setInputProcessor(ui);
     }
 
     public void on(GameStartPacket packet)
     {
+        if (world == null)
+        {
+            return;
+        }
         Screen currentScreen = getScreen();
         if (currentScreen instanceof TitleScreen)
         {
@@ -103,7 +113,7 @@ public class MyGame extends Game
                 world.add(snake);
             }
 
-            world.setPlayer((Snake) world.gameObjects.get(packet.getPlayerId()));
+            world.setPlayer(world.getSnake(packet.getPlayerId()));
             setScreen(new GameScreen(this));
             currentScreen.dispose();
         }
@@ -115,8 +125,8 @@ public class MyGame extends Game
         {
             return;
         }
-        Snake snake = (Snake) world.gameObjects.get(packet.getSnakeId());
-        Donut donut = (Donut) world.gameObjects.get(packet.getDonutId());
+        Snake snake = world.getSnake(packet.getSnakeId());
+        Donut donut = world.getDonut(packet.getDonutId());
         donut.relocate(packet.getDonutX(), packet.getDonutY());
         if (snake == world.getPlayer())
         {
@@ -143,6 +153,10 @@ public class MyGame extends Game
 
     public void on(AddSnakePacket packet)
     {
+        if (world == null)
+        {
+            return;
+        }
         if (world.getPlayer().getId() != packet.getSnake().getId())
         {
             Snake snake = new Snake(world,
@@ -161,6 +175,10 @@ public class MyGame extends Game
 
     public void on(SnakeDeathPacket packet)
     {
+        if (world == null)
+        {
+            return;
+        }
         for (int i = 0; i < packet.getDonuts().length; i++)
         {
             world.add(new DonutBonus(world,
@@ -169,11 +187,11 @@ public class MyGame extends Game
                     packet.getDonuts()[i].getImage(),
                     packet.getDonuts()[i].getId()));
         }
-        Snake winner = (Snake) world.gameObjects.get(packet.getSnakeWinnerId());
+        Snake winner = world.getSnake(packet.getSnakeWinnerId());
         winner.setScore(packet.getWinnerScore());
         winner.setRadius(packet.getWinnerRadius());
 
-        Snake dead = (Snake) world.gameObjects.get(packet.getDeadSnakeId());
+        Snake dead = world.getSnake(packet.getDeadSnakeId());
         if (dead == world.getPlayer())
         {
             Assets.sounds.gameOver.play();
@@ -188,7 +206,11 @@ public class MyGame extends Game
 
     public void on(CollisionFailPacket packet)
     {
-        Snake snake = (Snake) world.gameObjects.get(packet.getSnakeID());
+        if (world == null)
+        {
+            return;
+        }
+        Snake snake = world.getSnake(packet.getSnakeID());
         snake.setIgnored(false);
     }
 
@@ -207,9 +229,13 @@ public class MyGame extends Game
 
     public void on(BotsMovementPacket packet)
     {
+        if (world == null)
+        {
+            return;
+        }
         for (int i = 0; i < packet.getSnakes().length; i++)
         {
-            Snake snake = (Snake) world.gameObjects.get(packet.getSnakes()[i].getId());
+            Snake snake = world.getSnake(packet.getSnakes()[i].getId());
             if (snake != world.getPlayer())
             {
                 snake.update(packet.getSnakes()[i].getHeadX(), packet.getSnakes()[i].getHeadY());
@@ -219,7 +245,11 @@ public class MyGame extends Game
 
     public void on(DeathFromBordersPacket packet)
     {
-        Snake snake = (Snake) world.gameObjects.get(packet.getId());
+        if (world == null)
+        {
+            return;
+        }
+        Snake snake = world.getSnake(packet.getId());
         if (snake == world.getPlayer())
         {
             Assets.sounds.gameOver.play();
