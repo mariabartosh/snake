@@ -83,10 +83,6 @@ public class MyGame extends Game
 
     public void on(GameStartPacket packet)
     {
-        if (world == null)
-        {
-            return;
-        }
         Screen currentScreen = getScreen();
         if (currentScreen instanceof TitleScreen)
         {
@@ -132,8 +128,11 @@ public class MyGame extends Game
         {
             Assets.sounds.eat.play();
         }
-        ArrayList<Segment> segments = snake.getSegments();
-        segments.add(new Segment(segments.get(segments.size() - 1).getX(), segments.get(segments.size() - 1).getY()));
+        if (packet.isElongation())
+        {
+            ArrayList<Segment> segments = snake.getSegments();
+            snake.getSegments().add(new Segment(segments.get(segments.size() - 1).getX(), segments.get(segments.size() - 1).getY()));
+        }
         snake.setScore(packet.getSnakeScore());
     }
 

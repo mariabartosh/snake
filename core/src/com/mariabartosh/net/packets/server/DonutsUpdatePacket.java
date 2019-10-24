@@ -12,6 +12,7 @@ public class DonutsUpdatePacket extends Packet
     private float donutY;
     private int snakeId;
     private int snakeScore;
+    private boolean elongation;
 
     @Override
     public void read(Json json, JsonValue jsonData)
@@ -24,6 +25,7 @@ public class DonutsUpdatePacket extends Packet
         JsonValue snakeData = jsonData.get("snake");
         snakeId = snakeData.getInt("id");
         snakeScore = snakeData.getInt("score");
+        elongation = snakeData.getBoolean("elongation");
     }
 
     @Override
@@ -55,5 +57,10 @@ public class DonutsUpdatePacket extends Packet
     public int getSnakeScore()
     {
         return snakeScore;
+    }
+
+    public boolean isElongation()
+    {
+        return elongation;
     }
 }
