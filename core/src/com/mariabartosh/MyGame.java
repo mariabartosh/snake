@@ -242,7 +242,7 @@ public class MyGame extends Game
         }
     }
 
-    public void on(DeathFromBordersPacket packet)
+    public void on(RemoveSnakePacket packet)
     {
         if (world == null)
         {

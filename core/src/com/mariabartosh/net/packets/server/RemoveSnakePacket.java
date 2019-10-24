@@ -7,7 +7,7 @@ import com.mariabartosh.net.packets.Packet;
 
 import java.util.ArrayList;
 
-public class DeathFromBordersPacket extends Packet
+public class RemoveSnakePacket extends Packet
 {
     private int id;
 
