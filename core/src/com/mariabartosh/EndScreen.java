@@ -2,6 +2,7 @@ package com.mariabartosh;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
@@ -23,6 +24,7 @@ public class EndScreen extends ScreenAdapter
     {
         Gdx.input.setInputProcessor(game.ui);
         Label l = new Label("Game over!", game.skin);
+        l.setColor(Color.BLACK);
         l.setPosition((float) Gdx.graphics.getWidth() / 2 - l.getWidth() / 2, (float) Gdx.graphics.getHeight() * 5 / 7 - l.getHeight() / 2);
         game.ui.addActor(l);
         TextButton restart = new TextButton("Restart", game.skin);
@@ -35,7 +37,7 @@ public class EndScreen extends ScreenAdapter
 
         restart.addListener(new ClickListener(){
             public void clicked(InputEvent event, float x, float y){
-                game.setScreen(new TitleScreen(game));
+                game.setScreen(game.titleScreen);
                 dispose();
             }
         });
