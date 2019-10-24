@@ -182,7 +182,7 @@ public class Snake extends GameObject implements Comparable<Snake>
         return name;
     }
 
-    float getScore()
+    int getScore()
     {
         return score;
     }
