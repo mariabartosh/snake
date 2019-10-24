@@ -37,7 +37,7 @@ public class TitleScreen extends ScreenAdapter
         nameInputInfo.setColor(Color.BLACK);
         game.ui.addActor(nameInputInfo);
 
-        invalidName = new Label("invalid name", game.skin);
+        invalidName = new Label("name is taken", game.skin);
         invalidName.setFontScale(0.65f);
         invalidName.setPosition((float) Gdx.graphics.getWidth() / 2 - invalidName.getWidth() * 0.65f / 2, (float) Gdx.graphics.getHeight() * 5 / 7 - l.getHeight() * 1.5f);
         invalidName.setColor(Color.RED);
