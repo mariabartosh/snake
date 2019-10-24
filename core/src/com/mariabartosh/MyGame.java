@@ -123,6 +123,11 @@ public class MyGame extends Game
         }
         Snake snake = world.getSnake(packet.getSnakeId());
         Donut donut = world.getDonut(packet.getDonutId());
+        if (snake == null || donut == null)
+        {
+            return;
+        }
+
         donut.relocate(packet.getDonutX(), packet.getDonutY());
         if (snake == world.getPlayer())
         {
@@ -258,5 +263,16 @@ public class MyGame extends Game
         {
             world.remove(snake);
         }
+    }
+
+    @Override
+    public synchronized void setScreen(Screen screen)
+    {
+        super.setScreen(screen);
+    }
+
+    public void setConnectionScreen()
+    {
+        setScreen(connectionScreen);
     }
 }

@@ -62,6 +62,7 @@ public class Connection implements Runnable
                     writer = null;
                     reader = null;
                 }
+                game.setConnectionScreen();
             }
             else
             {
