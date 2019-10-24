@@ -10,6 +10,7 @@ public abstract class Packet implements Json.Serializable
     public void write(Json json)
     {
         json.writeType(getClass());
+        json.writeValue("time", System.currentTimeMillis());
     }
 
     @Override
