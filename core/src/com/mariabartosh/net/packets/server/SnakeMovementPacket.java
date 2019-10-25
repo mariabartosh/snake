@@ -3,7 +3,6 @@ package com.mariabartosh.net.packets.server;
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.JsonValue;
 import com.mariabartosh.MyGame;
-import com.mariabartosh.net.Connection;
 import com.mariabartosh.net.packets.Packet;
 
 public class SnakeMovementPacket extends Packet

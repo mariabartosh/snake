@@ -1,7 +1,6 @@
 package com.mariabartosh;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
@@ -10,7 +9,7 @@ import java.util.ArrayList;
 
 public class Snake extends GameObject implements Comparable<Snake>
 {
-    static final float MAX_ANGLE_DELTA = 3;
+    private static final float MAX_ANGLE_DELTA = 3;
     private ArrayList<Segment> segments = new ArrayList<>();
     private float radius;
     private float segmentDistance;
@@ -22,7 +21,7 @@ public class Snake extends GameObject implements Comparable<Snake>
     private int score;
     private boolean ignored;
 
-    public Snake(World world, float radius, String name, int imageIndex, int id)
+    Snake(World world, float radius, String name, int imageIndex, int id)
     {
         super(id);
         this.name = name;
@@ -34,7 +33,7 @@ public class Snake extends GameObject implements Comparable<Snake>
         vector = new Vector2(0, 1);
     }
 
-    float getRadius()
+    private float getRadius()
     {
         return radius;
     }
@@ -45,7 +44,7 @@ public class Snake extends GameObject implements Comparable<Snake>
         updateSegments();
     }
 
-    public void update(float x, float y)
+    void update(float x, float y)
     {
         vector.x = x - segments.get(0).getX();
         vector.y = y - segments.get(0).getY();
@@ -103,7 +102,7 @@ public class Snake extends GameObject implements Comparable<Snake>
 
     }
 
-    void moveInDirection(float deltaTime, Vector2 newVector)
+    private void moveInDirection(float deltaTime, Vector2 newVector)
     {
         float delta = vector.angle(newVector);
 
@@ -190,35 +189,30 @@ public class Snake extends GameObject implements Comparable<Snake>
     @Override
     public int compareTo(Snake snake)
     {
-        return (int) (snake.getScore() - score);
+        return (snake.getScore() - score);
     }
 
-    void setName(String name)
-    {
-        this.name = name;
-    }
-
-    public void addSegment(float x, float y)
+    void addSegment(float x, float y)
     {
         segments.add(new Segment(x, y));
     }
 
-    public void setScore(int score)
+    void setScore(int score)
     {
         this.score = score;
     }
 
-    public ArrayList<Segment> getSegments()
+    ArrayList<Segment> getSegments()
     {
         return segments;
     }
 
-    public void setRadius(float radius)
+    void setRadius(float radius)
     {
         this.radius = radius;
     }
 
-    public void setIgnored(boolean ignored)
+    void setIgnored(boolean ignored)
     {
         this.ignored = ignored;
     }

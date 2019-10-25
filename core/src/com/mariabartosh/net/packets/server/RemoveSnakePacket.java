@@ -5,8 +5,6 @@ import com.badlogic.gdx.utils.JsonValue;
 import com.mariabartosh.MyGame;
 import com.mariabartosh.net.packets.Packet;
 
-import java.util.ArrayList;
-
 public class RemoveSnakePacket extends Packet
 {
     private int id;

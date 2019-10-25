@@ -11,12 +11,12 @@ public class SnakeData
     private float headX;
     private float headY;
 
-    public void setSegmentsX(float[] segmentsX)
+    void setSegmentsX(float[] segmentsX)
     {
         this.segmentsX = segmentsX;
     }
 
-    public void setSegmentsY(float[] segmentsY)
+    void setSegmentsY(float[] segmentsY)
     {
         this.segmentsY = segmentsY;
     }
@@ -26,12 +26,12 @@ public class SnakeData
         this.id = id;
     }
 
-    public void setImage(int image)
+    void setImage(int image)
     {
         this.image = image;
     }
 
-    public void setRadius(float radius)
+    void setRadius(float radius)
     {
         this.radius = radius;
     }
@@ -66,7 +66,7 @@ public class SnakeData
         return name;
     }
 
-    public void setName(String name)
+    void setName(String name)
     {
         this.name = name;
     }
@@ -81,12 +81,12 @@ public class SnakeData
         return headY;
     }
 
-    public void setHeadX(float headX)
+    void setHeadX(float headX)
     {
         this.headX = headX;
     }
 
-    public void setHeadY(float headY)
+    void setHeadY(float headY)
     {
         this.headY = headY;
     }

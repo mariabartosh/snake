@@ -5,17 +5,16 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.mariabartosh.net.packets.client.CollisionPacket;
 import com.mariabartosh.net.packets.client.EatDonutPacket;
 import com.mariabartosh.net.packets.client.MovementPacket;
-
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 
-public class World
+class World
 {
-    private static final float MAX_SNAKE_COUNT = 10;
     private float width;
     private float height;
-    float cameraX;
-    float cameraY;
+    private float cameraX;
+    private float cameraY;
     private Snake player;
     ArrayList<Donut> donuts;
     HashMap<Integer, GameObject> gameObjects;
@@ -23,7 +22,7 @@ public class World
     private MyGame game;
     private long lastSending;
 
-    public World(float w, float h, MyGame game)
+    World(float w, float h, MyGame game)
     {
         width = w;
         height = h;
@@ -52,7 +51,7 @@ public class World
             game.connection.send(packet);
             lastSending = System.currentTimeMillis();
         }
-      //  ArrayList<Snake> removeSnakes = new ArrayList<>();
+
         Donut donut = player.eat(donuts);
         if (donut != null)
         {
@@ -76,28 +75,6 @@ public class World
             game.connection.send(collisionPacket);
             snake.setIgnored(true);
         }
-         /*   if (snake.checkCollision(snakes))
-            {
-
-                removeSnakes.add(snake);
-            }
-            if (snake.getHeadX()  - snake.getRadius() <= 0 || snake.getHeadX() + snake.getRadius() >= width || snake.getHeadY() - snake.getRadius() <= 0 || snake.getHeadY() + snake.getRadius() >= height)
-            {
-                removeSnakes.add(snake);
-            }
-        }
-
-        for (Snake snake : removeSnakes)
-        {
-            snake.breakdown(donuts, gameObjects);
-            snakes.remove(snake);
-            gameObjects.remove(snake);
-            if (snake == player)
-            {
-                Assets.sounds.gameOver.play();
-            }
-        }
-        addSnakeBots();*/
     }
 
     void draw(SpriteBatch batch)
@@ -116,38 +93,28 @@ public class World
         batch.draw(Assets.images.border, - cameraX, -cameraHeight - cameraY, width, cameraHeight);
         batch.draw(Assets.images.border, - cameraX, height - cameraY, width, cameraHeight);
 
-       // Collections.sort(snakes);
-        for (Snake snake : snakes)
+        Collections.sort(snakes);
+        for (int i = 0; i < 10; i++)
         {
             Assets.fonts.game.draw(batch,
-                    snake.getName() + "   " + (int) snake.getScore(),
+                    snakes.get(i).getName() + "   " + snakes.get(i).getScore(),
                     Gdx.graphics.getWidth() - 170,
-                    Gdx.graphics.getHeight() - (snakes.indexOf(snake) + 1) * 20);
+                    Gdx.graphics.getHeight() - (i + 1) * 20);
         }
     }
 
-    public Snake getPlayer()
+    Snake getPlayer()
     {
         return player;
     }
 
-    public void setPlayer(Snake player)
+    void setPlayer(Snake player)
     {
         this.player = player;
     }
 
     void dispose()
     {
-    }
-
-    float getWidth()
-    {
-        return width;
-    }
-
-    float getHeight()
-    {
-        return height;
     }
 
     float getCameraX()
@@ -166,25 +133,25 @@ public class World
         cameraY = player.getHeadY() - (float) Gdx.graphics.getHeight() / 2;
     }
 
-    public void add(Donut donut)
+    void add(Donut donut)
     {
         donuts.add(donut);
         gameObjects.put(donut.getId(), donut);
     }
 
-    public void add(Snake snake)
+    void add(Snake snake)
     {
         snakes.add(snake);
         gameObjects.put(snake.getId(), snake);
     }
 
-    public void remove(Snake snake)
+    void remove(Snake snake)
     {
         gameObjects.remove(snake.getId());
         snakes.remove(snake);
     }
 
-    public Snake getSnake(int id)
+    Snake getSnake(int id)
     {
         GameObject object = gameObjects.get(id);
         if (object instanceof Snake)
@@ -197,7 +164,7 @@ public class World
         }
     }
 
-    public Donut getDonut(int id)
+    Donut getDonut(int id)
     {
         GameObject object = gameObjects.get(id);
         if (object instanceof Donut)

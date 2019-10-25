@@ -12,7 +12,7 @@ public class StartPacket extends Packet
         this.name = name;
     }
 
-    public String getName()
+    private String getName()
     {
         return name;
     }

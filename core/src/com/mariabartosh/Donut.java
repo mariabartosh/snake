@@ -1,6 +1,5 @@
 package com.mariabartosh;
 
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 
@@ -10,10 +9,10 @@ public class Donut extends GameObject
     private float y;
     private float radius = 30;
     private TextureAtlas.AtlasRegion texture;
-    World world;
+    private World world;
     private boolean ignored;
 
-    public Donut(World world, float x, float y, int imageIndex, int id)
+    Donut(World world, float x, float y, int imageIndex, int id)
     {
         super(id);
         this.world = world;
@@ -57,25 +56,25 @@ public class Donut extends GameObject
         batch.draw(texture, x - radius - world.getCameraX(), y - radius - world.getCameraY(), radius * 2, radius * 2);
     }
 
-    public void relocate(float x, float y)
+    void relocate(float x, float y)
     {
         setX(x);
         setY(y);
         ignored = false;
     }
 
-    public void remove()
+    void remove()
     {
         world.gameObjects.remove(getId());
         world.donuts.remove(this);
     }
 
-    public boolean isIgnored()
+    boolean isIgnored()
     {
         return ignored;
     }
 
-    public void setIgnored(boolean ignored)
+    void setIgnored(boolean ignored)
     {
         this.ignored = ignored;
     }

@@ -32,7 +32,7 @@ public class DonutData
         this.id = id;
     }
 
-    public void setImage(int image)
+    void setImage(int image)
     {
         this.image = image;
     }

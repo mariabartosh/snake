@@ -107,7 +107,7 @@ public class TitleScreen extends ScreenAdapter
         game.ui.clear();
     }
 
-    public void setInvalidName(boolean visible)
+    void setInvalidName(boolean visible)
     {
         this.invalidName.setVisible(visible);
     }
