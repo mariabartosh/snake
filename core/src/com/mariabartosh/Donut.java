@@ -64,6 +64,12 @@ public class Donut extends GameObject
         ignored = false;
     }
 
+    public void remove()
+    {
+        world.gameObjects.remove(getId());
+        world.donuts.remove(this);
+    }
+
     public boolean isIgnored()
     {
         return ignored;

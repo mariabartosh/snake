@@ -13,6 +13,7 @@ public class DonutsUpdatePacket extends Packet
     private int snakeId;
     private int snakeScore;
     private boolean elongation;
+    private boolean removed;
 
     @Override
     public void read(Json json, JsonValue jsonData)
@@ -21,6 +22,7 @@ public class DonutsUpdatePacket extends Packet
         donutId = donutData.getInt("id");
         donutX = donutData.getFloat("x");
         donutY = donutData.getFloat("y");
+        removed = donutData.getBoolean("removed");
 
         JsonValue snakeData = jsonData.get("snake");
         snakeId = snakeData.getInt("id");
@@ -62,5 +64,10 @@ public class DonutsUpdatePacket extends Packet
     public boolean isElongation()
     {
         return elongation;
+    }
+
+    public boolean isRemoved()
+    {
+        return removed;
     }
 }

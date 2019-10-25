@@ -128,7 +128,15 @@ public class MyGame extends Game
             return;
         }
 
-        donut.relocate(packet.getDonutX(), packet.getDonutY());
+        if (packet.isRemoved())
+        {
+            donut.remove();
+        }
+        else
+        {
+            donut.relocate(packet.getDonutX(), packet.getDonutY());
+        }
+
         if (snake == world.getPlayer())
         {
             Assets.sounds.eat.play();
@@ -185,7 +193,7 @@ public class MyGame extends Game
         }
         for (int i = 0; i < packet.getDonuts().length; i++)
         {
-            world.add(new DonutBonus(world,
+            world.add(new Donut(world,
                     packet.getDonuts()[i].getX(),
                     packet.getDonuts()[i].getY(),
                     packet.getDonuts()[i].getImage(),
