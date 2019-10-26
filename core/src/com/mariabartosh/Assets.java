@@ -1,6 +1,7 @@
 package com.mariabartosh;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -18,11 +19,15 @@ class Assets
         Sound collision;
         Sound eat;
         Sound gameOver;
+        Music music;
+
         private void create()
         {
             collision = Gdx.audio.newSound(Gdx.files.internal("collision.mp3"));
             eat = Gdx.audio.newSound(Gdx.files.internal("eat.mp3"));
             gameOver = Gdx.audio.newSound(Gdx.files.internal("gameover.mp3"));
+            music = Gdx.audio.newMusic(Gdx.files.internal("music.mp3"));
+            music.setVolume(0.05f);
         }
     }
 

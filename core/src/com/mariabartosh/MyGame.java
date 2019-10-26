@@ -42,6 +42,8 @@ public class MyGame extends Game
         connection = new Connection(this);
         Thread thread = new Thread(connection);
         thread.start();
+        Assets.sounds.music.setLooping(true);
+        Assets.sounds.music.play();
     }
 
     @Override
@@ -139,7 +141,7 @@ public class MyGame extends Game
 
         if (snake == world.getPlayer())
         {
-            Assets.sounds.eat.play();
+            Assets.sounds.eat.play(0.4f);
         }
         if (packet.isElongation())
         {
@@ -206,12 +208,12 @@ public class MyGame extends Game
         Snake dead = world.getSnake(packet.getDeadSnakeId());
         if (dead == world.getPlayer())
         {
-            Assets.sounds.gameOver.play();
+            Assets.sounds.gameOver.play(0.6f);
             setScreen(new EndScreen(this));
         }
         else
         {
-            Assets.sounds.collision.play();
+            Assets.sounds.collision.play(0.2f);
             world.remove(dead);
         }
     }
@@ -264,7 +266,7 @@ public class MyGame extends Game
         Snake snake = world.getSnake(packet.getId());
         if (snake == world.getPlayer())
         {
-            Assets.sounds.gameOver.play();
+            Assets.sounds.gameOver.play(0.6f);
             setScreen(new EndScreen(this));
         }
         else
