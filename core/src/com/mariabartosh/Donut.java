@@ -53,7 +53,7 @@ public class Donut extends GameObject
 
     public void draw(SpriteBatch batch)
     {
-        batch.draw(texture, x - radius - world.getCameraX(), y - radius - world.getCameraY(), radius * 2, radius * 2);
+        batch.draw(texture, x - radius, y - radius, radius * 2, radius * 2);
     }
 
     void relocate(float x, float y)

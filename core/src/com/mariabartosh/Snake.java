@@ -130,20 +130,20 @@ public class Snake extends GameObject implements Comparable<Snake>
         for (int i = segments.size() - 1; i >= 0; i--)
         {
             batch.draw(segmentTexture,
-                    segments.get(i).getX() - radius - world.getCameraX(),
-                    segments.get(i).getY() - radius - world.getCameraY(),
+                    segments.get(i).getX() - radius,
+                    segments.get(i).getY() - radius,
                     radius * 2,
                     radius * 2);
         }
         float eyesRadius = radius / 2.5f;
-        float leftEyeX = getHeadX() + radius / 1.5f * (float) (Math.cos(vector.angleRad() + Math.PI / 4)) - eyesRadius - world.getCameraX();
-        float rightEyeX = getHeadX() + radius / 1.5f * (float) (Math.cos(vector.angleRad() - Math.PI / 4)) - eyesRadius - world.getCameraX();
-        float leftEyeY = getHeadY() + radius / 1.5f * (float) (Math.sin(vector.angleRad() + Math.PI / 4)) - eyesRadius - world.getCameraY();
-        float rightEyeY = getHeadY() + radius / 1.5f * (float) (Math.sin(vector.angleRad() - Math.PI / 4)) - eyesRadius - world.getCameraY();
+        float leftEyeX = getHeadX() + radius / 1.5f * (float) (Math.cos(vector.angleRad() + Math.PI / 4)) - eyesRadius;
+        float rightEyeX = getHeadX() + radius / 1.5f * (float) (Math.cos(vector.angleRad() - Math.PI / 4)) - eyesRadius;
+        float leftEyeY = getHeadY() + radius / 1.5f * (float) (Math.sin(vector.angleRad() + Math.PI / 4)) - eyesRadius;
+        float rightEyeY = getHeadY() + radius / 1.5f * (float) (Math.sin(vector.angleRad() - Math.PI / 4)) - eyesRadius;
         batch.draw(eyes, leftEyeX, leftEyeY, 2 * eyesRadius, 2 * eyesRadius);
         batch.draw(eyes, rightEyeX, rightEyeY, 2 * eyesRadius, 2 * eyesRadius);
 
-        Assets.fonts.game.draw(batch, name, getHeadX() + radius * 2 - world.getCameraX(), getHeadY() + radius * 2 - world.getCameraY());
+        Assets.fonts.game.draw(batch, name, getHeadX() + radius * 2, getHeadY() + radius * 2);
     }
 
     Snake checkCollision(ArrayList<Snake> snakes)

@@ -2,6 +2,7 @@ package com.mariabartosh;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Matrix4;
 import com.mariabartosh.net.packets.client.CollisionPacket;
 import com.mariabartosh.net.packets.client.EatDonutPacket;
 import com.mariabartosh.net.packets.client.MovementPacket;
@@ -81,6 +82,10 @@ class World
     {
         batch.draw(Assets.images.background, 0, 0, (int) cameraX, (int) -cameraY, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 
+        final Matrix4 transformMatrix = new Matrix4();
+        transformMatrix.translate(-cameraX, -cameraY, 0);
+        batch.setTransformMatrix(transformMatrix);
+
         for (GameObject gameObject : gameObjects.values())
         {
             gameObject.draw(batch);
@@ -88,10 +93,13 @@ class World
 
         float cameraWidth = Gdx.graphics.getWidth();
         float cameraHeight = Gdx.graphics.getHeight();
-        batch.draw(Assets.images.border, -cameraWidth - cameraX, -cameraHeight - cameraY, cameraWidth,height + 2 * cameraHeight);
-        batch.draw(Assets.images.border, width - cameraX, -cameraHeight - cameraY, cameraWidth,height + 2 * cameraHeight);
-        batch.draw(Assets.images.border, - cameraX, -cameraHeight - cameraY, width, cameraHeight);
-        batch.draw(Assets.images.border, - cameraX, height - cameraY, width, cameraHeight);
+        batch.draw(Assets.images.border, -cameraWidth, -cameraHeight, cameraWidth,height + 2 * cameraHeight);
+        batch.draw(Assets.images.border, width, -cameraHeight, cameraWidth,height + 2 * cameraHeight);
+        batch.draw(Assets.images.border, 0, -cameraHeight, width, cameraHeight);
+        batch.draw(Assets.images.border, 0, height, width, cameraHeight);
+
+        transformMatrix.idt();
+        batch.setTransformMatrix(transformMatrix);
 
         Collections.sort(snakes);
         for (int i = 0; i < 10; i++)
