@@ -8,6 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
+import com.badlogic.gdx.scenes.scene2d.ui.VerticalGroup;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.mariabartosh.net.packets.client.StartPacket;
 
@@ -15,6 +16,12 @@ public class TitleScreen extends ScreenAdapter
 {
     private MyGame game;
     private Label invalidName;
+    private Label nameInputTitle;
+    private Label nameInputInfo;
+    private TextField nameInput;
+    private TextButton playButton;
+    private TextButton exitButton;
+    private VerticalGroup elements;
 
     TitleScreen(MyGame game)
     {
@@ -26,47 +33,35 @@ public class TitleScreen extends ScreenAdapter
     {
         Gdx.input.setInputProcessor(game.ui);
 
-        final Label l = new Label("Enter your name", game.skin);
-        l.setPosition((float) Gdx.graphics.getWidth() / 2 - l.getWidth() / 2, (float) Gdx.graphics.getHeight() * 5 / 7 - l.getHeight() / 2);
-        l.setColor(Color.BLACK);
-        game.ui.addActor(l);
+        elements = new VerticalGroup();
+        game.ui.addActor(elements);
 
-        final Label nameInputInfo = new Label("(3 to 15 letters and numbers)", game.skin);
+        nameInputTitle = new Label("Enter your name", game.skin);
+        nameInputTitle.setColor(Color.BLACK);
+        elements.addActor(nameInputTitle);
+
+        nameInputInfo = new Label("(3 to 15 letters and numbers)", game.skin);
         nameInputInfo.setFontScale(0.65f);
-        nameInputInfo.setPosition((float) Gdx.graphics.getWidth() / 2 - nameInputInfo.getWidth() * 0.65f / 2, (float) Gdx.graphics.getHeight() * 5 / 7 - l.getHeight());
         nameInputInfo.setColor(Color.BLACK);
-        game.ui.addActor(nameInputInfo);
+        elements.addActor(nameInputInfo);
 
         invalidName = new Label("name is taken", game.skin);
         invalidName.setFontScale(0.65f);
-        invalidName.setPosition((float) Gdx.graphics.getWidth() / 2 - invalidName.getWidth() * 0.65f / 2, (float) Gdx.graphics.getHeight() * 5 / 7 - l.getHeight() * 1.5f);
         invalidName.setColor(Color.RED);
         invalidName.setVisible(false);
-        game.ui.addActor(invalidName);
+        elements.addActor(invalidName);
 
-        final TextField nameInput = new TextField(game.playerName, game.skin);
-        nameInput.setWidth(nameInput.getWidth() * 2);
-        nameInput.setPosition((float) Gdx.graphics.getWidth() / 2 - nameInput.getWidth() / 2, (float) Gdx.graphics.getHeight() * 4 / 7 - nameInput.getHeight() / 2);
-        game.ui.addActor(nameInput);
-        nameInput.setMaxLength(15);
-        nameInput.setTextFieldFilter(new TextField.TextFieldFilter()
-        {
-            @Override
-            public boolean acceptChar(TextField textField, char c)
-            {
-                return  Character.isDigit(c) || Character.isLetter(c);
-            }
-        });
+        nameInput = new NameInput(game.playerName, game.skin);
+        //nameInput.setWidth(nameInput.getWidth() * 2);
+        elements.addActor(nameInput);
 
-        TextButton start = new TextButton("Play", game.skin);
-        start.setPosition((float) Gdx.graphics.getWidth() / 2 - start.getWidth() / 2, (float) Gdx.graphics.getHeight() * 3 / 7 - start.getHeight() / 2);
-        game.ui.addActor(start);
+        playButton = new TextButton("Play", game.skin);
+        elements.addActor(playButton);
 
-        TextButton exit = new TextButton("Exit", game.skin);
-        exit.setPosition((float) Gdx.graphics.getWidth() / 2 - exit.getWidth() / 2, (float) Gdx.graphics.getHeight() * 2 / 7 - exit.getHeight() / 2);
-        game.ui.addActor(exit);
+        exitButton = new TextButton("Exit", game.skin);
+        elements.addActor(exitButton);
 
-        start.addListener(new ClickListener(){
+        playButton.addListener(new ClickListener(){
             public void clicked(InputEvent event, float x, float y){
                 if (nameInput.getText().length() < 3)
                 {
@@ -80,12 +75,21 @@ public class TitleScreen extends ScreenAdapter
             }
         });
 
-        exit.addListener(new ClickListener(){
+        exitButton.addListener(new ClickListener(){
             public void clicked(InputEvent event, float x, float y){
                 Gdx.app.exit();
                 dispose();
             }
         });
+
+        elements.space(10);
+    }
+
+    @Override
+    public void resize(int width, int height)
+    {
+        elements.setPosition((width - elements.getWidth()) / 2, (height + elements.getPrefHeight()) / 2);
+        super.resize(width, height);
     }
 
     @Override

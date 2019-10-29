@@ -2,17 +2,20 @@ package com.mariabartosh;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.ui.VerticalGroup;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
 public class ConnectionScreen extends ScreenAdapter
 {
     private MyGame game;
     private long lastLabelChange;
-    private Label label;
+    private Label connectionLabel;
+    private VerticalGroup elements;
 
     ConnectionScreen(MyGame game)
     {
@@ -23,22 +26,25 @@ public class ConnectionScreen extends ScreenAdapter
     public void show()
     {
         Gdx.input.setInputProcessor(game.ui);
+
+        elements = new VerticalGroup();
+        game.ui.addActor(elements);
         lastLabelChange = System.currentTimeMillis();
 
-        label = new Label("Connection...", game.skin);
-        label.setPosition((float) Gdx.graphics.getWidth() / 2 - label.getWidth() / 2, (float) Gdx.graphics.getHeight() / 2 - label.getHeight() / 2);
-        game.ui.addActor(label);
+        connectionLabel = new Label("Connection...", game.skin);
+        elements.addActor(connectionLabel);
 
-        TextButton exit = new TextButton("Exit", game.skin);
-        exit.setPosition((float) Gdx.graphics.getWidth() / 2 - exit.getWidth() / 2, (float) Gdx.graphics.getHeight() * 2 / 7 - exit.getHeight() / 2);
-        game.ui.addActor(exit);
+        TextButton exitButton = new TextButton("Exit", game.skin);
+        elements.addActor(exitButton);
 
-        exit.addListener(new ClickListener(){
+        exitButton.addListener(new ClickListener(){
             public void clicked(InputEvent event, float x, float y){
                 Gdx.app.exit();
                 dispose();
             }
         });
+
+        elements.space(30);
     }
 
     @Override
@@ -46,16 +52,16 @@ public class ConnectionScreen extends ScreenAdapter
     {
         if (System.currentTimeMillis() - lastLabelChange > 1500)
         {
-            label.setText("Connection...");
+            connectionLabel.setText("Connection...");
             lastLabelChange = System.currentTimeMillis();
         }
         else if (System.currentTimeMillis() - lastLabelChange > 1000)
         {
-            label.setText("Connection..");
+            connectionLabel.setText("Connection..");
         }
         else if (System.currentTimeMillis() - lastLabelChange > 500)
         {
-            label.setText("Connection.");
+            connectionLabel.setText("Connection.");
         }
 
         Gdx.gl.glClearColor(0, .25f, 0, 1);
@@ -69,6 +75,13 @@ public class ConnectionScreen extends ScreenAdapter
         {
             game.setScreen(game.titleScreen);
         }
+    }
+
+    @Override
+    public void resize(int width, int height)
+    {
+        elements.setPosition((width - elements.getWidth()) / 2, (height + elements.getPrefHeight()) / 2);
+        super.resize(width, height);
     }
 
     @Override

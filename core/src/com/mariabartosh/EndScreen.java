@@ -7,12 +7,14 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.ui.VerticalGroup;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
 public class EndScreen extends ScreenAdapter
 {
 
     private MyGame game;
+    private VerticalGroup elements;
 
     EndScreen(MyGame game)
     {
@@ -23,31 +25,34 @@ public class EndScreen extends ScreenAdapter
     public void show()
     {
         Gdx.input.setInputProcessor(game.ui);
-        Label l = new Label("Game over!", game.skin);
-        l.setColor(Color.BLACK);
-        l.setPosition((float) Gdx.graphics.getWidth() / 2 - l.getWidth() / 2, (float) Gdx.graphics.getHeight() * 5 / 7 - l.getHeight() / 2);
-        game.ui.addActor(l);
-        TextButton restart = new TextButton("Restart", game.skin);
-        restart.setPosition((float) Gdx.graphics.getWidth() / 2 - restart.getWidth() / 2, (float) Gdx.graphics.getHeight() * 3 / 7 - restart.getHeight() / 2);
-        game.ui.addActor(restart);
+        elements = new VerticalGroup();
+        game.ui.addActor(elements);
 
-        TextButton exit = new TextButton("Exit", game.skin);
-        exit.setPosition((float) Gdx.graphics.getWidth() / 2 - exit.getWidth() / 2, (float) Gdx.graphics.getHeight() * 2 / 7 - exit.getHeight() / 2);
-        game.ui.addActor(exit);
+        Label gameOverLabel = new Label("Game over!", game.skin);
+        gameOverLabel.setColor(Color.BLACK);
+        elements.addActor(gameOverLabel);
 
-        restart.addListener(new ClickListener(){
+        TextButton restartButton = new TextButton("Restart", game.skin);
+        elements.addActor(restartButton);
+
+        TextButton exitButton = new TextButton("Exit", game.skin);
+        elements.addActor(exitButton);
+
+        restartButton.addListener(new ClickListener(){
             public void clicked(InputEvent event, float x, float y){
                 game.setScreen(game.titleScreen);
                 dispose();
             }
         });
 
-        exit.addListener(new ClickListener(){
+        exitButton.addListener(new ClickListener(){
             public void clicked(InputEvent event, float x, float y){
                 Gdx.app.exit();
                 dispose();
             }
         });
+
+        elements.space(20);
     }
 
     @Override
@@ -60,6 +65,13 @@ public class EndScreen extends ScreenAdapter
         game.batch.end();
         game.ui.act(delta);
         game.ui.draw();
+    }
+
+    @Override
+    public void resize(int width, int height)
+    {
+        elements.setPosition((width - elements.getWidth()) / 2, (height + elements.getPrefHeight()) / 2);
+        super.resize(width, height);
     }
 
     @Override
