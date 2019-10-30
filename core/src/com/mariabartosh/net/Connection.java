@@ -9,7 +9,6 @@ import com.badlogic.gdx.utils.Json;
 import com.mariabartosh.MyGame;
 import com.mariabartosh.net.packets.Packet;
 import com.mariabartosh.net.packets.PacketSerializer;
-
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
@@ -89,7 +88,7 @@ public class Connection implements Runnable
     {
         try
         {
-            socket = Gdx.net.newClientSocket(Net.Protocol.TCP, "127.0.0.1", 5000, new SocketHints());
+            socket = Gdx.net.newClientSocket(Net.Protocol.TCP, System.getProperty("ip", "127.0.0.1"), 5000, new SocketHints());
             System.out.println("connected");
 
             writer = new PrintWriter(socket.getOutputStream());

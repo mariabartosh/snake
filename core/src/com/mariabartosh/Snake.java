@@ -106,7 +106,6 @@ public class Snake extends GameObject implements Comparable<Snake>
     {
         float delta = vector.angle(newVector);
 
-
         if (Math.abs(delta) > MAX_ANGLE_DELTA)
         {
             vector.rotate(MAX_ANGLE_DELTA * Math.signum(delta));
