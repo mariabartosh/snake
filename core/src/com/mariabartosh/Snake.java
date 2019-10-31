@@ -16,6 +16,7 @@ public class Snake extends GameObject implements Comparable<Snake>
     private TextureAtlas.AtlasRegion segmentTexture;
     private TextureAtlas.AtlasRegion eyes;
     private Vector2 vector;
+    private Vector2 vectorDst;
     private World world;
     private String name;
     private int score;
@@ -31,6 +32,7 @@ public class Snake extends GameObject implements Comparable<Snake>
         segmentTexture = Assets.images.segments.get(imageIndex);
         eyes = Assets.images.eyes;
         vector = new Vector2(0, 1);
+        vectorDst = new Vector2(0, 1);
     }
 
     private float getRadius()
@@ -46,8 +48,8 @@ public class Snake extends GameObject implements Comparable<Snake>
 
     void update(float x, float y)
     {
-        vector.x = x - segments.get(0).getX();
-        vector.y = y - segments.get(0).getY();
+        vectorDst.x = x - segments.get(0).getX();
+        vectorDst.y = y - segments.get(0).getY();
     }
 
     private void updateSegments()
@@ -97,7 +99,7 @@ public class Snake extends GameObject implements Comparable<Snake>
         }
         else
         {
-            moveInDirection(deltaTime, vector);
+            moveInDirection(deltaTime, vectorDst);
         }
 
     }

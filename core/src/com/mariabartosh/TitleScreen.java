@@ -52,7 +52,6 @@ public class TitleScreen extends ScreenAdapter
         elements.addActor(invalidName);
 
         nameInput = new NameInput(game.playerName, game.skin);
-        //nameInput.setWidth(nameInput.getWidth() * 2);
         elements.addActor(nameInput);
 
         playButton = new TextButton("Play", game.skin);
@@ -89,7 +88,6 @@ public class TitleScreen extends ScreenAdapter
     public void resize(int width, int height)
     {
         elements.setPosition((width - elements.getWidth()) / 2, (height + elements.getPrefHeight()) / 2);
-        super.resize(width, height);
     }
 
     @Override

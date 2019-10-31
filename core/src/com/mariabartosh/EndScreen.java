@@ -71,7 +71,6 @@ public class EndScreen extends ScreenAdapter
     public void resize(int width, int height)
     {
         elements.setPosition((width - elements.getWidth()) / 2, (height + elements.getPrefHeight()) / 2);
-        super.resize(width, height);
     }
 
     @Override
