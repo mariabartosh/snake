@@ -2,6 +2,7 @@ package com.mariabartosh;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Net;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Matrix4;
@@ -12,10 +13,12 @@ import com.mariabartosh.net.Connection;
 import com.mariabartosh.net.packets.Packet;
 import com.mariabartosh.net.packets.server.*;
 
+import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
-public class MyGame extends Game
+public class MyGame extends Game implements Thread.UncaughtExceptionHandler
 {
     SpriteBatch batch;
     World world;
@@ -30,6 +33,7 @@ public class MyGame extends Game
     @Override
     public void create()
     {
+        Thread.setDefaultUncaughtExceptionHandler(this);
         Assets.create();
         queue = new ConcurrentLinkedQueue<>();
         playerName = "";
@@ -296,5 +300,44 @@ public class MyGame extends Game
     public void setConnectionScreen()
     {
         setScreen(connectionScreen);
+    }
+
+    @Override
+    public void uncaughtException(Thread t, Throwable e)
+    {
+        try
+        {
+            Net.HttpRequest request= new Net.HttpRequest();
+            String ip = System.getProperty("ip", "127.0.0.1");
+            request.setUrl("http://" + ip + ":8080/error-servlet/");
+            request.setContent("message=" + URLEncoder.encode(e.getMessage(), "UTF-8") +
+                    "&stacktrace=" + URLEncoder.encode(Arrays.toString(e.getStackTrace()), "UTF-8"));
+            request.setMethod("POST");
+            Gdx.net.sendHttpRequest(request, new Net.HttpResponseListener()
+            {
+                @Override
+                public void handleHttpResponse(Net.HttpResponse httpResponse)
+                {
+                    System.exit(0);
+                }
+
+                @Override
+                public void failed(Throwable t)
+                {
+                    System.exit(0);
+                }
+
+                @Override
+                public void cancelled()
+                {
+                    System.exit(0);
+                }
+            });
+        }
+        catch (Exception ignored)
+        {
+            System.exit(0);
+        }
+
     }
 }
