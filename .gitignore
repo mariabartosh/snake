@@ -105,6 +105,8 @@ gradle-app.setting
 /android/build/
 /core/build/
 /desktop/build/
+/error-servlet/build/
+*.s3db
 /html/build/
 /ios/build/
 /ios-moe/build/
@@ -125,3 +127,4 @@ Thumbs.db
 !/ios-moe/xcode/*.xcodeproj/xcshareddata
 !/ios-moe/xcode/*.xcodeproj/project.pbxproj
 /ios-moe/xcode/native/
+
