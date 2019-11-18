@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.sql.*;
+import java.util.ArrayList;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -64,5 +65,28 @@ public class ErrorServlet extends HttpServlet
         {
             throw new RuntimeException(e);
         }
+    }
+
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
+    {
+        ArrayList<ErrorData> errors = new ArrayList<>();
+        try (Statement statement = connection.createStatement())
+        {
+            ResultSet resultSet = statement.executeQuery("SELECT * FROM errors");
+            while (resultSet.next())
+            {
+                ErrorData errorData = new ErrorData();
+                errorData.setId(resultSet.getInt("id"));
+                errorData.setMessage(resultSet.getString("message"));
+                errorData.setStacktrace(resultSet.getString("stacktrace"));
+                errorData.setDate(resultSet.getDate("date"));
+                errors.add(errorData);
+            }
+        }
+        catch (SQLException ignored)
+        {
+        }
+        request.setAttribute("errors", errors);
+        request.getRequestDispatcher("index.jsp").forward(request, response);
     }
 }
