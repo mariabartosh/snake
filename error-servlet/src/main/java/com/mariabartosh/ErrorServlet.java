@@ -72,19 +72,21 @@ public class ErrorServlet extends HttpServlet
         ArrayList<ErrorData> errors = new ArrayList<>();
         try (Statement statement = connection.createStatement())
         {
-            ResultSet resultSet = statement.executeQuery("SELECT * FROM errors");
+            ResultSet resultSet = statement.executeQuery("SELECT * FROM errors ORDER BY date DESC LIMIT 5");
             while (resultSet.next())
             {
                 ErrorData errorData = new ErrorData();
                 errorData.setId(resultSet.getInt("id"));
                 errorData.setMessage(resultSet.getString("message"));
-                errorData.setStacktrace(resultSet.getString("stacktrace"));
-                errorData.setDate(resultSet.getDate("date"));
+                String stacktrace = resultSet.getString("stacktrace");
+                errorData.setStacktrace(stacktrace.substring(1, stacktrace.length() - 1));
+                errorData.setDate(resultSet.getString("date"));
                 errors.add(errorData);
             }
         }
-        catch (SQLException ignored)
+        catch (SQLException e)
         {
+            System.out.println(e.getMessage());
         }
         request.setAttribute("errors", errors);
         request.getRequestDispatcher("index.jsp").forward(request, response);

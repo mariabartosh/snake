@@ -7,7 +7,7 @@ public class ErrorData
     private int id;
     private String message;
     private String stacktrace;
-    private Date date;
+    private String date;
 
     public int getId()
     {
@@ -39,12 +39,12 @@ public class ErrorData
         this.stacktrace = stacktrace;
     }
 
-    public Date getDate()
+    public String getDate()
     {
         return date;
     }
 
-    public void setDate(Date date)
+    public void setDate(String date)
     {
         this.date = date;
     }
