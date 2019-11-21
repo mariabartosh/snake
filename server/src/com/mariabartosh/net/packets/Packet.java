@@ -1,12 +1,11 @@
 package com.mariabartosh.net.packets;
 
-import com.esotericsoftware.jsonbeans.Json;
-import com.esotericsoftware.jsonbeans.JsonSerializable;
-import com.esotericsoftware.jsonbeans.JsonValue;
+import com.badlogic.gdx.utils.Json;
+import com.badlogic.gdx.utils.JsonValue;
 import com.mariabartosh.Server;
 import com.mariabartosh.net.Connection;
 
-public abstract class Packet implements JsonSerializable
+public abstract class Packet implements Json.Serializable
 {
     private Connection owner;
     private long timestamp;

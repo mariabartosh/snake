@@ -76,3 +76,12 @@ project(":core") {
         
     }
 }
+
+project(":server") {
+    apply plugin: "java-library"
+
+    dependencies {
+        api "com.badlogicgames.gdx:gdx:$gdxVersion"
+        
+    }
+}

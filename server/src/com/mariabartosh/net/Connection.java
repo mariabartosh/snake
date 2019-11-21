@@ -1,6 +1,6 @@
 package com.mariabartosh.net;
 
-import com.esotericsoftware.jsonbeans.Json;
+import com.badlogic.gdx.utils.Json;
 import com.mariabartosh.Server;
 import com.mariabartosh.net.packets.Packet;
 import com.mariabartosh.net.packets.PacketSerializer;

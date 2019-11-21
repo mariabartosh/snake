@@ -1,7 +1,7 @@
 package com.mariabartosh.net.packets.client;
 
-import com.esotericsoftware.jsonbeans.Json;
-import com.esotericsoftware.jsonbeans.JsonValue;
+import com.badlogic.gdx.utils.Json;
+import com.badlogic.gdx.utils.JsonValue;
 import com.mariabartosh.Server;
 import com.mariabartosh.net.Connection;
 import com.mariabartosh.net.packets.Packet;

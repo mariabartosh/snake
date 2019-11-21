@@ -1,6 +1,6 @@
 package com.mariabartosh.net.packets.server;
 
-import com.esotericsoftware.jsonbeans.Json;
+import com.badlogic.gdx.utils.Json;
 import com.mariabartosh.net.packets.Packet;
 
 public class SnakeMovementPacket extends Packet

@@ -1,10 +1,9 @@
 package com.mariabartosh.net.packets;
 
-import com.esotericsoftware.jsonbeans.Json;
-import com.esotericsoftware.jsonbeans.JsonSerializer;
-import com.esotericsoftware.jsonbeans.JsonValue;
+import com.badlogic.gdx.utils.Json;
+import com.badlogic.gdx.utils.JsonValue;
 
-public class PacketSerializer implements JsonSerializer<Packet>
+public class PacketSerializer implements Json.Serializer<Packet>
 {
     @Override
     public void write(Json json, Packet object, Class knownType)
