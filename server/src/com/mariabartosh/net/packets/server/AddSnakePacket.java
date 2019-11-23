@@ -1,13 +1,14 @@
 package com.mariabartosh.net.packets.server;
 
 import com.badlogic.gdx.utils.Json;
+import com.mariabartosh.net.ServerSegment;
+import com.mariabartosh.net.ServerSnake;
 import com.mariabartosh.net.packets.Packet;
-import com.mariabartosh.world.Segment;
 import com.mariabartosh.world.Snake;
 
 public class AddSnakePacket extends Packet
 {
-    private Snake snake;
+    private ServerSnake snake;
 
     public AddSnakePacket(Snake snake)
     {
@@ -23,7 +24,7 @@ public class AddSnakePacket extends Packet
         json.writeValue("image", snake.getSegmentTextureIndex());
         json.writeValue("id", snake.getId());
         json.writeArrayStart("segments");
-        for (Segment segment : snake.getSegments())
+        for (ServerSegment segment : snake.getSegments())
         {
             json.writeObjectStart();
             json.writeValue("x", segment.getX());

@@ -5,7 +5,7 @@ import com.badlogic.gdx.utils.JsonValue;
 import com.mariabartosh.MyGame;
 import com.mariabartosh.net.packets.Packet;
 
-public class SnakeDeathPacket extends Packet
+public class SnakeDeathPacket extends ServerPacket
 {
     private int deadSnakeId;
     private int snakeWinnerId;

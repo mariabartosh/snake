@@ -9,6 +9,8 @@ import com.badlogic.gdx.utils.Json;
 import com.mariabartosh.MyGame;
 import com.mariabartosh.net.packets.Packet;
 import com.mariabartosh.net.packets.PacketSerializer;
+import com.mariabartosh.net.packets.server.ServerPacket;
+
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
@@ -48,7 +50,7 @@ public class Connection implements Runnable
                     {
                         System.out.println("Received " + message);
 
-                        Packet packet = decoder.fromJson(Packet.class, message);
+                        ServerPacket packet = decoder.fromJson(ServerPacket.class, message);
                         game.queue.add(packet);
                     }
                 }

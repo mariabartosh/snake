@@ -1,6 +1,8 @@
 package com.mariabartosh.world;
 
-public class Segment
+import com.mariabartosh.net.ServerSegment;
+
+public class Segment implements ServerSegment
 {
     private float x;
     private float y;
@@ -11,22 +13,26 @@ public class Segment
         this.y = y;
     }
 
+    @Override
     public float getX()
     {
         return x;
     }
 
+    @Override
     public float getY()
     {
         return y;
     }
 
-    void setX(float x)
+    @Override
+    public void setX(float x)
     {
         this.x = x;
     }
 
-    void setY(float y)
+    @Override
+    public void setY(float y)
     {
         this.y = y;
     }

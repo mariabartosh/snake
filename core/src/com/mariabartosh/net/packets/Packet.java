@@ -10,16 +10,10 @@ public abstract class Packet implements Json.Serializable
     public void write(Json json)
     {
         json.writeType(getClass());
-        json.writeValue("time", System.currentTimeMillis());
     }
 
     @Override
     public void read(Json json, JsonValue jsonData)
-    {
-
-    }
-
-    public void process(MyGame game)
     {
 
     }

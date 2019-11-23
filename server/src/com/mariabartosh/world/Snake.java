@@ -2,12 +2,15 @@ package com.mariabartosh.world;
 
 import com.badlogic.gdx.math.Vector2;
 import com.mariabartosh.net.Connection;
+import com.mariabartosh.net.ServerSegment;
+import com.mariabartosh.net.ServerSnake;
+
 import java.util.ArrayList;
 
-public class Snake extends GameObject
+public class Snake extends GameObject implements ServerSnake
 {
     static final float MAX_ANGLE_DELTA = 3;
-    ArrayList<Segment> segments = new ArrayList<>();
+    ArrayList<ServerSegment> segments = new ArrayList<>();
     private float radius;
     float segmentDistance;
     private int segmentTextureIndex;
@@ -39,6 +42,7 @@ public class Snake extends GameObject
         vector = new Vector2(0, 1);
     }
 
+    @Override
     public float getRadius()
     {
         return radius;
@@ -77,8 +81,8 @@ public class Snake extends GameObject
     {
         for (int i = 1; i < segments.size(); i++)
         {
-            Segment current = segments.get(i);
-            Segment next = segments.get(i - 1);
+            ServerSegment current = segments.get(i);
+            ServerSegment next = segments.get(i - 1);
 
             Vector2 vector = new Vector2(next.getX() - current.getX(), next.getY() - current.getY());
             float angle = vector.angleRad();
@@ -140,16 +144,19 @@ public class Snake extends GameObject
         return donutBonuses;
     }
 
+    @Override
     public float getHeadX()
     {
         return segments.get(0).getX();
     }
 
+    @Override
     public float getHeadY()
     {
         return segments.get(0).getY();
     }
 
+    @Override
     public String getName()
     {
         return name;
@@ -160,11 +167,13 @@ public class Snake extends GameObject
         return score;
     }
 
-    public ArrayList<Segment> getSegments()
+    @Override
+    public ArrayList<ServerSegment> getSegments()
     {
         return segments;
     }
 
+    @Override
     public int getSegmentTextureIndex()
     {
         return segmentTextureIndex;

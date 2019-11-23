@@ -2,11 +2,10 @@ package com.mariabartosh;
 
 import com.badlogic.gdx.math.Vector2;
 import com.mariabartosh.net.Connection;
+import com.mariabartosh.net.ServerConnection;
+import com.mariabartosh.net.ServerSnake;
 import com.mariabartosh.net.packets.Packet;
-import com.mariabartosh.net.packets.client.CollisionPacket;
-import com.mariabartosh.net.packets.client.EatDonutPacket;
-import com.mariabartosh.net.packets.client.MovementPacket;
-import com.mariabartosh.net.packets.client.StartPacket;
+import com.mariabartosh.net.packets.client.*;
 import com.mariabartosh.net.packets.server.*;
 import com.mariabartosh.world.Donut;
 import com.mariabartosh.world.DonutBonus;
@@ -18,7 +17,7 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
-public class Server
+public class Server implements ClientPacketProcessor
 {
     private World world;
     public ConcurrentLinkedQueue<Packet> queue;
@@ -55,7 +54,7 @@ public class Server
             }
             if (System.currentTimeMillis() - lastPackageSent > 100)
             {
-                broadcast(new BotsMovementPacket(world));
+                broadcast(new BotsMovementPacket(world.getSnakeBots()));
                 lastPackageSent = System.currentTimeMillis();
             }
         }
@@ -101,8 +100,10 @@ public class Server
         return true;
     }
 
-    public void on(StartPacket packet, Connection connection)
+    @Override
+    public void on(StartPacket packet, ServerConnection conn)
     {
+        Connection connection = (Connection) conn;
         String name = packet.getName();
         if (connection.isInGame())
         {
@@ -126,8 +127,10 @@ public class Server
         }
     }
 
-    public void on(EatDonutPacket packet, Connection connection)
+    @Override
+    public void on(EatDonutPacket packet, ServerConnection conn)
     {
+        Connection connection = (Connection) conn;
         Donut donut = world.getDonut(packet.getDonutId());
         Snake player = connection.getPlayer();
         if (donut != null && player != null && player.eat(donut))
@@ -143,8 +146,10 @@ public class Server
         }
     }
 
-    public void on(MovementPacket packet, Connection connection)
+    @Override
+    public void on(MovementPacket packet, ServerConnection conn)
     {
+        Connection connection = (Connection) conn;
         if (!connection.isInGame())
         {
             return;
@@ -171,8 +176,10 @@ public class Server
         connections.add(connection);
     }
 
-    public void on(CollisionPacket packet, Connection connection)
+    @Override
+    public void on(CollisionPacket packet, ServerConnection conn)
     {
+        Connection connection = (Connection) conn;
         Snake snake = world.getSnake(packet.getSnakeId());
         Snake player = connection.getPlayer();
         if (snake != null && player  != null && player.checkCollision(snake))

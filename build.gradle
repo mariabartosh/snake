@@ -81,6 +81,7 @@ project(":server") {
     apply plugin: "java-library"
 
     dependencies {
+        implementation project(":core")
         api "com.badlogicgames.gdx:gdx:$gdxVersion"
         
     }

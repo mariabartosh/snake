@@ -1,9 +1,10 @@
 package com.mariabartosh.net.packets.client;
 
 import com.badlogic.gdx.utils.Json;
-import com.mariabartosh.net.packets.Packet;
+import com.badlogic.gdx.utils.JsonValue;
+import com.mariabartosh.net.ServerConnection;
 
-public class MovementPacket extends Packet
+public class MovementPacket extends ClientPacket
 {
     private float x;
     private float y;
@@ -20,5 +21,29 @@ public class MovementPacket extends Packet
         super.write(json);
         json.writeValue("x", x);
         json.writeValue("y", y);
+    }
+
+    @Override
+    public void read(Json json, JsonValue jsonData)
+    {
+        super.read(json, jsonData);
+        x = jsonData.getFloat("x");
+        y = jsonData.getFloat("y");
+    }
+
+    public float getX()
+    {
+        return x;
+    }
+
+    public float getY()
+    {
+        return y;
+    }
+
+    @Override
+    public void process(ClientPacketProcessor processor, ServerConnection connection)
+    {
+        processor.on(this, connection);
     }
 }

@@ -1,6 +1,7 @@
 package com.mariabartosh.world;
 
 import com.mariabartosh.Server;
+import com.mariabartosh.net.ServerSnake;
 import com.mariabartosh.net.packets.server.*;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -13,7 +14,7 @@ public class World
     ArrayList<Donut> donuts;
     private HashMap<Integer, GameObject> gameObjects;
     private ArrayList<Snake> snakes;
-    private ArrayList<SnakeBot> snakeBots;
+    private ArrayList snakeBots;
     private String[] names;
     private Server server;
 
@@ -48,8 +49,9 @@ public class World
     {
         ArrayList<Snake> removeSnakes = new ArrayList<>();
 
-        for (SnakeBot snakeBot : snakeBots)
+        for (Object object : snakeBots)
         {
+            SnakeBot snakeBot = (SnakeBot) object;
             if (snakeBot.isDead())
             {
                 continue;
@@ -87,8 +89,9 @@ public class World
             remove(snake);
         }
 
-        for (SnakeBot snakeBot : snakeBots)
+        for (Object object : snakeBots)
         {
+            SnakeBot snakeBot = (SnakeBot) object;
             for (Donut donut : new ArrayList<>(donuts))
             {
                 if (snakeBot.eat(donut))
@@ -160,7 +163,7 @@ public class World
         return snakes;
     }
 
-    public ArrayList<SnakeBot> getSnakeBots()
+    public ArrayList getSnakeBots()
     {
         return snakeBots;
     }

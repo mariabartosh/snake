@@ -5,7 +5,7 @@ import com.badlogic.gdx.utils.JsonValue;
 import com.mariabartosh.MyGame;
 import com.mariabartosh.net.packets.Packet;
 
-public class GameStartPacket extends Packet
+public class GameStartPacket extends ServerPacket
 {
     private DonutData[] donuts;
     private float worldWidth;

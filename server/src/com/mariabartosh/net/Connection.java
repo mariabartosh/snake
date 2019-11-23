@@ -4,6 +4,7 @@ import com.badlogic.gdx.utils.Json;
 import com.mariabartosh.Server;
 import com.mariabartosh.net.packets.Packet;
 import com.mariabartosh.net.packets.PacketSerializer;
+import com.mariabartosh.net.packets.client.ClientPacket;
 import com.mariabartosh.world.Snake;
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -11,7 +12,7 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 
-public class Connection implements Runnable
+public class Connection implements Runnable, ServerConnection
 {
     public String name;
     private BufferedReader reader;
@@ -55,7 +56,7 @@ public class Connection implements Runnable
             {
                 //System.out.println("Received " + message);
 
-                Packet packet = decoder.fromJson(Packet.class, message);
+                ClientPacket packet = decoder.fromJson(ClientPacket.class, message);
                 packet.setOwner(this);
                 if (deltaTime == 0)
                 {

@@ -1,9 +1,10 @@
 package com.mariabartosh.net.packets.client;
 
 import com.badlogic.gdx.utils.Json;
-import com.mariabartosh.net.packets.Packet;
+import com.badlogic.gdx.utils.JsonValue;
+import com.mariabartosh.net.ServerConnection;
 
-public class StartPacket extends Packet
+public class StartPacket extends ClientPacket
 {
     private String name;
 
@@ -12,7 +13,7 @@ public class StartPacket extends Packet
         this.name = name;
     }
 
-    private String getName()
+    public String getName()
     {
         return name;
     }
@@ -21,6 +22,19 @@ public class StartPacket extends Packet
     public void write(Json json)
     {
         super.write(json);
-        json.writeValue("name", getName());
+        json.writeValue("name", name);
+    }
+
+    @Override
+    public void read(Json json, JsonValue jsonData)
+    {
+        super.read(json, jsonData);
+        name = jsonData.getString("name");
+    }
+
+    @Override
+    public void process(ClientPacketProcessor processor, ServerConnection connection)
+    {
+        processor.on(this, connection);
     }
 }

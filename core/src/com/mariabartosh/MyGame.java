@@ -187,17 +187,17 @@ public class MyGame extends Game implements Thread.UncaughtExceptionHandler
         {
             return;
         }
-        if (world.getPlayer().getId() != packet.getSnake().getId())
+        if (world.getPlayer().getId() != packet.getSnakeData().getId())
         {
             Snake snake = new Snake(world,
-                    packet.getSnake().getRadius(),
-                    packet.getSnake().getName(),
-                    packet.getSnake().getImage(),
-                    packet.getSnake().getId());
-            int size = packet.getSnake().getSegmentsX().length;
+                    packet.getSnakeData().getRadius(),
+                    packet.getSnakeData().getName(),
+                    packet.getSnakeData().getImage(),
+                    packet.getSnakeData().getId());
+            int size = packet.getSnakeData().getSegmentsX().length;
             for (int j = 0; j < size; j++)
             {
-                snake.addSegment(packet.getSnake().getSegmentsX()[j], packet.getSnake().getSegmentsY()[j]);
+                snake.addSegment(packet.getSnakeData().getSegmentsX()[j], packet.getSnakeData().getSegmentsY()[j]);
             }
             world.add(snake);
         }

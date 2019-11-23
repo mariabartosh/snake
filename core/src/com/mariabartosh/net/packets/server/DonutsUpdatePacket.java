@@ -5,7 +5,7 @@ import com.badlogic.gdx.utils.JsonValue;
 import com.mariabartosh.MyGame;
 import com.mariabartosh.net.packets.Packet;
 
-public class DonutsUpdatePacket extends Packet
+public class DonutsUpdatePacket extends ServerPacket
 {
     private int donutId;
     private float donutX;

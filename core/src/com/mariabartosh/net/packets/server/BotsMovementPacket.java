@@ -5,7 +5,7 @@ import com.badlogic.gdx.utils.JsonValue;
 import com.mariabartosh.MyGame;
 import com.mariabartosh.net.packets.Packet;
 
-public class BotsMovementPacket extends Packet
+public class BotsMovementPacket extends ServerPacket
 {
     private SnakeData[] snakes;
 

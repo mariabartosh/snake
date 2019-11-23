@@ -1,17 +1,18 @@
 package com.mariabartosh.net.packets.server;
 
 import com.badlogic.gdx.utils.Json;
+import com.mariabartosh.net.ServerSnake;
 import com.mariabartosh.net.packets.Packet;
-import com.mariabartosh.world.Snake;
-import com.mariabartosh.world.World;
+
+import java.util.ArrayList;
 
 public class BotsMovementPacket extends Packet
 {
-    private World world;
+    private ArrayList bots;
 
-    public BotsMovementPacket(World world)
+    public BotsMovementPacket(ArrayList bots)
     {
-        this.world = world;
+        this.bots = bots;
     }
 
     @Override
@@ -20,10 +21,10 @@ public class BotsMovementPacket extends Packet
         super.write(json);
 
         json.writeArrayStart("snakes");
-        for (Snake snake : world.getSnakeBots())
+        for (Object object : bots)
         {
+            ServerSnake snake = (ServerSnake) object;
             json.writeObjectStart();
-
             json.writeValue("id", snake.getId());
             json.writeValue("x", snake.getHeadX());
             json.writeValue("y", snake.getHeadY());

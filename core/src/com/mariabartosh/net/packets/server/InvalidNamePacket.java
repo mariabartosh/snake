@@ -5,7 +5,7 @@ import com.badlogic.gdx.utils.JsonValue;
 import com.mariabartosh.MyGame;
 import com.mariabartosh.net.packets.Packet;
 
-public class InvalidNamePacket extends Packet
+public class InvalidNamePacket extends ServerPacket
 {
     @Override
     public void read(Json json, JsonValue jsonData)
