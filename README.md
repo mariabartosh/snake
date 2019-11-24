@@ -9,16 +9,19 @@ Building the project should be very straightforward:
 
 1. `git clone https://github.com/mariabartosh/snake.git`
 2. `cd snake`
-3. To build the desktop client, use `./gradlew desktop:dist`
-4. To build and start the server, use `./gradlew server:run`
-5. *(optional)* To build and run the error servlet, to which client sends information about errors, which then are stored to the database, use `./gradlew appRun`, 
+3. To build and start the server, use `./gradlew server:run`
+4. *(optional)* To build and run the error servlet, to which client sends information about errors, which then are stored to the database, use `./gradlew appRun`, 
 >[Gretty](https://github.com/gretty-gradle-plugin/gretty) Gradle plugin is used for running the servlet. Gretty **requires JDK8 or JDK9**.
+5. To build and run the desktop client, use `./gradlew desktop:run`
 
-6. Client launch 
-`cd desktop\build\libs\`
-`java -jar desktop-1.0.jar`
+*****
+## Download
+If you only want to play game and connect to an already running server, client can be [downloaded](https://github.com/mariabartosh/snake/releases/download/latest/snake.jar) in binary form and run on Windows, Mac or Linux. Java 1.7+ is required. To run Snake, double click the `snake.jar` file or run it from the command line:
 
-If you only want to start the client and connect to an already running server, use `some magic`
+```
+java -jar snake.jar
+```
+
 *****
 # Some rules
 The game is multiplayer. Your goal is to eat donuts and dodge enemies.
