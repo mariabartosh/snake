@@ -106,6 +106,7 @@ gradle-app.setting
 /core/build/
 /desktop/build/
 /error-servlet/build/
+/server/build/
 *.s3db
 /html/build/
 /ios/build/
