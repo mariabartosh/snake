@@ -16,7 +16,7 @@ Building the project should be very straightforward:
 
 *****
 ## Download
-If you only want to play game and connect to an already running server, client can be [downloaded](https://github.com/mariabartosh/snake/releases/download/latest/snake.jar) in binary form and run on Windows, Mac or Linux. Java 1.7+ is required. To run Snake, double click the `snake.jar` file or run it from the command line:
+If you only want to play game and connect to an already running server, client can be [downloaded](https://github.com/mariabartosh/snake/releases/latest/download/snake.jar) in binary form and run on Windows, Mac or Linux. Java 1.7+ is required. To run Snake, double click the `snake.jar` file or run it from the command line:
 
 `java -jar snake.jar`
 

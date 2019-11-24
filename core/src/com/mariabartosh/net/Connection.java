@@ -62,7 +62,7 @@ public class Connection implements Runnable
                 {
                     while ((message = reader.readLine()) != null)
                     {
-                        System.out.println("Received " + message);
+                        //System.out.println("Received " + message);
 
                         Packet packet = decoder.fromJson(Packet.class, message);
                         game.queue.add(packet);
@@ -94,7 +94,7 @@ public class Connection implements Runnable
     {
         if (isConnected())
         {
-            System.out.println("Sending " + encoder.toJson(packet));
+            //System.out.println("Sending " + encoder.toJson(packet));
             writer.println(encoder.toJson(packet));
             writer.flush();
         }
