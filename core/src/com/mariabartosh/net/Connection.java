@@ -10,8 +10,10 @@ import com.mariabartosh.MyGame;
 import com.mariabartosh.net.packets.Packet;
 import com.mariabartosh.net.packets.PacketSerializer;
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
+import java.util.Properties;
 
 public class Connection implements Runnable
 {
@@ -22,9 +24,23 @@ public class Connection implements Runnable
     private boolean running = true;
     private Json encoder;
     private Json decoder;
+    private String ip;
 
     public Connection(MyGame game)
     {
+        ip = System.getProperty("ip", null);
+        if (ip == null)
+        {
+            Properties properties = new Properties();
+            try
+            {
+                properties.load(Gdx.files.internal("config.properties").read());
+            }
+            catch (IOException ignored)
+            {
+            }
+            ip = properties.getOrDefault("ip", "127.0.0.1").toString();
+        }
         this.game  = game;
         decoder = new Json();
         decoder.setTypeName(null);
@@ -88,7 +104,7 @@ public class Connection implements Runnable
     {
         try
         {
-            socket = Gdx.net.newClientSocket(Net.Protocol.TCP, System.getProperty("ip", "127.0.0.1"), 5000, new SocketHints());
+            socket = Gdx.net.newClientSocket(Net.Protocol.TCP, ip, 5000, new SocketHints());
             System.out.println("connected");
 
             writer = new PrintWriter(socket.getOutputStream());
