@@ -12,10 +12,12 @@ public class GameStartPacket extends Packet
     private float worldHeight;
     private SnakeData[] snakes;
     private int playerId;
+    private float segmentDistance;
 
     @Override
     public void read(Json json, JsonValue jsonData)
     {
+        segmentDistance = jsonData.getFloat("distance");
         worldWidth = jsonData.getFloat("width");
         worldHeight = jsonData.getFloat("height");
         JsonValue donutsData = jsonData.get("donuts");
@@ -88,5 +90,10 @@ public class GameStartPacket extends Packet
     public int getPlayerId()
     {
         return playerId;
+    }
+
+    public float getSegmentDistance()
+    {
+        return segmentDistance;
     }
 }

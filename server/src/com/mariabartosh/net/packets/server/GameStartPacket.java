@@ -22,6 +22,7 @@ public class GameStartPacket extends Packet
     public void write(Json json)
     {
         super.write(json);
+        json.writeValue("distance", snake.getSegmentDistance());
         json.writeValue("width", world.getWidth());
         json.writeValue("height", world.getHeight());
         json.writeArrayStart("donuts");

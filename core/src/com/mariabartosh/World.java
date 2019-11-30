@@ -22,6 +22,7 @@ class World
     private ArrayList<Snake> snakes;
     private MyGame game;
     private long lastSending;
+    private float segmentDistance;
 
     World(float w, float h, MyGame game)
     {
@@ -183,5 +184,15 @@ class World
         {
             return null;
         }
+    }
+
+    public float getSegmentDistance()
+    {
+        return segmentDistance;
+    }
+
+    public void setSegmentDistance(float segmentDistance)
+    {
+        this.segmentDistance = segmentDistance;
     }
 }

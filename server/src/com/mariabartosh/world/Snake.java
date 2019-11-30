@@ -7,9 +7,9 @@ import java.util.ArrayList;
 public class Snake extends GameObject
 {
     static final float MAX_ANGLE_DELTA = 3;
-    ArrayList<Segment> segments = new ArrayList<>();
+    private ArrayList<Segment> segments = new ArrayList<>();
     private float radius;
-    float segmentDistance;
+    private float segmentDistance;
     private int segmentTextureIndex;
     Vector2 vector;
     World world;
@@ -25,9 +25,9 @@ public class Snake extends GameObject
         this.world = world;
         this.radius = radius;
         segmentDistance = radius / 3;
-        //TODO
-        float headX = (float) Math.random() * world.getWidth();
-        float headY = (float) Math.random() * world.getHeight();
+        
+        float headX = (float) Math.random() * world.getWidth() * 0.8f + world.getWidth() * 0.1f;
+        float headY = (float) Math.random() * world.getHeight() * 0.9f;
 
         for (int i = 0; i < segmentCount; i++)
         {
@@ -198,5 +198,10 @@ public class Snake extends GameObject
     void setDead(boolean dead)
     {
         this.dead = dead;
+    }
+
+    public float getSegmentDistance()
+    {
+        return segmentDistance;
     }
 }

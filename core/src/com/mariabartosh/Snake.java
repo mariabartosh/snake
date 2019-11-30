@@ -28,7 +28,7 @@ public class Snake extends GameObject implements Comparable<Snake>
         this.name = name;
         this.world = world;
         this.radius = radius;
-        segmentDistance = radius / 3;
+        segmentDistance = world.getSegmentDistance();
         segmentTexture = Assets.images.segments.get(imageIndex);
         eyes = Assets.images.eyes;
         vector = new Vector2(0, 1);

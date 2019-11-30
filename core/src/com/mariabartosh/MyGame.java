@@ -106,6 +106,7 @@ public class MyGame extends Game implements Thread.UncaughtExceptionHandler
         {
             world = new World(packet.getWorldWidth(), packet.getWorldHeight(), this);
             world.create();
+            world.setSegmentDistance(packet.getSegmentDistance());
 
             for (int i = 0; i < packet.getDonuts().length; i++)
             {
