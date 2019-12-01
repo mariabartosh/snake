@@ -10,10 +10,8 @@ import com.mariabartosh.MyGame;
 import com.mariabartosh.net.packets.Packet;
 import com.mariabartosh.net.packets.PacketSerializer;
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
-import java.util.Properties;
 
 public class Connection implements Runnable
 {
@@ -24,28 +22,13 @@ public class Connection implements Runnable
     private boolean running = true;
     private Json encoder;
     private Json decoder;
-    private String ip;
 
     public Connection(MyGame game)
     {
-        ip = System.getProperty("ip", null);
-        if (ip == null)
-        {
-            Properties properties = new Properties();
-            try
-            {
-                properties.load(Gdx.files.internal("config.properties").read());
-            }
-            catch (IOException ignored)
-            {
-            }
-            ip = properties.getOrDefault("ip", "127.0.0.1").toString();
-        }
         this.game  = game;
         decoder = new Json();
         decoder.setTypeName(null);
         decoder.setSerializer(Packet.class, new PacketSerializer());
-
         encoder = new Json();
     }
 
@@ -70,8 +53,8 @@ public class Connection implements Runnable
                 }
                 catch (Exception e)
                 {
-                    System.out.println(e.getMessage());
-                    e.printStackTrace();
+                    //System.out.println(e.getMessage());
+                    //e.printStackTrace();
                     socket.dispose();
                     socket = null;
                     writer = null;
@@ -104,15 +87,15 @@ public class Connection implements Runnable
     {
         try
         {
-            socket = Gdx.net.newClientSocket(Net.Protocol.TCP, ip, 5000, new SocketHints());
-            System.out.println("connected");
+            socket = Gdx.net.newClientSocket(Net.Protocol.TCP, game.getServerAddress(), 5000, new SocketHints());
+            Gdx.app.log(MyGame.TAG, "Connected to " + socket.getRemoteAddress());
 
             writer = new PrintWriter(socket.getOutputStream());
             reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
         }
         catch (GdxRuntimeException e)
         {
-            System.out.println("Couldn't connect " + e.getMessage());
+            Gdx.app.error(MyGame.TAG, "Couldn't connect " + e.getMessage());
         }
     }
 

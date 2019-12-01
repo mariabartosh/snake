@@ -158,7 +158,6 @@ public class Snake extends GameObject implements Comparable<Snake>
                     Vector2 vector = new Vector2(snake.getHeadX() - this.segments.get(i).getX(), snake.getHeadY() - this.segments.get(i).getY());
                     if (vector.len() <= radius + snake.getRadius())
                     {
-                        System.out.println("segment: " + i);
                         return snake;
                     }
                 }

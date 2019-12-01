@@ -25,7 +25,7 @@ public class Snake extends GameObject
         this.world = world;
         this.radius = radius;
         segmentDistance = radius / 3;
-        
+
         float headX = (float) Math.random() * world.getWidth() * 0.8f + world.getWidth() * 0.1f;
         float headY = (float) Math.random() * world.getHeight() * 0.9f;
 

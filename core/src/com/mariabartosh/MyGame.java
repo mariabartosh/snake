@@ -8,14 +8,17 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.utils.GdxRuntimeException;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.mariabartosh.net.Connection;
 import com.mariabartosh.net.packets.Packet;
 import com.mariabartosh.net.packets.server.*;
 
+import java.io.IOException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Properties;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 public class MyGame extends Game implements Thread.UncaughtExceptionHandler
@@ -29,10 +32,25 @@ public class MyGame extends Game implements Thread.UncaughtExceptionHandler
     private ConnectionScreen connectionScreen;
     TitleScreen titleScreen;
     public ConcurrentLinkedQueue<Packet> queue;
+    private String serverAddress;
+    public static final String TAG = "snake.game";
 
     @Override
     public void create()
     {
+        serverAddress = System.getProperty("ip", null);
+        if (serverAddress == null)
+        {
+            Properties properties = new Properties();
+            try
+            {
+                properties.load(Gdx.files.internal("config.properties").read());
+            }
+            catch (IOException | GdxRuntimeException ignored)
+            {
+            }
+            serverAddress = properties.getOrDefault("ip", "127.0.0.1").toString();
+        }
         Thread.setDefaultUncaughtExceptionHandler(this);
         Assets.create();
         queue = new ConcurrentLinkedQueue<>();
@@ -304,13 +322,12 @@ public class MyGame extends Game implements Thread.UncaughtExceptionHandler
     }
 
     @Override
-    public void uncaughtException(Thread t, Throwable e)
+    public void uncaughtException(Thread thread, Throwable e)
     {
         try
         {
             Net.HttpRequest request= new Net.HttpRequest();
-            String ip = System.getProperty("ip", "127.0.0.1");
-            request.setUrl("http://" + ip + ":8080/error-servlet/");
+            request.setUrl("http://" + serverAddress + ":8080/error-servlet/");
             request.setContent("message=" + URLEncoder.encode(e.getMessage(), "UTF-8") +
                     "&stacktrace=" + URLEncoder.encode(Arrays.toString(e.getStackTrace()), "UTF-8"));
             request.setMethod("POST");
@@ -325,6 +342,8 @@ public class MyGame extends Game implements Thread.UncaughtExceptionHandler
                 @Override
                 public void failed(Throwable t)
                 {
+                    Gdx.app.error(TAG, t.getMessage());
+                    Gdx.app.error(TAG, Arrays.toString(t.getStackTrace()));
                     System.exit(0);
                 }
 
@@ -335,10 +354,16 @@ public class MyGame extends Game implements Thread.UncaughtExceptionHandler
                 }
             });
         }
-        catch (Exception ignored)
+        catch (Throwable t)
         {
+            Gdx.app.error(TAG, t.getMessage());
+            Gdx.app.error(TAG, Arrays.toString(t.getStackTrace()));
             System.exit(0);
         }
+    }
 
+    public String getServerAddress()
+    {
+        return serverAddress;
     }
 }
