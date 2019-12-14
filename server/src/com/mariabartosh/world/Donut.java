@@ -7,6 +7,7 @@ public class Donut extends GameObject
     private float radius = 30;
     private int textureIndex;
     World world;
+    private final static int MIN_DISTANCE_TO_BORDER = 75;
 
     Donut(World world, float x, float y)
     {
@@ -53,7 +54,7 @@ public class Donut extends GameObject
 
     public void relocate()
     {
-        setX((float) (Math.random() * world.getWidth()));
-        setY((float) (Math.random() * world.getHeight()));
+        setX((float) (MIN_DISTANCE_TO_BORDER + Math.random() * (world.getWidth() - 2 * MIN_DISTANCE_TO_BORDER)));
+        setY((float) (MIN_DISTANCE_TO_BORDER + Math.random() * (world.getHeight() - 2 * MIN_DISTANCE_TO_BORDER)));
     }
 }
