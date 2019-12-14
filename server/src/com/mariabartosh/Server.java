@@ -16,12 +16,13 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
-import java.util.concurrent.ConcurrentLinkedQueue;
+import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.TimeUnit;
 
 public class Server
 {
     private World world;
-    public ConcurrentLinkedQueue<Packet> queue;
+    public LinkedBlockingQueue<Packet> queue;
     private final Set<Connection> connections = Collections.synchronizedSet(new HashSet<>());
 
     public static void main(String[] args)
@@ -33,7 +34,7 @@ public class Server
     {
         world = new World(4096, 4096, this);
         world.create();
-        queue = new ConcurrentLinkedQueue<>();
+        queue = new LinkedBlockingQueue<>();
         AcceptThread acceptThread = new AcceptThread(this);
         Thread t = new Thread(acceptThread);
         t.start();
@@ -42,7 +43,15 @@ public class Server
 
         while (true)
         {
-            Packet packet = queue.poll();
+            Packet packet = null;
+            try
+            {
+                packet = queue.poll(1, TimeUnit.MILLISECONDS);
+            }
+            catch (InterruptedException ignored)
+            {
+
+            }
             if (packet != null)
             {
                 packet.process(this, packet.getOwner());
