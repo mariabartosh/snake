@@ -12,13 +12,16 @@ Building the project should be very straightforward:
 3. To build and start the server, use `./gradlew server:run`
 4. *(optional)* To build and run the error servlet, to which client sends information about errors, which then are stored to the database, use `./gradlew appRun` 
 >[Gretty](https://github.com/gretty-gradle-plugin/gretty) Gradle plugin is used for running the servlet. Gretty **requires JDK8 or JDK9**.
-5. To build and run the desktop client, use `./gradlew desktop:run`
+5. To build and run desktop client, use `./gradlew desktop:run`
+6. To build android client, use `./gradlew android:assemble`
 
 *****
 ## Download
 If you only want to play game and connect to an already running server, client can be [downloaded](https://github.com/mariabartosh/snake/releases/latest/download/snake.jar) in binary form and run on Windows, Mac or Linux. Java 1.7+ is required. To run Snake, double click the `snake.jar` file or run it from the command line:
 
 `java -jar snake.jar`
+
+Android client can be [downloaded here](https://github.com/mariabartosh/snake/releases/latest/download/snake.apk).
 
 *****
 ## Some rules
